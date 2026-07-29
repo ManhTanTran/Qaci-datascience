@@ -1,0 +1,227 @@
+schema_version: "1.0"
+note: "Các feature dưới đây chỉ là mẫu minh họa; phải xác nhận lại với schema thật. Expected direction không phải quan hệ nhân quả."
+features:
+  - name: debt_to_income
+    description: "Tổng nghĩa vụ nợ chia cho thu nhập theo cùng kỳ/đơn vị."
+    category: ratio
+    source_columns:
+      - "TODO(FPT): cần xác nhận với mentor hoặc data owner; debt amount column."
+      - "TODO(FPT): cần xác nhận với mentor hoặc data owner; income column."
+    formula_or_aggregation: "debt / income; define zero-denominator policy"
+    data_type: ratio
+    expected_direction: higher_may_indicate_higher_risk
+    missing_policy: "TODO(FPT): define after profiling and semantic review"
+    outlier_policy: "TODO(FPT): fit on training data; confirm business bounds"
+    leakage_risk: "medium_until_cutoff_and_lineage_are_verified"
+    available_at_application_time: "TODO(FPT): cần xác nhận với mentor hoặc data owner."
+    permitted_for_modeling: false
+    documentation_path: "docs/features/ratio_features.md"
+  - name: loan_to_income
+    description: "Số tiền khoản vay yêu cầu chia cho thu nhập."
+    category: ratio
+    source_columns:
+      - "TODO(FPT): cần xác nhận với mentor hoặc data owner; loan amount column."
+      - "TODO(FPT): cần xác nhận với mentor hoặc data owner; income column."
+    formula_or_aggregation: "loan_amount / income"
+    data_type: ratio
+    expected_direction: higher_may_indicate_higher_risk
+    missing_policy: "TODO(FPT): define after profiling and semantic review"
+    outlier_policy: "TODO(FPT): fit on training data; confirm business bounds"
+    leakage_risk: "medium_until_cutoff_and_lineage_are_verified"
+    available_at_application_time: "TODO(FPT): cần xác nhận với mentor hoặc data owner."
+    permitted_for_modeling: false
+    documentation_path: "docs/features/ratio_features.md"
+  - name: annuity_to_income
+    description: "Nghĩa vụ trả định kỳ chia cho thu nhập cùng kỳ."
+    category: ratio
+    source_columns:
+      - "TODO(FPT): cần xác nhận với mentor hoặc data owner; annuity column."
+      - "TODO(FPT): cần xác nhận với mentor hoặc data owner; income column."
+    formula_or_aggregation: "annuity / income with aligned frequency"
+    data_type: ratio
+    expected_direction: higher_may_indicate_higher_risk
+    missing_policy: "TODO(FPT): define after profiling and semantic review"
+    outlier_policy: "TODO(FPT): fit on training data; confirm business bounds"
+    leakage_risk: "medium_until_cutoff_and_lineage_are_verified"
+    available_at_application_time: "TODO(FPT): cần xác nhận với mentor hoặc data owner."
+    permitted_for_modeling: false
+    documentation_path: "docs/features/ratio_features.md"
+  - name: credit_utilization
+    description: "Dư nợ quay vòng chia cho hạn mức khả dụng."
+    category: bureau
+    source_columns:
+      - "TODO(FPT): cần xác nhận với mentor hoặc data owner; balance column."
+      - "TODO(FPT): cần xác nhận với mentor hoặc data owner; credit-limit column."
+    formula_or_aggregation: "aggregate balance / aggregate limit at cut-off"
+    data_type: ratio
+    expected_direction: higher_may_indicate_higher_risk
+    missing_policy: "TODO(FPT): define after profiling and semantic review"
+    outlier_policy: "TODO(FPT): fit on training data; confirm business bounds"
+    leakage_risk: "medium_until_cutoff_and_lineage_are_verified"
+    available_at_application_time: "TODO(FPT): cần xác nhận với mentor hoặc data owner."
+    permitted_for_modeling: false
+    documentation_path: "docs/features/bureau_features.md"
+  - name: max_days_past_due
+    description: "Số ngày quá hạn lớn nhất trong observation window."
+    category: delinquency
+    source_columns:
+      - "TODO(FPT): cần xác nhận với mentor hoặc data owner; days-past-due column."
+      - "TODO(FPT): cần xác nhận với mentor hoặc data owner; event-date column."
+    formula_or_aggregation: "max(DPD) before application cut-off"
+    data_type: integer
+    expected_direction: higher_may_indicate_higher_risk
+    missing_policy: "TODO(FPT): define after profiling and semantic review"
+    outlier_policy: "TODO(FPT): fit on training data; confirm business bounds"
+    leakage_risk: "medium_until_cutoff_and_lineage_are_verified"
+    available_at_application_time: "TODO(FPT): cần xác nhận với mentor hoặc data owner."
+    permitted_for_modeling: false
+    documentation_path: "docs/features/delinquency_features.md"
+  - name: number_of_recent_delinquencies
+    description: "Số sự kiện quá hạn trong cửa sổ gần đây."
+    category: delinquency
+    source_columns:
+      - "TODO(FPT): cần xác nhận với mentor hoặc data owner; delinquency flag column."
+      - "TODO(FPT): cần xác nhận với mentor hoặc data owner; event-date column."
+    formula_or_aggregation: "count(events in approved lookback before cut-off)"
+    data_type: integer
+    expected_direction: higher_may_indicate_higher_risk
+    missing_policy: "TODO(FPT): define after profiling and semantic review"
+    outlier_policy: "TODO(FPT): fit on training data; confirm business bounds"
+    leakage_risk: "medium_until_cutoff_and_lineage_are_verified"
+    available_at_application_time: "TODO(FPT): cần xác nhận với mentor hoặc data owner."
+    permitted_for_modeling: false
+    documentation_path: "docs/features/delinquency_features.md"
+  - name: credit_history_length
+    description: "Thời gian từ account/credit event sớm nhất đến cut-off."
+    category: temporal
+    source_columns:
+      - "TODO(FPT): cần xác nhận với mentor hoặc data owner; earliest-open-date column."
+      - "TODO(FPT): cần xác nhận với mentor hoặc data owner; cut-off-date column."
+    formula_or_aggregation: "cut_off_date - earliest_valid_credit_date"
+    data_type: duration
+    expected_direction: longer_may_indicate_lower_risk
+    missing_policy: "TODO(FPT): define after profiling and semantic review"
+    outlier_policy: "TODO(FPT): fit on training data; confirm business bounds"
+    leakage_risk: "medium_until_cutoff_and_lineage_are_verified"
+    available_at_application_time: "TODO(FPT): cần xác nhận với mentor hoặc data owner."
+    permitted_for_modeling: false
+    documentation_path: "docs/features/temporal_features.md"
+  - name: credit_to_annuity_ratio
+    description: "Tỷ lệ số tiền tín dụng trên nghĩa vụ trả định kỳ; chỉ là proxy cho thời hạn khi chưa có schedule đầy đủ."
+    category: ratio
+    source_columns:
+      - "AMT_CREDIT (Home Credit reference) hoặc TODO(FPT): cần xác nhận với mentor hoặc data owner."
+      - "AMT_ANNUITY (Home Credit reference) hoặc TODO(FPT): cần xác nhận với mentor hoặc data owner."
+    formula_or_aggregation: "credit_amount / annuity_amount; define zero-denominator and frequency policy"
+    data_type: ratio
+    expected_direction: non_monotonic_to_be_tested
+    missing_policy: "TODO(FPT): define after profiling and semantic review"
+    outlier_policy: "TODO(FPT): fit on training data; confirm business bounds"
+    leakage_risk: "medium_until_amount_availability_is_verified"
+    available_at_application_time: "TODO(FPT): cần xác nhận với mentor hoặc data owner."
+    permitted_for_modeling: false
+    documentation_path: "docs/features/ratio_features.md"
+  - name: employment_to_age_ratio
+    description: "Thời gian làm việc chia cho tuổi tại observation point."
+    category: ratio
+    source_columns:
+      - "DAYS_EMPLOYED (Home Credit reference) hoặc TODO(FPT): cần xác nhận với mentor hoặc data owner."
+      - "DAYS_BIRTH/age (public reference) hoặc TODO(FPT): cần xác nhận với mentor hoặc data owner."
+    formula_or_aggregation: "valid_employment_duration / valid_age; align units and remove documented sentinels"
+    data_type: ratio
+    expected_direction: higher_may_indicate_lower_risk
+    missing_policy: "preserve missing/sentinel indicator; TODO(FPT): confirm policy"
+    outlier_policy: "validate 0 <= employment_duration <= age after unit alignment"
+    leakage_risk: "medium_until_source_and_fairness_review_are_complete"
+    available_at_application_time: "TODO(FPT): cần xác nhận với mentor hoặc data owner."
+    permitted_for_modeling: false
+    documentation_path: "docs/features/ratio_features.md"
+  - name: external_score_mean
+    description: "Trung bình các external risk scores hợp lệ tại application time."
+    category: bureau
+    source_columns:
+      - "EXT_SOURCE_1/2/3 (Home Credit reference) hoặc TODO(FPT): cần xác nhận với mentor hoặc data owner."
+    formula_or_aggregation: "row mean over available approved external scores; preserve count_available"
+    data_type: numeric
+    expected_direction: higher_may_indicate_lower_risk
+    missing_policy: "keep count_available and distinguish no-hit from source failure"
+    outlier_policy: "validate documented score range; do not clip without source semantics"
+    leakage_risk: "high_until_external_source_lineage_and_pull_time_are_verified"
+    available_at_application_time: "TODO(FPT): cần xác nhận với mentor hoặc data owner."
+    permitted_for_modeling: false
+    documentation_path: "docs/features/bureau_features.md"
+  - name: delinquency_count_30_59d
+    description: "Số sự kiện/lần 30–59 DPD trong observation window."
+    category: delinquency
+    source_columns:
+      - "NumberOfTime30-59DaysPastDueNotWorse (Give Me Some Credit reference) hoặc TODO(FPT): cần xác nhận với mentor hoặc data owner."
+      - "TODO(FPT): cần xác nhận với mentor hoặc data owner; event-date/cut-off column."
+    formula_or_aggregation: "count(valid 30-59 DPD events before cut-off); investigate 96/98 sentinels"
+    data_type: integer
+    expected_direction: higher_may_indicate_higher_risk
+    missing_policy: "distinguish no event, no history and unknown"
+    outlier_policy: "treat 96/98 as unresolved sentinels until dictionary review"
+    leakage_risk: "medium_until_window_and_event_time_are_verified"
+    available_at_application_time: "TODO(FPT): cần xác nhận với mentor hoặc data owner."
+    permitted_for_modeling: false
+    documentation_path: "docs/features/delinquency_features.md"
+  - name: delinquency_count_60_89d
+    description: "Số sự kiện/lần 60–89 DPD trong observation window."
+    category: delinquency
+    source_columns:
+      - "NumberOfTime60-89DaysPastDueNotWorse (Give Me Some Credit reference) hoặc TODO(FPT): cần xác nhận với mentor hoặc data owner."
+      - "TODO(FPT): cần xác nhận với mentor hoặc data owner; event-date/cut-off column."
+    formula_or_aggregation: "count(valid 60-89 DPD events before cut-off); investigate 96/98 sentinels"
+    data_type: integer
+    expected_direction: higher_may_indicate_higher_risk
+    missing_policy: "distinguish no event, no history and unknown"
+    outlier_policy: "treat 96/98 as unresolved sentinels until dictionary review"
+    leakage_risk: "medium_until_window_and_event_time_are_verified"
+    available_at_application_time: "TODO(FPT): cần xác nhận với mentor hoặc data owner."
+    permitted_for_modeling: false
+    documentation_path: "docs/features/delinquency_features.md"
+  - name: delinquency_count_90d_plus
+    description: "Số sự kiện/lần 90+ DPD trong observation window."
+    category: delinquency
+    source_columns:
+      - "NumberOfTimes90DaysLate (Give Me Some Credit reference) hoặc TODO(FPT): cần xác nhận với mentor hoặc data owner."
+      - "TODO(FPT): cần xác nhận với mentor hoặc data owner; event-date/cut-off column."
+    formula_or_aggregation: "count(valid 90+ DPD events before cut-off); investigate 96/98 sentinels"
+    data_type: integer
+    expected_direction: higher_may_indicate_higher_risk
+    missing_policy: "distinguish no event, no history and unknown"
+    outlier_policy: "treat 96/98 as unresolved sentinels until dictionary review"
+    leakage_risk: "high_if_target_window_events_are_included"
+    available_at_application_time: "TODO(FPT): cần xác nhận với mentor hoặc data owner."
+    permitted_for_modeling: false
+    documentation_path: "docs/features/delinquency_features.md"
+  - name: historical_record_count
+    description: "Số record lịch sử hợp lệ trong lookback window cho một case/application."
+    category: temporal
+    source_columns:
+      - "case/application key"
+      - "TODO(FPT): cần xác nhận với mentor hoặc data owner; event-date/cut-off column."
+    formula_or_aggregation: "count(records with event_time <= cut_off in approved lookback)"
+    data_type: integer
+    expected_direction: non_monotonic_to_be_tested
+    missing_policy: "distinguish zero history from missing source coverage"
+    outlier_policy: "deduplicate by documented record key before counting"
+    leakage_risk: "medium_until_key_and_point_in_time_filter_are_verified"
+    available_at_application_time: "TODO(FPT): cần xác nhận với mentor hoặc data owner."
+    permitted_for_modeling: false
+    documentation_path: "docs/features/temporal_features.md"
+  - name: months_since_latest_credit_event
+    description: "Số tháng từ credit event hợp lệ gần nhất đến application cut-off."
+    category: temporal
+    source_columns:
+      - "TODO(FPT): cần xác nhận với mentor hoặc data owner; latest valid event date."
+      - "TODO(FPT): cần xác nhận với mentor hoặc data owner; application cut-off date."
+    formula_or_aggregation: "months_between(cut_off, max(valid_event_time <= cut_off))"
+    data_type: duration
+    expected_direction: depends_on_event_type
+    missing_policy: "separate no-history, unknown-date and source-failure states"
+    outlier_policy: "reject future events; validate placeholder dates"
+    leakage_risk: "high_until_event_type_and_cutoff_are_verified"
+    available_at_application_time: "TODO(FPT): cần xác nhận với mentor hoặc data owner."
+    permitted_for_modeling: false
+    documentation_path: "docs/features/temporal_features.md"

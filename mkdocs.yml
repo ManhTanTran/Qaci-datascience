@@ -1,0 +1,129 @@
+site_name: Credit Scoring Knowledge Base
+theme:
+  name: material
+  language: vi
+plugins:
+  - search
+exclude_docs: |
+  !/templates/
+markdown_extensions:
+  - toc:
+      permalink: true
+  - admonition
+  - tables
+nav:
+  - Trang chủ: index.md
+  - Hướng dẫn thứ tự đọc: reading_order.md
+  - Learning Track:
+      - Overview: learning/index.md
+      - 00 Credit Scoring Foundation: learning/00_credit_scoring_foundation.md
+      - 01 Give Me Some Credit: learning/01_give_me_some_credit.md
+      - 02 Home Credit Gentle Introduction: learning/02_home_credit_gentle_introduction.md
+      - 03 Complete EDA Feature Importance: learning/03_complete_eda_feature_importance.md
+      - 04 Home Credit Default Risk: learning/04_home_credit_default_risk.md
+      - 05 Defaults Segments Trends: learning/05_defaults_segments_trends.md
+      - 06 WOE Credit Scorecard: learning/06_woe_credit_scorecard.md
+      - 07 Credit Risk Model Stability: learning/07_credit_risk_model_stability.md
+      - 08 FPT Dataset Application: learning/08_fpt_dataset_application.md
+  - Stage Checklists:
+      - 00 Foundation: checklists/stage_00_foundation.md
+      - 01 Single Table Baseline: checklists/stage_01_single_table_baseline.md
+      - 02 Home Credit Application: checklists/stage_02_home_credit_application.md
+      - 03 Multitable Features: checklists/stage_03_multitable_features.md
+      - 04 Scorecard: checklists/stage_04_scorecard.md
+      - 05 Model Stability: checklists/stage_05_model_stability.md
+  - Lộ trình:
+      - Learning Path: roadmap/learning_path.md
+      - Project Milestones: roadmap/project_milestones.md
+      - Weekly Checklist: roadmap/weekly_checklist.md
+      - Current Status: roadmap/current_status.md
+  - Kiến thức miền:
+      - Credit Scoring Overview: domain/credit_scoring_overview.md
+      - Lending Process: domain/lending_process.md
+      - Target Definition: domain/target_definition.md
+      - Observation Performance Window: domain/observation_performance_window.md
+      - Credit Score Vs Pd: domain/credit_score_vs_pd.md
+      - Business Metrics: domain/business_metrics.md
+      - Glossary: domain/glossary.md
+  - Dataset:
+      - Dataset Catalog: datasets/dataset_catalog.md
+      - Dataset Comparison: datasets/dataset_comparison.md
+      - Give Me Some Credit: datasets/give_me_some_credit.md
+      - Home Credit Default Risk: datasets/home_credit_default_risk.md
+      - Home Credit Model Stability: datasets/home_credit_model_stability.md
+      - Fpt Dataset Template: datasets/fpt_dataset_template.md
+      - Data Quality Checklist: datasets/data_quality_checklist.md
+  - Feature:
+      - Feature Catalog: features/feature_catalog.md
+      - Feature Groups: features/feature_groups.md
+      - Demographic Features: features/demographic_features.md
+      - Income Employment Features: features/income_employment_features.md
+      - Loan Features: features/loan_features.md
+      - Repayment Features: features/repayment_features.md
+      - Delinquency Features: features/delinquency_features.md
+      - Bureau Features: features/bureau_features.md
+      - Ratio Features: features/ratio_features.md
+      - Temporal Features: features/temporal_features.md
+      - Missing And Outliers: features/missing_and_outliers.md
+      - Feature Engineering: features/feature_engineering.md
+      - Leakage Checklist: features/leakage_checklist.md
+      - Feature Stability: features/feature_stability.md
+  - Modeling:
+      - Modeling Overview: modeling/modeling_overview.md
+      - Logistic Regression: modeling/logistic_regression.md
+      - Tree Based Models: modeling/tree_based_models.md
+      - Lightgbm Catboost: modeling/lightgbm_catboost.md
+      - Class Imbalance: modeling/class_imbalance.md
+      - Woe Iv Binning: modeling/woe_iv_binning.md
+      - Credit Scorecard: modeling/credit_scorecard.md
+      - Calibration: modeling/calibration.md
+      - Explainability: modeling/explainability.md
+      - Model Selection: modeling/model_selection.md
+  - Evaluation:
+      - Classification Metrics: evaluation/classification_metrics.md
+      - Credit Risk Metrics: evaluation/credit_risk_metrics.md
+      - Validation Strategy: evaluation/validation_strategy.md
+      - Cross Validation: evaluation/cross_validation.md
+      - Temporal Validation: evaluation/temporal_validation.md
+      - Threshold Selection: evaluation/threshold_selection.md
+      - Business Simulation: evaluation/business_simulation.md
+      - Error Analysis: evaluation/error_analysis.md
+  - Monitoring:
+      - Model Stability: monitoring/model_stability.md
+      - Population Stability Index: monitoring/population_stability_index.md
+      - Feature Drift: monitoring/feature_drift.md
+      - Prediction Drift: monitoring/prediction_drift.md
+      - Performance Drift: monitoring/performance_drift.md
+      - Monitoring Plan: monitoring/monitoring_plan.md
+  - Governance:
+      - Data Privacy: governance/data_privacy.md
+      - Model Risks: governance/model_risks.md
+      - Fairness And Bias: governance/fairness_and_bias.md
+      - Prohibited Features: governance/prohibited_features.md
+      - Reproducibility: governance/reproducibility.md
+      - Model Approval Checklist: governance/model_approval_checklist.md
+  - Experiments:
+      - Experiment Log: experiments/experiment_log.md
+      - Experiment Template: experiments/experiment_template.md
+      - Baseline Results: experiments/baseline_results.md
+  - Decisions:
+      - Readme: decisions/README.md
+      - 0001-Project-Structure: decisions/0001-project-structure.md
+      - 0002-Validation-Strategy: decisions/0002-validation-strategy.md
+      - 0003-Primary-Metric: decisions/0003-primary-metric.md
+  - Tham khảo:
+      - Kaggle Notebooks: references/kaggle_notebooks.md
+      - Competitions: references/competitions.md
+      - Papers: references/papers.md
+      - External Resources: references/external_resources.md
+  - Notes:
+      - Questions To Mentor: notes/questions_to_mentor.md
+      - Concepts To Review: notes/concepts_to_review.md
+      - Mistakes And Lessons: notes/mistakes_and_lessons.md
+      - Weekly Learning Notes: notes/weekly_learning_notes.md
+  - Templates:
+      - Dataset Card Template: templates/dataset_card_template.md
+      - Feature Card Template: templates/feature_card_template.md
+      - Experiment Report Template: templates/experiment_report_template.md
+      - Model Card Template: templates/model_card_template.md
+      - Weekly Report Template: templates/weekly_report_template.md

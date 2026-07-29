@@ -1,0 +1,92 @@
+schema_version: "1.0"
+metrics:
+  - name: roc_auc
+    display_name: "ROC-AUC"
+    description: "Metric ROC-AUC trong đánh giá hoặc giám sát credit risk."
+    formula_or_implementation_note: "Area under ROC; probability a random bad ranks above a random good."
+    interpretation: "0.5 random, 1.0 perfect ranking."
+    higher_or_lower_is_better: higher
+    recommended_usage: "Ranking across thresholds; report by time/cohort."
+    limitations: "Insensitive to probability calibration and can look optimistic for rare events."
+    documentation_path: "docs/evaluation/classification_metrics.md"
+  - name: pr_auc
+    display_name: "PR-AUC"
+    description: "Metric PR-AUC trong đánh giá hoặc giám sát credit risk."
+    formula_or_implementation_note: "Area under precision-recall curve; implementation/interpolation must be stated."
+    interpretation: "Compare with prevalence baseline."
+    higher_or_lower_is_better: higher
+    recommended_usage: "Rare bad events and retrieval-oriented analysis."
+    limitations: "Depends strongly on prevalence; values across populations are not directly comparable."
+    documentation_path: "docs/evaluation/classification_metrics.md"
+  - name: gini
+    display_name: "Gini"
+    description: "Metric Gini trong đánh giá hoặc giám sát credit risk."
+    formula_or_implementation_note: "Common binary convention: 2 * ROC-AUC - 1."
+    interpretation: "0 random, 1 perfect under the common convention."
+    higher_or_lower_is_better: higher
+    recommended_usage: "Credit-risk rank discrimination."
+    limitations: "Inherits AUC limitations; convention must be confirmed."
+    documentation_path: "docs/evaluation/credit_risk_metrics.md"
+  - name: ks
+    display_name: "KS"
+    description: "Metric KS trong đánh giá hoặc giám sát credit risk."
+    formula_or_implementation_note: "Maximum distance between cumulative score distributions for bad and good."
+    interpretation: "Larger separation indicates stronger ranking at some cut."
+    higher_or_lower_is_better: higher
+    recommended_usage: "Score separation and diagnostic plots."
+    limitations: "Threshold-sensitive summary; not calibration or business value."
+    documentation_path: "docs/evaluation/credit_risk_metrics.md"
+  - name: log_loss
+    display_name: "Log Loss"
+    description: "Metric Log Loss trong đánh giá hoặc giám sát credit risk."
+    formula_or_implementation_note: "Mean negative log-likelihood of predicted probabilities."
+    interpretation: "Penalizes confident wrong predictions strongly."
+    higher_or_lower_is_better: lower
+    recommended_usage: "Probability quality and probabilistic model selection."
+    limitations: "Sensitive to extreme probabilities and label noise."
+    documentation_path: "docs/evaluation/classification_metrics.md"
+  - name: brier_score
+    display_name: "Brier Score"
+    description: "Metric Brier Score trong đánh giá hoặc giám sát credit risk."
+    formula_or_implementation_note: "Mean squared error between predicted probability and binary outcome."
+    interpretation: "0 is perfect; combines calibration and refinement."
+    higher_or_lower_is_better: lower
+    recommended_usage: "Probability forecasts and calibration analysis."
+    limitations: "Depends on prevalence; decompose or contextualize."
+    documentation_path: "docs/evaluation/classification_metrics.md"
+  - name: psi
+    display_name: "PSI"
+    description: "Metric PSI trong đánh giá hoặc giám sát credit risk."
+    formula_or_implementation_note: "Sum over fixed bins of (actual share - expected share) * ln(actual/expected share), with declared smoothing."
+    interpretation: "Higher values indicate more distribution shift; thresholds require governance."
+    higher_or_lower_is_better: lower
+    recommended_usage: "Monitoring feature/score distribution against reference."
+    limitations: "Bin/sample-size sensitive; not a statistical test or proof of performance loss."
+    documentation_path: "docs/monitoring/population_stability_index.md"
+  - name: approval_rate
+    display_name: "Approval Rate"
+    description: "Metric Approval Rate trong đánh giá hoặc giám sát credit risk."
+    formula_or_implementation_note: "Approved applications / eligible applications under a declared policy."
+    interpretation: "Volume outcome of threshold/policy."
+    higher_or_lower_is_better: context_dependent
+    recommended_usage: "Business simulation and operations monitoring."
+    limitations: "Affected by population, policy rules and capacity; not model-only."
+    documentation_path: "docs/domain/business_metrics.md"
+  - name: bad_rate
+    display_name: "Bad Rate"
+    description: "Metric Bad Rate trong đánh giá hoặc giám sát credit risk."
+    formula_or_implementation_note: "Mature bad outcomes / mature booked or approved accounts; denominator must be declared."
+    interpretation: "Lower observed risk is generally desired at comparable volume/population."
+    higher_or_lower_is_better: lower
+    recommended_usage: "Portfolio outcome and threshold comparison."
+    limitations: "Delayed/censored labels and selection bias; reject outcomes may be unknown."
+    documentation_path: "docs/domain/business_metrics.md"
+  - name: capture_rate
+    display_name: "Capture Rate"
+    description: "Metric Capture Rate trong đánh giá hoặc giám sát credit risk."
+    formula_or_implementation_note: "Bad cases flagged or declined / all observable bad cases, with population declared."
+    interpretation: "Higher means more bad outcomes captured."
+    higher_or_lower_is_better: higher
+    recommended_usage: "Threshold and collections/decline policy analysis."
+    limitations: "Trades off approval and false positives; rejected outcomes may be unobserved."
+    documentation_path: "docs/domain/business_metrics.md"

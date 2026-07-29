@@ -1,0 +1,33 @@
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# Virtual environments and local configuration
+.venv/
+venv/
+.env
+.env.*
+
+# Generated documentation
+site/
+
+# Notebooks
+.ipynb_checkpoints/
+
+# Local data and model artifacts
+data/
+outputs/
+artifacts/
+models/
+*.pkl
+*.joblib
+
+# Editors and operating systems
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db

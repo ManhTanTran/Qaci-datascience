@@ -1,0 +1,51 @@
+schema_version: "1.0"
+note: "Metadata công khai cần xác minh theo version local; dữ liệu FPT chỉ là placeholder."
+datasets:
+  - name: "Give Me Some Credit"
+    version: "Kaggle public snapshot accessed 2026-07-29; pin downloaded file checksum before experiments."
+    source: "https://www.kaggle.com/competitions/GiveMeSomeCredit"
+    description: "Dataset công khai để học binary credit-risk classification."
+    grain: "One row per public competition observation; verify entity semantics from Data Dictionary."
+    target: "SeriousDlqin2yrs; verify full business semantics from the pinned Data Dictionary."
+    id_columns: ["First unnamed CSV column is a row identifier; exclude from modeling."]
+    date_columns: []
+    number_of_tables: "Two modeling CSV files plus sample submission and Data Dictionary."
+    status: "public_schema_profiled_in_temporary_workspace"
+    local_path: "Not stored in repository; use an approved local data path."
+    documentation_path: "docs/datasets/give_me_some_credit.md"
+  - name: "Home Credit Default Risk"
+    version: "Kaggle public file list dated 2019-12-11; accessed 2026-07-29."
+    source: "https://www.kaggle.com/competitions/home-credit-default-risk"
+    description: "Dataset công khai nhiều bảng về application và lịch sử tín dụng."
+    grain: "Application at primary table; secondary grains include bureau credit, monthly balance, previous application and payment events."
+    target: "TARGET in application_train; verify exact competition semantics from pinned data description."
+    id_columns: ["SK_ID_CURR", "SK_ID_BUREAU", "SK_ID_PREV"]
+    date_columns: ["Relative DAYS_* and MONTHS_BALANCE fields; verify each table."]
+    number_of_tables: "Seven logical data sources, with application split into train/test; plus dictionary/submission files."
+    status: "public_metadata_reviewed_not_stored"
+    local_path: "Not stored in repository; use an approved local data path."
+    documentation_path: "docs/datasets/home_credit_default_risk.md"
+  - name: "Home Credit Credit Risk Model Stability"
+    version: "Kaggle public file list dated 2024-03-11; accessed 2026-07-29."
+    source: "https://www.kaggle.com/competitions/home-credit-credit-risk-model-stability"
+    description: "Dataset công khai nhiều bảng để học credit-risk model stability."
+    grain: "Case/application at base table; verify depth tables"
+    target: "Target in train base table; verify full semantics and maturity from competition rules."
+    id_columns: ["case_id; verify parent keys and num_group fields per depth."]
+    date_columns: ["date_decision and encoded date columns; verify from feature_definitions.csv."]
+    number_of_tables: "Multiple partitioned table families at depths 0, 1 and 2 in CSV and Parquet formats."
+    status: "public_file_structure_reviewed_not_stored"
+    local_path: "Not stored in repository; use an approved local data path."
+    documentation_path: "docs/datasets/home_credit_model_stability.md"
+  - name: "FPT Internal Dataset"
+    version: "TODO(FPT): cần xác nhận với mentor hoặc data owner."
+    source: "TODO(FPT): cần xác nhận với mentor hoặc data owner."
+    description: "Placeholder; không chứa schema, PII hoặc dữ liệu tín dụng thật."
+    grain: "TODO(FPT): cần xác nhận với mentor hoặc data owner."
+    target: "TODO(FPT): cần xác nhận với mentor hoặc data owner."
+    id_columns: ["TODO(FPT): cần xác nhận với mentor hoặc data owner."]
+    date_columns: ["TODO(FPT): cần xác nhận với mentor hoặc data owner."]
+    number_of_tables: "TODO(FPT): cần xác nhận với mentor hoặc data owner."
+    status: "placeholder"
+    local_path: "TODO(FPT): approved secure location, never Git"
+    documentation_path: "docs/datasets/fpt_dataset_template.md"
