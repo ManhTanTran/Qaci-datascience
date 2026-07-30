@@ -47,6 +47,43 @@ Trước khi modeling, biến mô tả trên card thành kiểm tra schema, uniq
 - [ ] Kiểm tra grain trước mọi join hoặc aggregation.
 - [ ] Không commit raw data, PII hoặc credential.
 
+Loader hiện yêu cầu các file gốc sau trong `data/home_credit/` hoặc thư mục được
+khai báo bởi biến môi trường `HOME_CREDIT_DATA_DIR`:
+
+```text
+application_train.csv
+application_test.csv
+bureau.csv
+bureau_balance.csv
+previous_application.csv
+POS_CASH_balance.csv
+credit_card_balance.csv
+installments_payments.csv
+```
+
+Sau khi cài project bằng
+`python -m pip install -e ".[dev,modeling,notebook]"`, chạy kiểm tra nhanh:
+
+```bash
+python -m credit_scoring.data.home_credit --nrows 1000
+```
+
+Trên Kaggle không cần cài project. Mở notebook
+`notebooks/02_home_credit_application/01_kaggle_load_data.ipynb`; notebook sẽ
+clone repository, thêm `src` vào Python path và đọc dữ liệu tại
+`/kaggle/input/home-credit-default-risk`. Internet phải được bật cho bước clone
+và competition data phải được thêm bằng **Add Input**.
+
+Notebook application-only end-to-end tiếp theo là
+`notebooks/02_home_credit_application/02_home_credit_end_to_end.ipynb`; notebook
+này chứa cleaning, feature engineering, OOF LightGBM và submission. Các bảng
+1-n chưa nằm trong phạm vi implementation lần này.
+
+Mặc định loader chỉ đọc hai bảng application. Dùng `--tables all` sau khi
+baseline application chạy ổn vì các bảng lịch sử lớn hơn đáng kể. Loader kiểm
+tra cột khóa tối thiểu, tính duy nhất của khóa ở bảng có grain duy nhất và mã
+nhãn nhị phân; dữ liệu dòng không được ghi ra log.
+
 ## Tài liệu liên quan
 
 - [Dataset catalog](dataset_catalog.md)
@@ -56,4 +93,6 @@ Trước khi modeling, biến mô tả trên card thành kiểm tra schema, uniq
 
 ## Trạng thái áp dụng trong project
 
+Đã có loader và structural audit cho dữ liệu Kaggle công khai; chưa tải dữ liệu,
+chưa chạy experiment và chưa ghi nhận metric. Dữ liệu FPT vẫn dùng marker:
 TODO(FPT): cần xác nhận với mentor hoặc data owner.

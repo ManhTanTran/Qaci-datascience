@@ -66,6 +66,7 @@ nav:
       - Temporal Features: features/temporal_features.md
       - Missing And Outliers: features/missing_and_outliers.md
       - Feature Engineering: features/feature_engineering.md
+      - Home Credit Application Features: features/home_credit_application_features.md
       - Leakage Checklist: features/leakage_checklist.md
       - Feature Stability: features/feature_stability.md
   - Modeling:
@@ -73,6 +74,7 @@ nav:
       - Logistic Regression: modeling/logistic_regression.md
       - Tree Based Models: modeling/tree_based_models.md
       - Lightgbm Catboost: modeling/lightgbm_catboost.md
+      - Home Credit LightGBM: modeling/home_credit_lightgbm.md
       - Class Imbalance: modeling/class_imbalance.md
       - Woe Iv Binning: modeling/woe_iv_binning.md
       - Credit Scorecard: modeling/credit_scorecard.md
@@ -84,6 +86,7 @@ nav:
       - Credit Risk Metrics: evaluation/credit_risk_metrics.md
       - Validation Strategy: evaluation/validation_strategy.md
       - Cross Validation: evaluation/cross_validation.md
+      - Home Credit Validation: evaluation/home_credit_validation.md
       - Temporal Validation: evaluation/temporal_validation.md
       - Threshold Selection: evaluation/threshold_selection.md
       - Business Simulation: evaluation/business_simulation.md

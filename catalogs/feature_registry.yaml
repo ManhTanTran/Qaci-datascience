@@ -225,3 +225,43 @@ features:
     available_at_application_time: "TODO(FPT): cần xác nhận với mentor hoặc data owner."
     permitted_for_modeling: false
     documentation_path: "docs/features/temporal_features.md"
+  - name: home_credit_application_baseline_ratios
+    description: "Nhóm ratio application-only được tạo trong notebook Kaggle bằng safe_divide."
+    category: application
+    source_columns:
+      - "AMT_CREDIT"
+      - "AMT_INCOME_TOTAL"
+      - "AMT_ANNUITY"
+      - "AMT_GOODS_PRICE"
+      - "DAYS_EMPLOYED"
+      - "DAYS_BIRTH"
+      - "CNT_FAM_MEMBERS"
+      - "CNT_CHILDREN"
+      - "OWN_CAR_AGE"
+    formula_or_aggregation: "Các ratio affordability, age/employment và family được định nghĩa trong notebook."
+    data_type: numeric
+    expected_direction: non_monotonic_to_be_tested
+    missing_policy: "Giữ missing khi mẫu số bằng 0 hoặc không hợp lệ; không drop tự động."
+    outlier_policy: "Kiểm tra inf sau safe_divide; không clip nếu chưa có semantic bounds."
+    leakage_risk: "medium_until_availability_and_feature_lineage_are_verified"
+    available_at_application_time: "public competition application fields; verify before production."
+    permitted_for_modeling: false
+    implementation_location: "notebook: notebooks/02_home_credit_application/02_home_credit_end_to_end.ipynb"
+    documentation_path: "docs/features/home_credit_application_features.md"
+  - name: home_credit_application_ext_source_aggregates
+    description: "Mean, median, min, max, std, product, range và missing count của EXT_SOURCE."
+    category: application
+    source_columns:
+      - "EXT_SOURCE_1"
+      - "EXT_SOURCE_2"
+      - "EXT_SOURCE_3"
+    formula_or_aggregation: "Row-wise aggregates over available EXT_SOURCE columns."
+    data_type: numeric
+    expected_direction: higher_may_indicate_lower_risk
+    missing_policy: "Giữ missing và thêm missing count."
+    outlier_policy: "Xác nhận score range theo data dictionary; không tự clip."
+    leakage_risk: "high_until_external_source_lineage_and_pull_time_are_verified"
+    available_at_application_time: "public competition field; verify source pull-time before production."
+    permitted_for_modeling: false
+    implementation_location: "notebook: notebooks/02_home_credit_application/02_home_credit_end_to_end.ipynb"
+    documentation_path: "docs/features/home_credit_application_features.md"

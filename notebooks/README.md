@@ -38,6 +38,18 @@ notebooks/
     └── 04_stability.ipynb
 ```
 
-Các file `.ipynb` chưa được tạo vì chưa có implementation hoặc kết quả thật. Khi chạy experiment, cập nhật `docs/experiments/experiment_log.md`; không commit dữ liệu khách hàng, PII, credential hoặc output chứa dữ liệu nhạy cảm.
+Notebook Kaggle đầu tiên đã được thêm tại
+`02_home_credit_application/01_kaggle_load_data.ipynb`. Notebook clone source
+code từ GitHub, thêm `src` vào `sys.path` và đọc competition data trực tiếp từ
+`/kaggle/input/home-credit-default-risk`; không cài package vào máy local.
+
+Notebook application-only end-to-end tại
+`02_home_credit_application/02_home_credit_end_to_end.ipynb` chứa data audit,
+application cleaning, ratio/EXT_SOURCE/document/contact/housing feature
+engineering, LightGBM OOF baseline, diagnostics, optional ablation/tuning và
+submission. Feature engineering được giữ trong notebook theo phạm vi hiện tại.
+
+Khi chạy experiment, cập nhật `docs/experiments/experiment_log.md`; không
+commit dữ liệu khách hàng, PII, credential hoặc output chứa dữ liệu nhạy cảm.
 
 Xem thứ tự và điều kiện hoàn thành tại `docs/learning/index.md`.

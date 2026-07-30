@@ -22,8 +22,8 @@ datasets:
     id_columns: ["SK_ID_CURR", "SK_ID_BUREAU", "SK_ID_PREV"]
     date_columns: ["Relative DAYS_* and MONTHS_BALANCE fields; verify each table."]
     number_of_tables: "Seven logical data sources, with application split into train/test; plus dictionary/submission files."
-    status: "public_metadata_reviewed_not_stored"
-    local_path: "Not stored in repository; use an approved local data path."
+    status: "public_metadata_reviewed_loader_implemented_not_stored"
+    local_path: "Ignored local path data/home_credit or HOME_CREDIT_DATA_DIR; never commit raw files."
     documentation_path: "docs/datasets/home_credit_default_risk.md"
   - name: "Home Credit Credit Risk Model Stability"
     version: "Kaggle public file list dated 2024-03-11; accessed 2026-07-29."

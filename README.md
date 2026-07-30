@@ -7,7 +7,7 @@ Repository này hiện tập trung vào knowledge base tiếng Việt cho credit
 Yêu cầu Python 3.10+.
 
 ```bash
-pip install -e ".[dev]"
+python -m pip install -e ".[dev,modeling,notebook]"
 mkdocs serve
 mkdocs build --strict
 ```
