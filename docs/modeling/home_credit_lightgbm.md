@@ -15,6 +15,11 @@ Runner không thực hiện feature engineering, target encoding, SMOTE hoặc t
 theo leaderboard. LightGBM được import lazy để data-loader workflow không cần
 model dependency.
 
+Tham số `folds` tùy chọn nhận precomputed train/validation indices. Khi dùng,
+runner kiểm tra index hợp lệ, không overlap, validation coverage đúng một lần
+và ghi `fold_fingerprint` vào metadata. Cơ chế này khóa E01/E02 trên cùng split
+thay vì chỉ hy vọng hai lần khởi tạo splitter cho kết quả giống nhau.
+
 ## Ví dụ trong credit scoring
 
 Notebook gọi runner như sau:
@@ -32,7 +37,7 @@ result = run_lightgbm_cv(
 
 Kết quả gồm `oof_predictions`, `test_predictions`, fold scores, mean/std AUC,
 OOF AUC, best iterations, feature importance, fitted models, runtime và
-metadata.
+metadata (gồm cả fold fingerprint).
 
 ## Điều cần kiểm tra trong project
 

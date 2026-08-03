@@ -76,8 +76,10 @@ và competition data phải được thêm bằng **Add Input**.
 
 Notebook application-only end-to-end tiếp theo là
 `notebooks/02_home_credit_application/02_home_credit_end_to_end.ipynb`; notebook
-này chứa cleaning, feature engineering, OOF LightGBM và submission. Các bảng
-1-n chưa nằm trong phạm vi implementation lần này.
+này là E01 application baseline. E02 nằm tại
+`notebooks/02_home_credit_application/03_home_credit_e02_application_features.ipynb`,
+giữ data/feature engineering trong notebook và tái sử dụng model, CV, artifact
+và submission từ public repo. Các bảng 1-n chưa nằm trong phạm vi.
 
 Mặc định loader chỉ đọc hai bảng application. Dùng `--tables all` sau khi
 baseline application chạy ổn vì các bảng lịch sử lớn hơn đáng kể. Loader kiểm

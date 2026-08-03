@@ -265,3 +265,94 @@ features:
     permitted_for_modeling: false
     implementation_location: "notebook: notebooks/02_home_credit_application/02_home_credit_end_to_end.ipynb"
     documentation_path: "docs/features/home_credit_application_features.md"
+  - name: home_credit_e02_credit_income_ratios
+    description: "E02 application-level affordability and amount features."
+    category: application
+    source_columns:
+      - "AMT_CREDIT"
+      - "AMT_INCOME_TOTAL"
+      - "AMT_ANNUITY"
+      - "AMT_GOODS_PRICE"
+      - "CNT_FAM_MEMBERS"
+    formula_or_aggregation: "CREDIT_INCOME_RATIO=AMT_CREDIT/AMT_INCOME_TOTAL; ANNUITY_INCOME_RATIO=AMT_ANNUITY/AMT_INCOME_TOTAL; CREDIT_ANNUITY_RATIO=AMT_CREDIT/AMT_ANNUITY; GOODS_CREDIT_RATIO=AMT_GOODS_PRICE/AMT_CREDIT; CREDIT_GOODS_DIFF=AMT_CREDIT-AMT_GOODS_PRICE; INCOME_PER_PERSON=AMT_INCOME_TOTAL/CNT_FAM_MEMBERS. Zero or missing denominator returns NaN."
+    data_type: float32
+    expected_direction: non_monotonic_to_be_tested
+    missing_policy: "Preserve NaN; safe division never emits infinity."
+    outlier_policy: "No clipping without verified semantic bounds."
+    leakage_risk: "low_for_public_application_time_fields"
+    available_at_application_time: "Home Credit application table fields."
+    permitted_for_modeling: true
+    implementation_location: "src/credit_scoring/features/home_credit_application.py"
+    documentation_path: "docs/features/home_credit_application_features.md"
+  - name: home_credit_e02_age_employment
+    description: "Age and employment duration features after documented sentinel handling."
+    category: application
+    source_columns:
+      - "DAYS_BIRTH"
+      - "DAYS_EMPLOYED"
+    formula_or_aggregation: "AGE_YEARS=-DAYS_BIRTH/365.25; EMPLOYED_YEARS=-DAYS_EMPLOYED/365.25; EMPLOYED_AGE_RATIO=DAYS_EMPLOYED/DAYS_BIRTH. Replace DAYS_EMPLOYED=365243 with NaN first."
+    data_type: float32
+    expected_direction: non_monotonic_to_be_tested
+    missing_policy: "Preserve NaN and DAYS_EMPLOYED_ANOMALOUS indicator."
+    outlier_policy: "No clipping in E02."
+    leakage_risk: "low_for_public_application_time_fields"
+    available_at_application_time: "Home Credit application table fields."
+    permitted_for_modeling: true
+    implementation_location: "src/credit_scoring/features/home_credit_application.py"
+    documentation_path: "docs/features/home_credit_application_features.md"
+  - name: home_credit_e02_external_source_summaries
+    description: "Row-wise summaries of the three external source fields with availability count."
+    category: application
+    source_columns:
+      - "EXT_SOURCE_1"
+      - "EXT_SOURCE_2"
+      - "EXT_SOURCE_3"
+    formula_or_aggregation: "EXT_SOURCE_MEAN/MIN/MAX/STD across available values (STD ddof=1); EXT_SOURCE_COUNT=count(non-missing)."
+    data_type: numeric
+    expected_direction: higher_may_indicate_lower_risk
+    missing_policy: "Skip missing values in aggregates and preserve availability through EXT_SOURCE_COUNT; an all-missing row remains NaN with count 0."
+    outlier_policy: "Do not clip without source semantics."
+    leakage_risk: "high_until_external_source_lineage_and_pull_time_are_verified"
+    available_at_application_time: "Public competition application fields; verify pull time before production."
+    permitted_for_modeling: true
+    implementation_location: "src/credit_scoring/features/home_credit_application.py"
+    documentation_path: "docs/features/home_credit_application_features.md"
+  - name: home_credit_e02_application_contact_summaries
+    description: "Document, contact, phone-change and household summaries."
+    category: application
+    source_columns:
+      - "FLAG_DOCUMENT_*"
+      - "FLAG_MOBIL"
+      - "FLAG_EMP_PHONE"
+      - "FLAG_WORK_PHONE"
+      - "FLAG_CONT_MOBILE"
+      - "FLAG_PHONE"
+      - "FLAG_EMAIL"
+      - "DAYS_LAST_PHONE_CHANGE"
+      - "CNT_CHILDREN"
+      - "CNT_FAM_MEMBERS"
+    formula_or_aggregation: "DOCUMENT_COUNT=sum available FLAG_DOCUMENT_*; CONTACT_COUNT=sum available known contact flags; PHONE_CHANGE_YEARS=-DAYS_LAST_PHONE_CHANGE/365.25; CHILDREN_RATIO=CNT_CHILDREN/CNT_FAM_MEMBERS."
+    data_type: numeric
+    expected_direction: non_monotonic_to_be_tested
+    missing_policy: "All-missing flag groups remain NaN; safe division preserves invalid denominators as NaN."
+    outlier_policy: "No clipping in E02."
+    leakage_risk: "low_for_public_application_time_fields"
+    available_at_application_time: "Home Credit application table fields."
+    permitted_for_modeling: true
+    implementation_location: "src/credit_scoring/features/home_credit_application.py"
+    documentation_path: "docs/features/home_credit_application_features.md"
+  - name: home_credit_e02_housing_summaries
+    description: "Optional numeric housing summaries for unambiguous AVG/MODE/MEDI triples."
+    category: application
+    source_columns:
+      - "Numeric housing fields with the same base name and complete AVG/MODE/MEDI suffixes."
+    formula_or_aggregation: "For each suffix AVG, MODE and MEDI, calculate row mean/min/max over verified numeric housing bases that expose all three suffixes. Categorical MODE-only fields are excluded."
+    data_type: float32
+    expected_direction: non_monotonic_to_be_tested
+    missing_policy: "Pandas row aggregates use available matched values; all-missing rows remain NaN."
+    outlier_policy: "No clipping in E02."
+    leakage_risk: "low_for_public_application_time_fields"
+    available_at_application_time: "Home Credit application table fields."
+    permitted_for_modeling: true
+    implementation_location: "src/credit_scoring/features/home_credit_application.py"
+    documentation_path: "docs/features/home_credit_application_features.md"

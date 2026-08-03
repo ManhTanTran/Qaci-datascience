@@ -45,9 +45,23 @@ code từ GitHub, thêm `src` vào `sys.path` và đọc competition data trực
 
 Notebook application-only end-to-end tại
 `02_home_credit_application/02_home_credit_end_to_end.ipynb` chứa data audit,
-application cleaning, ratio/EXT_SOURCE/document/contact/housing feature
-engineering, LightGBM OOF baseline, diagnostics, optional ablation/tuning và
-submission. Feature engineering được giữ trong notebook theo phạm vi hiện tại.
+E01 feature engineering, LightGBM OOF, diagnostics và submission.
+
+Notebook E02 nằm tại
+`02_home_credit_application/03_home_credit_e02_application_features.ipynb`.
+Notebook giữ workflow E01: data/feature engineering ở notebook và chỉ dùng
+model, CV, artifact, tuning và submission functions đã có trên public repo.
+Không phụ thuộc module E02 chưa push; full baseline ghi file dễ tải tại
+`/kaggle/working/submission.csv`.
+
+Notebook ablation E02 nằm tại
+`02_home_credit_application/04_home_credit_e02_feature_ablation.ipynb`. Notebook
+dùng reusable source feature builders, chạy tuần tự E01, E02-A đến E02-E và
+E02-ALL trên cùng fold assignment, rồi xuất OOF/test prediction, fold metrics,
+feature importance và bảng delta so với E01 cho từng experiment. Mặc định là
+`smoke`; chỉ dùng `baseline` để ghi kết quả sau khi smoke run thành công.
+Notebook này import E02 feature/experiment modules từ repository, vì vậy cần
+commit và push source tương ứng trước khi chạy bản Kaggle clone từ `main`.
 
 Khi chạy experiment, cập nhật `docs/experiments/experiment_log.md`; không
 commit dữ liệu khách hàng, PII, credential hoặc output chứa dữ liệu nhạy cảm.
