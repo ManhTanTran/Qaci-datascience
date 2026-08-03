@@ -35,6 +35,7 @@ nav:
   - Lộ trình:
       - Learning Path: roadmap/learning_path.md
       - Project Milestones: roadmap/project_milestones.md
+      - Home Credit Score Improvement Plan: roadmap/home_credit_score_improvement_plan.md
       - Weekly Checklist: roadmap/weekly_checklist.md
       - Current Status: roadmap/current_status.md
   - Kiến thức miền:
@@ -109,6 +110,8 @@ nav:
       - Experiment Log: experiments/experiment_log.md
       - Experiment Template: experiments/experiment_template.md
       - Baseline Results: experiments/baseline_results.md
+      - E02 Application Feature Diagnostic: experiments/e02_application_feature_diagnostic.md
+      - Pre-sprint 0 Credit Scoring Report: experiments/30_07_2026/home_credit_application_baseline_report.md
   - Decisions:
       - Readme: decisions/README.md
       - 0001-Project-Structure: decisions/0001-project-structure.md
@@ -116,6 +119,7 @@ nav:
       - 0003-Primary-Metric: decisions/0003-primary-metric.md
   - Tham khảo:
       - Kaggle Notebooks: references/kaggle_notebooks.md
+      - Home Credit Solution Write-ups: references/home_credit_solution_writeups.md
       - Competitions: references/competitions.md
       - Papers: references/papers.md
       - External Resources: references/external_resources.md

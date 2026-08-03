@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import time
 from collections.abc import Mapping, Sequence
+from hashlib import sha256
 from typing import Any, TypedDict
 
 import numpy as np
@@ -95,6 +96,7 @@ def run_lightgbm_cv(
     categorical_features: Sequence[str] | None = None,
     model_config: Mapping[str, Any] | None = None,
     validation_config: Mapping[str, Any] | None = None,
+    folds: Sequence[tuple[Sequence[int], Sequence[int]]] | None = None,
 ) -> CVResult:
     """Train LightGBM with stratified folds and return OOF/test artifacts."""
 
@@ -117,12 +119,40 @@ def run_lightgbm_cv(
         "keep_models": True,
         **dict(validation_config or {}),
     }
-    folds = create_stratified_folds(
-        target,
-        n_splits=int(validation["n_splits"]),
-        shuffle=bool(validation["shuffle"]),
-        random_state=int(validation["random_state"]),
-    )
+    if folds is None:
+        resolved_folds = create_stratified_folds(
+            target,
+            n_splits=int(validation["n_splits"]),
+            shuffle=bool(validation["shuffle"]),
+            random_state=int(validation["random_state"]),
+        )
+    else:
+        resolved_folds = [
+            (np.asarray(train_idx, dtype=int), np.asarray(valid_idx, dtype=int))
+            for train_idx, valid_idx in folds
+        ]
+        if len(resolved_folds) != int(validation["n_splits"]):
+            raise ValueError("Precomputed fold count must equal validation n_splits.")
+        fold_counts = np.zeros(len(train_features), dtype=np.int8)
+        for train_idx, valid_idx in resolved_folds:
+            if not len(train_idx) or not len(valid_idx):
+                raise ValueError("Precomputed folds cannot contain an empty split.")
+            if (
+                train_idx.min() < 0
+                or valid_idx.min() < 0
+                or train_idx.max() >= len(train_features)
+                or valid_idx.max() >= len(train_features)
+            ):
+                raise ValueError("Precomputed fold indices are out of bounds.")
+            if np.intersect1d(train_idx, valid_idx).size:
+                raise ValueError("Precomputed train and validation indices overlap.")
+            fold_counts[valid_idx] += 1
+        if not np.all(fold_counts == 1):
+            raise ValueError("Precomputed folds must validate every row exactly once.")
+    fold_assignments = np.full(len(train_features), -1, dtype=np.int16)
+    for fold_number, (_, valid_idx) in enumerate(resolved_folds):
+        fold_assignments[valid_idx] = fold_number
+    fold_fingerprint = sha256(fold_assignments.tobytes()).hexdigest()
     oof = np.full(len(train_features), np.nan, dtype=float)
     validation_counts = np.zeros(len(train_features), dtype=np.int8)
     test_predictions = np.zeros(len(test_features), dtype=float)
@@ -132,7 +162,7 @@ def run_lightgbm_cv(
     importance_frames: list[pd.DataFrame] = []
     started = time.perf_counter()
 
-    for fold_number, (train_idx, valid_idx) in enumerate(folds, start=1):
+    for fold_number, (train_idx, valid_idx) in enumerate(resolved_folds, start=1):
         model = build_lightgbm_model(model_config)
         _fit_lightgbm(
             model,
@@ -147,7 +177,7 @@ def run_lightgbm_cv(
         oof[valid_idx] = valid_predictions
         validation_counts[valid_idx] += 1
         if len(test_features):
-            test_predictions += model.predict_proba(test_features)[:, 1] / len(folds)
+            test_predictions += model.predict_proba(test_features)[:, 1] / len(resolved_folds)
         fold_scores.append(calculate_roc_auc(np.asarray(target)[valid_idx], valid_predictions))
         best_iteration = int(getattr(model, "best_iteration_", 0) or 0)
         best_iterations.append(best_iteration)
@@ -188,7 +218,8 @@ def run_lightgbm_cv(
         "runtime": time.perf_counter() - started,
         "metadata": {
             "model": "lightgbm",
-            "n_splits": len(folds),
+            "n_splits": len(resolved_folds),
+            "fold_fingerprint": fold_fingerprint,
             "categorical_features": categories,
             "validation_config": validation,
         },

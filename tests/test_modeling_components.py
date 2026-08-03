@@ -109,3 +109,48 @@ def test_lightgbm_runner_writes_complete_oof_without_importing_booster(
     assert len(result["test_predictions"]) == 3
     assert result["validation_counts"].tolist() == [1] * len(target)
     assert result["best_iterations"] == [7, 7, 7]
+
+
+def test_lightgbm_runner_reuses_precomputed_folds(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    class FakeModel:
+        best_iteration_ = 1
+        feature_importances_ = np.array([1.0])
+
+        def predict_proba(self, frame: pd.DataFrame) -> np.ndarray:
+            probability = np.full(len(frame), 0.5)
+            return np.column_stack([1 - probability, probability])
+
+    monkeypatch.setattr(lightgbm_model, "build_lightgbm_model", lambda _config: FakeModel())
+    monkeypatch.setattr(lightgbm_model, "_fit_lightgbm", lambda *_args, **_kwargs: None)
+    features = pd.DataFrame({"feature": range(12)})
+    target = np.array([0, 1] * 6)
+    folds = create_stratified_folds(target, n_splits=3, random_state=42)
+
+    first = lightgbm_model.run_lightgbm_cv(
+        features,
+        target,
+        features.iloc[:2],
+        validation_config={"n_splits": 3, "keep_models": False},
+        folds=folds,
+    )
+    second = lightgbm_model.run_lightgbm_cv(
+        features,
+        target,
+        features.iloc[:2],
+        validation_config={"n_splits": 3, "keep_models": False},
+        folds=folds,
+    )
+    assert first["metadata"]["fold_fingerprint"] == second["metadata"]["fold_fingerprint"]
+
+    invalid_folds = [(train_idx, valid_idx) for train_idx, valid_idx in folds]
+    invalid_folds[0] = (invalid_folds[0][0], invalid_folds[0][1][1:])
+    with pytest.raises(ValueError, match="exactly once"):
+        lightgbm_model.run_lightgbm_cv(
+            features,
+            target,
+            features.iloc[:2],
+            validation_config={"n_splits": 3, "keep_models": False},
+            folds=invalid_folds,
+        )

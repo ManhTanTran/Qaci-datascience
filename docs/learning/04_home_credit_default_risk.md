@@ -33,6 +33,8 @@ Aggregate từng bảng phụ về một dòng/application và assert uniqueness
 ## Tài liệu liên quan
 
 - [Competition map](../references/competitions.md)
+- [Tổng hợp solution write-ups](../references/home_credit_solution_writeups.md)
+- [Kế hoạch nâng điểm](../roadmap/home_credit_score_improvement_plan.md)
 - [Feature engineering](../features/feature_engineering.md)
 - [Bureau features](../features/bureau_features.md)
 - [Repayment features](../features/repayment_features.md)

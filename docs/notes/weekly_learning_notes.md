@@ -33,9 +33,12 @@ Weekly note tóm tắt việc học; metric/model experiment chính thức vẫn
 ## Tài liệu liên quan
 
 - [Learning track](../learning/index.md)
+- [Tổng hợp Home Credit solution write-ups](../references/home_credit_solution_writeups.md)
+- [Kế hoạch nâng điểm Home Credit](../roadmap/home_credit_score_improvement_plan.md)
 - [Weekly report template](../templates/weekly_report_template.md)
 - [Experiment log](../experiments/experiment_log.md)
 
 ## Trạng thái áp dụng trong project
 
-Chưa có weekly entry; đây là template ghi chép.
+Đã có learning artifact tuần 2026-08-03 về Home Credit solution write-ups và kế
+hoạch nâng điểm. Chưa có experiment mới ngoài E01.
