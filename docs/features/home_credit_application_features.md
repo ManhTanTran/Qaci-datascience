@@ -64,9 +64,40 @@ và không đại diện cho feature policy của FPT.
 - Kaggle notebook E02: `notebooks/02_home_credit_application/03_home_credit_e02_application_features.ipynb`
 - Kaggle notebook E02 ablation:
   `notebooks/02_home_credit_application/04_home_credit_e02_feature_ablation.ipynb`
+- Kaggle notebook E02 credit/amount factorial ablation:
+  `notebooks/02_home_credit_application/05_home_credit_e02_credit_amount_factorial_ablation.ipynb`
 
 ## Trạng thái áp dụng trong project
 
 Đã triển khai source module và unit tests cho E02 application-only. Metric E02
 chỉ được ghi vào experiment log sau khi chạy thật trên full train/test với
 LightGBM; feature chưa được phê duyệt production.
+
+## Phân rã nhóm credit/amount E02-A
+
+Module `src/credit_scoring/features/home_credit_credit_amount_factorial.py`
+biểu diễn thay đổi E02-A bằng ba nhân tố có thể kết hợp độc lập:
+
+- `N`: ghi đè có khai báo bốn feature E01
+  `CREDIT_INCOME_RATIO`, `ANNUITY_INCOME_RATIO`, `GOODS_CREDIT_RATIO` và
+  `INCOME_PER_PERSON` bằng `safe_divide`/`float32`;
+- `R`: chỉ thêm `CREDIT_ANNUITY_RATIO`;
+- `D`: chỉ thêm `CREDIT_GOODS_DIFF`.
+
+Khi không bật `N`, toàn bộ cột E01 được giữ nguyên. Mọi ghi đè phải
+nằm trong manifest `overwritten_columns`; comparator sẽ báo lỗi nếu phát hiện
+một shared column thay đổi mà không khai báo.
+
+Diagnostic đã chạy trên full local `application_train.csv` cho thấy:
+
+| Feature | E01 dtype → E02-A dtype | Số hàng khác | Max absolute difference |
+|---|---:|---:|---:|
+| `CREDIT_INCOME_RATIO` | float64 → float32 | 272,039 | 2.810830e-06 |
+| `ANNUITY_INCOME_RATIO` | float64 → float32 | 305,261 | 5.836487e-08 |
+| `GOODS_CREDIT_RATIO` | float32 → float32 | 0 | 0 |
+| `INCOME_PER_PERSON` | float64 → float32 | 118 | 0.0125 |
+
+Hai cột `CREDIT_ANNUITY_RATIO` và `CREDIT_GOODS_DIFF` được xác nhận là cột
+mới. Trên ma trận train này, `E02-NRD` khớp chính xác với builder
+E02-A hiện tại. Đây là kiểm tra ma trận feature, không phải kết quả AUC;
+full factorial baseline vẫn chưa được chạy.

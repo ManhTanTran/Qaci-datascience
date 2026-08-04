@@ -63,6 +63,16 @@ feature importance và bảng delta so với E01 cho từng experiment. Mặc đ
 Notebook này import E02 feature/experiment modules từ repository, vì vậy cần
 commit và push source tương ứng trước khi chạy bản Kaggle clone từ `main`.
 
+Notebook factorial ablation cho nhóm credit/amount nằm tại
+`02_home_credit_application/05_home_credit_e02_credit_amount_factorial_ablation.ipynb`.
+Notebook tách E02-A thành ba nhân tố độc lập: `N` chuẩn hóa lại bốn
+ratio E01, `R` thêm `CREDIT_ANNUITY_RATIO`, và `D` thêm
+`CREDIT_GOODS_DIFF`. Tám tổ hợp được chạy tuần tự trên cùng fold list;
+`E02-NRD` phải khớp chính xác với E02-A hiện tại trước khi notebook được
+phép chọn `E02-FINAL`. Mặc định `smoke` chỉ kiểm tra luồng chạy; chỉ
+`baseline` đầy đủ mới tạo cấu hình `E02-FINAL` và `submission.csv`.
+Notebook không tự submit lên Kaggle và không dùng leaderboard để chọn feature.
+
 Khi chạy experiment, cập nhật `docs/experiments/experiment_log.md`; không
 commit dữ liệu khách hàng, PII, credential hoặc output chứa dữ liệu nhạy cảm.
 
