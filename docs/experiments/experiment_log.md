@@ -22,11 +22,14 @@ chỉ được thêm khi có cấu hình, output và report có thể truy vết
 | E01 | 2026-07-30 | Home Credit application-only | 5-fold StratifiedKFold, seed 42 | OOF AUC `0.768696`; Kaggle `Score` `0.76312`; public `0.76634` | [Pre-sprint 0 report](30_07_2026/home_credit_application_baseline_report.md); Kaggle Working artifact path ghi trong report | Completed; Kaggle score ghi theo nhãn ảnh cung cấp |
 | E02-DIAG | 2026-08-03 | Home Credit application-only E01 + 18 E02 features; train-only diagnostic | Cùng fixed 5-fold, seed 42; fingerprint `9ad19c60...a4684bdc` | E01 diagnostic OOF `0.768683`; E02 diagnostic OOF `0.769071`; delta `+0.000388` | [E02 diagnostic report](e02_application_feature_diagnostic.md) | Diagnostic only; thiếu application_test.csv, chưa ablation, không phải completed E02 |
 | E02-KAGGLE | 2026-08-03 | Home Credit application-only E01 + 18 E02 features; Kaggle full train/test | 5-fold StratifiedKFold, seed 42; cấu hình model khóa như E01 | OOF `0.769030`; mean fold `0.769076`; delta OOF so với locked E01 `+0.000334`; private `0.76330`; public `0.76708` | [E02 diagnostic and Kaggle artifact review](e02_application_feature_diagnostic.md); run commit `32533899...` | Completed; OOF/submission artifact verified; family ablation pending |
+| E02-D-ROBUSTNESS | 2026-08-05 | Locked E01 so với E01 + `CREDIT_GOODS_DIFF` | Paired 5-fold StratifiedKFold trên seed 42/52/62; model seed 42; pre-registered AND gate | `9/15` fold delta dương, thấp hơn ngưỡng `10/15`; symmetric trimmed mean từ số hiển thị khoảng `+0.000195` | [E02-D robustness result](e02_d_robustness_result.md); run code commit `9d58b210d11eea239bf6203c0ee159f4bf7bdfa1` | Completed from user-supplied fold metrics; gate fail; khóa `E03-BASE = E01`; global seed summary chưa được lưu trong workspace |
 
 Kết quả E01 được trích từ output notebook và ảnh Kaggle do người dùng cung
 cấp. E02-DIAG được chạy thật trên full train; E02-KAGGLE có full OOF/test
 artifact và submission đã được chấm trên competition test. Không dùng
 leaderboard để chọn feature hoặc thay thế OOF/temporal validation.
+E02-D-ROBUSTNESS áp dụng nguyên decision rule đã commit trước khi chạy; không
+hạ ngưỡng sau khi quan sát kết quả.
 
 ## Điều cần kiểm tra trong project
 
