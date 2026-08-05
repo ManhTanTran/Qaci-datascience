@@ -138,5 +138,7 @@ dương. Điều đó ngăn việc nới tiêu chí sau khi nhìn thấy kết q
 
 ## Trạng thái áp dụng trong project
 
-Pre-registration. Chưa có lượt chạy nào, chưa có kết quả và chưa có artifact.
-`E03-BASE` mặc định vẫn là E01 cho tới khi ứng viên vượt quy tắc đã khóa ở trên.
+Completed. Kết quả được ghi tại
+[E02-D robustness result](e02_d_robustness_result.md). Ứng viên chỉ đạt `9/15`
+fold delta dương so với ngưỡng bắt buộc `10/15`, nên gate fail và
+`E03-BASE = E01`.
