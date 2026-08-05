@@ -68,6 +68,7 @@ nav:
       - Missing And Outliers: features/missing_and_outliers.md
       - Feature Engineering: features/feature_engineering.md
       - Home Credit Application Features: features/home_credit_application_features.md
+      - Home Credit Bureau Features: features/home_credit_bureau_features.md
       - Leakage Checklist: features/leakage_checklist.md
       - Feature Stability: features/feature_stability.md
   - Modeling:
@@ -113,6 +114,7 @@ nav:
       - E02 Application Feature Diagnostic: experiments/e02_application_feature_diagnostic.md
       - E02-D Robustness Pre-registration: experiments/e02_d_robustness_preregistration.md
       - E02-D Robustness Result: experiments/e02_d_robustness_result.md
+      - E03 Screening Pre-registration: experiments/e03_screening_preregistration.md
       - Pre-sprint 0 Credit Scoring Report: experiments/30_07_2026/home_credit_application_baseline_report.md
   - Decisions:
       - Readme: decisions/README.md

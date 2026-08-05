@@ -90,6 +90,15 @@ hiệu lực quyết định; lượt `smoke` chỉ kiểm tra pipeline. Noteboo
 `oof_predictions.csv` có cột `FOLD`, `fold_assignments.csv`, `fold_metrics.csv`,
 `robustness_summary.csv` và `decision.json`.
 
+Notebook E03 Bureau ablation nằm tại
+`03_home_credit_multitable/01_bureau_ablation.ipynb`. Logic đọc, aggregate hai
+tầng và merge dữ liệu Home Credit nằm trong các hàm của notebook; notebook chỉ
+gọi source chung cho `safe_divide`, E01 preparation, folds, LightGBM, ablation
+và artifact writers. Chế độ `smoke` lấy application trước rồi lọc Bureau theo
+ID để không tạo mẫu gần như không giao nhau. Sau Checkpoint 3, notebook được
+chuyển sang `screening`: toàn bộ application, 5 folds và LightGBM configuration
+khóa từ E01. Cell đầu tiên kiểm tra pre-registration trước khi chạy model.
+
 Khi chạy experiment, cập nhật `docs/experiments/experiment_log.md`; không
 commit dữ liệu khách hàng, PII, credential hoặc output chứa dữ liệu nhạy cảm.
 

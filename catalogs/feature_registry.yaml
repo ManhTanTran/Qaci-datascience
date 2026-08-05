@@ -358,3 +358,80 @@ features:
     permitted_for_modeling: true
     implementation_location: "src/credit_scoring/features/home_credit_application.py"
     documentation_path: "docs/features/home_credit_application_features.md"
+  - name: home_credit_e03_bureau_counts
+    description: "Seven Home Credit Bureau loan-count, type and coverage research features."
+    category: bureau_counts
+    source_columns:
+      - "bureau.SK_ID_CURR"
+      - "bureau.SK_ID_BUREAU"
+      - "bureau.CREDIT_ACTIVE"
+      - "bureau.CREDIT_TYPE"
+      - "bureau.CNT_CREDIT_PROLONG"
+      - "bureau_balance.SK_ID_BUREAU"
+    formula_or_aggregation: "Loan/Active/Sold counts; credit-type nunique; prolong sum; Active/loan ratio; Bureau Balance covered-loan/loan ratio."
+    data_type: numeric
+    expected_direction: non_monotonic_to_be_tested
+    missing_policy: "Count features fill 0 after application left join; ratios preserve NaN for zero/missing denominators."
+    outlier_policy: "Preserve long-tail loan counts; no clipping in E03 research."
+    leakage_risk: "low_if_bureau_snapshot_is_available_at_application_time"
+    available_at_application_time: "Public Home Credit Bureau snapshot linked to the application."
+    permitted_for_modeling: true
+    implementation_location: "notebooks/03_home_credit_multitable/01_bureau_ablation.ipynb"
+    documentation_path: "docs/features/home_credit_bureau_features.md"
+  - name: home_credit_e03_bureau_amounts
+    description: "Twelve Home Credit Bureau credit, debt, overdue, limit, annuity and ratio research features."
+    category: bureau_amounts
+    source_columns:
+      - "bureau.AMT_CREDIT_SUM"
+      - "bureau.AMT_CREDIT_SUM_DEBT"
+      - "bureau.AMT_CREDIT_SUM_OVERDUE"
+      - "bureau.AMT_CREDIT_SUM_LIMIT"
+      - "bureau.AMT_ANNUITY"
+      - "bureau.CREDIT_ACTIVE"
+    formula_or_aggregation: "Credit/debt sum/mean/max, overdue sum, limit/annuity sums, Active-only exposure sums, debt/credit ratio and overdue/debt ratio; every amount sum uses min_count=1."
+    data_type: float32
+    expected_direction: non_monotonic_to_be_tested
+    missing_policy: "All-missing groups and missing history stay NaN; zero/missing ratio denominators produce NaN."
+    outlier_policy: "Keep negative amounts and ratios outside [0,1]; do not clip or create negative indicators."
+    leakage_risk: "low_if_bureau_snapshot_is_available_at_application_time"
+    available_at_application_time: "Public Home Credit Bureau snapshot linked to the application."
+    permitted_for_modeling: true
+    implementation_location: "notebooks/03_home_credit_multitable/01_bureau_ablation.ipynb"
+    documentation_path: "docs/features/home_credit_bureau_features.md"
+  - name: home_credit_e03_bureau_recency
+    description: "Nine Home Credit Bureau loan-date, status-specific end-date and monthly-history recency research features."
+    category: bureau_recency
+    source_columns:
+      - "bureau.DAYS_CREDIT"
+      - "bureau.DAYS_CREDIT_ENDDATE"
+      - "bureau.DAYS_ENDDATE_FACT"
+      - "bureau.CREDIT_ACTIVE"
+      - "bureau_balance.MONTHS_BALANCE"
+      - "bureau_balance.STATUS"
+    formula_or_aggregation: "Raw signed DAYS_CREDIT min/mean/max; Active expected-end max; Closed actual-end max and delay mean; BB month min/max; months since last DPD."
+    data_type: float32
+    expected_direction: non_monotonic_to_be_tested
+    missing_policy: "No eligible loan/month or missing history stays NaN."
+    outlier_policy: "Keep signed day/month values and verified extreme values; no clipping."
+    leakage_risk: "low_if_all_dates_are_relative_to_the_application_snapshot"
+    available_at_application_time: "Public Home Credit Bureau snapshot linked to the application."
+    permitted_for_modeling: true
+    implementation_location: "notebooks/03_home_credit_multitable/01_bureau_ablation.ipynb"
+    documentation_path: "docs/features/home_credit_bureau_features.md"
+  - name: home_credit_e03_bureau_delinquency
+    description: "Eight Home Credit Bureau overdue-day, history-length and DPD-ratio research features."
+    category: bureau_delinquency
+    source_columns:
+      - "bureau.CREDIT_DAY_OVERDUE"
+      - "bureau_balance.MONTHS_BALANCE"
+      - "bureau_balance.STATUS"
+    formula_or_aggregation: "Max overdue days; total BB months; pooled STATUS 0/C, ANY_DPD 1-5 and SEVERE_DPD 3-5 ratios using total and observed 0-5 denominators."
+    data_type: numeric
+    expected_direction: higher_dpd_may_indicate_higher_risk
+    missing_policy: "BB month count fills 0; DPD ratios and max overdue days preserve NaN when history/denominator is absent."
+    outlier_policy: "No clipping; C and X are non-ordinal statuses."
+    leakage_risk: "low_if_bureau_balance_history_is_cut_off_at_application_time"
+    available_at_application_time: "Public Home Credit Bureau monthly history linked to the application."
+    permitted_for_modeling: true
+    implementation_location: "notebooks/03_home_credit_multitable/01_bureau_ablation.ipynb"
+    documentation_path: "docs/features/home_credit_bureau_features.md"
