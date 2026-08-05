@@ -64,7 +64,7 @@ Notebook này import E02 feature/experiment modules từ repository, vì vậy c
 commit và push source tương ứng trước khi chạy bản Kaggle clone từ `main`.
 
 Notebook robustness check nằm tại
-`02_home_credit_application/05_home_credit_e02_d_robustness.ipynb`. Notebook
+`02_home_credit_application/06_home_credit_e02_d_robustness.ipynb`. Notebook
 chỉ chạy hai cấu hình khác nhau đúng một cột — `E01` và
 `E01 + CREDIT_GOODS_DIFF` — trên ba validation seed `42`, `52` và `62`. Trong
 mỗi seed, hai cấu hình dùng chung một fold list và được xác nhận bằng
