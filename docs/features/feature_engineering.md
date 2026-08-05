@@ -29,4 +29,8 @@ Tạo delinquency count chỉ từ events trước decision time và test bằng
 
 ## Trạng thái áp dụng trong project
 
-TODO(FPT): cần xác nhận với mentor hoặc data owner.
+Numeric helper dùng chung `safe_divide` nằm tại
+`src/credit_scoring/numeric.py`. Hàm căn chỉnh theo index của pandas Series,
+trả `float32`, và biến mẫu số bằng 0/missing cùng mọi kết quả
+infinite thành `NaN`. Các dataset-specific feature builder có thể gọi helper
+này nhưng vẫn phải định nghĩa formula và missing policy trong notebook.

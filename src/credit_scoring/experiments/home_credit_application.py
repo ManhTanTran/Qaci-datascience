@@ -4,13 +4,13 @@ from __future__ import annotations
 
 import gc
 from collections.abc import Mapping, Sequence
-from dataclasses import dataclass
 from typing import Any, TypedDict
 
 import numpy as np
 import pandas as pd
 
 from credit_scoring.evaluation.cross_validation import create_stratified_folds
+from credit_scoring.experiments.ablation import PreparedDataset
 from credit_scoring.features.home_credit_application import (
     E02_FEATURE_FAMILIES,
     build_aligned_application_features,
@@ -42,16 +42,7 @@ E02_ABLATION_EXPERIMENTS: dict[str, tuple[str, ...]] = {
 }
 
 
-@dataclass(frozen=True)
-class PreparedApplicationData:
-    """Model matrices and identifiers generated with one train/test schema."""
-
-    train_features: pd.DataFrame
-    test_features: pd.DataFrame
-    target: pd.Series
-    train_ids: pd.Series
-    test_ids: pd.Series
-    categorical_features: tuple[str, ...]
+PreparedApplicationData = PreparedDataset
 
 
 class ExperimentMetrics(TypedDict):

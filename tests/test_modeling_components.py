@@ -108,6 +108,12 @@ def test_lightgbm_runner_writes_complete_oof_without_importing_booster(
     assert not np.isnan(result["oof_predictions"]).any()
     assert len(result["test_predictions"]) == 3
     assert result["validation_counts"].tolist() == [1] * len(target)
+    expected_assignments = np.full(len(target), -1, dtype=np.int16)
+    for fold_number, (_, valid_idx) in enumerate(
+        create_stratified_folds(target, n_splits=3)
+    ):
+        expected_assignments[valid_idx] = fold_number
+    np.testing.assert_array_equal(result["fold_assignments"], expected_assignments)
     assert result["best_iterations"] == [7, 7, 7]
 
 

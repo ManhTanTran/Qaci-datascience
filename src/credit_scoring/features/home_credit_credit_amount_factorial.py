@@ -10,8 +10,8 @@ import pandas as pd
 
 from credit_scoring.features.home_credit_application import (
     build_e01_application_features,
-    safe_divide,
 )
+from credit_scoring.numeric import safe_divide
 
 FACTOR_NORMALIZE = "N"
 FACTOR_CREDIT_ANNUITY = "R"

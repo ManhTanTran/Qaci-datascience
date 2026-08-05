@@ -5,7 +5,6 @@ from credit_scoring.features.home_credit_application import (
     build_aligned_application_features,
     build_e01_application_features,
     build_e02_application_features,
-    safe_divide,
 )
 from credit_scoring.features.home_credit_credit_amount_factorial import (
     CREDIT_AMOUNT_FACTOR_ORDER,
@@ -15,6 +14,7 @@ from credit_scoring.features.home_credit_credit_amount_factorial import (
     describe_credit_amount_factors,
     summarize_feature_matrix_differences,
 )
+from credit_scoring.numeric import safe_divide
 
 __all__ = [
     "CREDIT_AMOUNT_FACTORIAL_EXPERIMENTS",

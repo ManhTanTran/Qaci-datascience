@@ -29,4 +29,11 @@ Target encoding phải fit theo training fold, không tính từ toàn dataset.
 
 ## Trạng thái áp dụng trong project
 
-TODO(FPT): cần xác nhận với mentor hoặc data owner.
+`run_ablation` trong `src/credit_scoring/experiments/ablation.py` nhận các
+`PreparedDataset` và một fold list đã tính trước. Runner chạy baseline
+trước, buộc target và identifier của các arm giống nhau, kiểm tra
+fold fingerprint chung và trả paired fold delta so với baseline.
+
+`run_lightgbm_cv` trả cả `fold_assignments` trong `CVResult`, ngoài
+`validation_counts` và fold fingerprint. Assignment dùng chỉ số zero-based
+theo thứ tự fold list; artifact trình bày có thể đổi sang one-based.

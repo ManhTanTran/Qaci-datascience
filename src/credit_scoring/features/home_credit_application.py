@@ -7,6 +7,8 @@ from collections.abc import Iterable, Sequence
 import numpy as np
 import pandas as pd
 
+from credit_scoring.numeric import safe_divide
+
 DAYS_EMPLOYED_SENTINEL = 365_243
 
 CONTACT_FLAG_COLUMNS: tuple[str, ...] = (
@@ -61,17 +63,6 @@ def _require_columns(frame: pd.DataFrame, columns: Iterable[str], family: str) -
 def _float32_series(values: pd.Series) -> pd.Series:
     result = pd.to_numeric(values, errors="coerce").astype("float32")
     return result.replace([np.inf, -np.inf], np.nan)
-
-
-def safe_divide(numerator: pd.Series, denominator: pd.Series) -> pd.Series:
-    """Divide aligned numeric series; invalid denominators produce float32 NaN."""
-
-    numerator_values = _float32_series(numerator)
-    denominator_values = _float32_series(denominator)
-    valid = denominator_values.notna() & denominator_values.ne(0)
-    result = pd.Series(np.nan, index=numerator_values.index, dtype="float32")
-    result.loc[valid] = numerator_values.loc[valid] / denominator_values.loc[valid]
-    return result.replace([np.inf, -np.inf], np.nan).astype("float32")
 
 
 def _legacy_safe_divide(numerator: pd.Series, denominator: pd.Series) -> pd.Series:

@@ -39,6 +39,7 @@ class CVResult(TypedDict):
     oof_predictions: np.ndarray
     test_predictions: np.ndarray
     validation_counts: np.ndarray
+    fold_assignments: np.ndarray
     fold_scores: list[float]
     mean_auc: float
     std_auc: float
@@ -208,6 +209,7 @@ def run_lightgbm_cv(
         "oof_predictions": oof,
         "test_predictions": test_predictions,
         "validation_counts": validation_counts,
+        "fold_assignments": fold_assignments,
         "fold_scores": fold_scores,
         "mean_auc": float(np.mean(fold_scores)),
         "std_auc": float(np.std(fold_scores, ddof=1)) if len(fold_scores) > 1 else 0.0,

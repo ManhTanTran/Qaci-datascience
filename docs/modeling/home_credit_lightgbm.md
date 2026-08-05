@@ -37,7 +37,8 @@ result = run_lightgbm_cv(
 
 Kết quả gồm `oof_predictions`, `test_predictions`, fold scores, mean/std AUC,
 OOF AUC, best iterations, feature importance, fitted models, runtime và
-metadata (gồm cả fold fingerprint).
+metadata (gồm cả fold fingerprint). `fold_assignments` zero-based cũng được
+trả về để notebook xuất cột `FOLD` mà không phải tính lại split.
 
 ## Điều cần kiểm tra trong project
 
