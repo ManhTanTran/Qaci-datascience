@@ -63,6 +63,23 @@ feature importance và bảng delta so với E01 cho từng experiment. Mặc đ
 Notebook này import E02 feature/experiment modules từ repository, vì vậy cần
 commit và push source tương ứng trước khi chạy bản Kaggle clone từ `main`.
 
+Notebook robustness check nằm tại
+`02_home_credit_application/05_home_credit_e02_d_robustness.ipynb`. Notebook
+chỉ chạy hai cấu hình khác nhau đúng một cột — `E01` và
+`E01 + CREDIT_GOODS_DIFF` — trên ba validation seed `42`, `52` và `62`. Trong
+mỗi seed, hai cấu hình dùng chung một fold list và được xác nhận bằng
+`fold_fingerprint` trùng nhau; model random seed cố định `42` và LightGBM
+parameters giữ nguyên cấu hình đã khóa từ E01. Feature matrix dựng một lần rồi
+dùng lại cho cả ba seed, chỉ fold thay đổi.
+
+Quy tắc quyết định được khóa trước tại
+`docs/experiments/e02_d_robustness_preregistration.md`. **Tài liệu đó phải được
+commit và push trước khi chạy cell đầu tiên** — notebook kiểm tra sự tồn tại
+của nó trong repository đã clone và dừng nếu thiếu. Chỉ lượt `baseline` mới có
+hiệu lực quyết định; lượt `smoke` chỉ kiểm tra pipeline. Notebook xuất
+`oof_predictions.csv` có cột `FOLD`, `fold_assignments.csv`, `fold_metrics.csv`,
+`robustness_summary.csv` và `decision.json`.
+
 Khi chạy experiment, cập nhật `docs/experiments/experiment_log.md`; không
 commit dữ liệu khách hàng, PII, credential hoặc output chứa dữ liệu nhạy cảm.
 
