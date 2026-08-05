@@ -283,6 +283,8 @@ features:
     available_at_application_time: "Home Credit application table fields."
     permitted_for_modeling: true
     implementation_location: "src/credit_scoring/features/home_credit_application.py"
+    factorial_implementation_location: "src/credit_scoring/features/home_credit_credit_amount_factorial.py"
+    factorial_metadata: "N explicitly recomputes CREDIT_INCOME_RATIO, ANNUITY_INCOME_RATIO, GOODS_CREDIT_RATIO and INCOME_PER_PERSON; R adds CREDIT_ANNUITY_RATIO; D adds CREDIT_GOODS_DIFF. Disabling N preserves E01 columns exactly."
     documentation_path: "docs/features/home_credit_application_features.md"
   - name: home_credit_e02_age_employment
     description: "Age and employment duration features after documented sentinel handling."
