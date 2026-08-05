@@ -111,6 +111,7 @@ nav:
       - Experiment Template: experiments/experiment_template.md
       - Baseline Results: experiments/baseline_results.md
       - E02 Application Feature Diagnostic: experiments/e02_application_feature_diagnostic.md
+      - E02-D Robustness Pre-registration: experiments/e02_d_robustness_preregistration.md
       - Pre-sprint 0 Credit Scoring Report: experiments/30_07_2026/home_credit_application_baseline_report.md
   - Decisions:
       - Readme: decisions/README.md
