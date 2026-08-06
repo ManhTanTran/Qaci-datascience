@@ -121,6 +121,7 @@ nav:
       - 0001-Project-Structure: decisions/0001-project-structure.md
       - 0002-Validation-Strategy: decisions/0002-validation-strategy.md
       - 0003-Primary-Metric: decisions/0003-primary-metric.md
+      - 0004-Auxiliary-Feature-Modules: decisions/0004-auxiliary-feature-modules-in-source.md
   - Tham khảo:
       - Kaggle Notebooks: references/kaggle_notebooks.md
       - Home Credit Solution Write-ups: references/home_credit_solution_writeups.md
