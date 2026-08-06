@@ -118,6 +118,7 @@ nav:
       - E02-D Robustness Result: experiments/e02_d_robustness_result.md
       - E03 Screening Pre-registration: experiments/e03_screening_preregistration.md
       - Pre-sprint 0 Credit Scoring Report: experiments/30_07_2026/home_credit_application_baseline_report.md
+      - Weekly Report 06-08-2026: experiments/06_08_2026/feature_store_and_auxiliary_features_report.md
   - Decisions:
       - Readme: decisions/README.md
       - 0001-Project-Structure: decisions/0001-project-structure.md
