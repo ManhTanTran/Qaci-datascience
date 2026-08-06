@@ -16,34 +16,64 @@ Các quy tắc này áp dụng cho toàn repository.
 
 ## Ranh giới source và notebook
 
-Source `src/credit_scoring/` chỉ chứa code dùng chung giữa nhiều dataset: model
-factory, cross-validation, metric, tuning, artifact writer, reproducibility và
-numeric helper. Mọi thứ ở đây phải có test. Không được để logic generic chỉ nằm
-trong notebook.
+**Hàm dùng lại được thì nằm trong `src/credit_scoring/`, và phải có test.** Tiêu
+chí là tính tái sử dụng, không phải dataset. Một hàm gắn cứng với Home Credit vẫn
+thuộc source nếu nhiều notebook hoặc nhiều experiment gọi nó. Không được để logic
+dùng lại chỉ tồn tại trong notebook, vì code trong notebook không được pytest bảo
+vệ và không tái lập được giữa các lượt chạy.
 
-Notebook chứa mọi thứ gắn với một dataset cụ thể: đọc dữ liệu, làm sạch, feature
-engineering, ghép bảng và aggregation. Lý do là schema, grain và quan hệ giữa các
-bảng khác nhau ở từng dataset, nên trừu tượng hóa sớm sinh ra abstraction sai.
+Notebook giữ phần dùng một lần: đọc dữ liệu, EDA, chọn cấu hình experiment, đọc
+kết quả và diễn giải. Khi một đoạn trong notebook được copy sang notebook thứ
+hai, đó là dấu hiệu nó phải chuyển vào source.
 
 Notebook gọi source; source không được import hay giả định gì về notebook.
 
-Vì feature logic của dataset không được pytest bảo vệ, notebook phải bù lại:
+Code trong notebook vẫn phải viết thành hàm, kèm một cell synthetic assertion
+dùng fixture nhỏ tự dựng, chạy **trước** khi đọc dữ liệu thật và chạy trong mọi
+lượt. Không được comment out.
 
-- Viết feature engineering thành hàm, không phải code thủ tục rải rác, để phần
-  kiểm tra chạy đúng đoạn code mà lượt chạy thật dùng.
-- Có một cell synthetic assertion dùng fixture nhỏ tự dựng, chạy **trước** khi
-  đọc dữ liệu thật và chạy trong mọi lượt. Không được comment out.
-- Kiểm cardinality và số dòng sau mỗi bước ghép bảng hoặc aggregate.
+## Yêu cầu với feature code trong source
 
-Các module dataset-specific đã tồn tại trong `src/credit_scoring/features/` và
-`src/credit_scoring/experiments/` được giữ nguyên và tiếp tục dùng vì chúng là
-nền của baseline đã khóa. Không thêm module dataset-specific mới cho công việc
-research; ngoại lệ duy nhất là promote feature lên production, xem mục dưới.
+- **Schema là hàm của code, không phải của dữ liệu.** Danh sách cột đầu ra phải
+  giống nhau khi chạy trên mẫu nhỏ và trên full data. Không lấy category từ dữ
+  liệu, không lọc cột theo tần suất, không dựng danh sách aggregate bằng cách
+  duyệt xem cột nào đang là numeric. Phải có test so schema giữa hai tập con.
+- **Missing khác zero.** Tổng amount dùng `sum(min_count=1)` để nhóm không quan
+  sát được giá trị nào giữ `NaN`. Chỉ count được fill 0, vì "không có bản ghi
+  nào" là sự thật chứ không phải thiếu dữ liệu.
+- **Kiểm cardinality sau mỗi bước ghép bảng hoặc aggregate.** Ghép one-to-one
+  phải kiểm số dòng không đổi; kết quả ở grain khách hàng phải kiểm khóa duy nhất.
+- **Nhãn family khai cùng chỗ với giá trị.** Mỗi feature mang một family
+  (`counts`, `amounts`, `recency`, `delinquency`) sinh ra từ cùng khai báo tạo ra
+  giá trị, để nhãn không trôi khỏi dữ liệu.
+- **Tên feature không chứa ký tự LightGBM từ chối:** `" \ [ ] { } : ,`
 
-Feature xây trong notebook là **research candidate**, không phải feature
-production. Muốn promote lên production thì phải chuyển sang implementation nằm
-trong source, có test và được review riêng; lúc đó mới áp các yêu cầu về source,
-formula và owner.
+## Lưu dữ liệu trung gian
+
+**Feature đã tính lưu thành Parquet, không phải CSV.** Parquet giữ nguyên dtype
+và `NaN`, nhỏ hơn khoảng ba lần và đọc nhanh hơn khoảng hai mươi lần; CSV làm mất
+dtype nên `category` phải cast lại tay mỗi lần và `int32` phình thành `int64`.
+
+Dùng `credit_scoring.feature_store`: mỗi block là một Parquet kèm manifest ghi
+key column, thứ tự cột, family từng feature và `builder_version`.
+
+- **Đổi `builder_version` mỗi khi sửa công thức feature.** Cache cũ trả về số của
+  công thức cũ mà không báo lỗi gì; đây là kiểu sai nguy hiểm nhất vì không có
+  dấu hiệu nào. Luôn truyền `expected_builder_version` khi load.
+- **Chia block theo bảng nguồn, nhóm ngữ nghĩa là nhãn trong manifest.** Một
+  feature thuộc một bảng nhưng một nhóm ngữ nghĩa có thể trải nhiều bảng.
+- **Khai `dtype` ngay trong `read_csv`**, không đọc xong rồi mới downcast: đỉnh
+  bộ nhớ nằm ở lúc đọc. Cột chuỗi ít giá trị khai `category`.
+- Dữ liệu và block nằm ngoài git; không commit.
+
+## Research candidate và production
+
+Feature mới là **research candidate**, kể cả khi đã nằm trong source có test.
+Muốn promote lên production thì phải được review riêng và áp đủ yêu cầu về
+source, formula và owner. Không mô tả research candidate là feature production.
+
+Không thêm feature vào một experiment đang khóa pre-registration; mở experiment
+mới với pre-registration riêng.
 
 ## Tính trung thực và an toàn
 

@@ -29,10 +29,16 @@ không thể bảo đảm bằng một cell assertion trong notebook:
 
 Ba tính chất này cần pytest, tức là cần code nằm trong source.
 
-Ranh giới mới: **aggregation nhiều tầng và feature bảng phụ thuộc source, có
-test**; notebook giữ phần đọc dữ liệu, EDA, chọn cấu hình experiment và diễn giải
-kết quả. Feature trong source vẫn là research candidate cho tới khi được promote
-theo quy trình production.
+Ranh giới mới lấy **tính tái sử dụng** làm tiêu chí, không lấy dataset: hàm nào
+dùng lại được thì thuộc source và phải có test, kể cả khi nó gắn cứng với một
+dataset. Notebook giữ phần dùng một lần — đọc dữ liệu, EDA, chọn cấu hình
+experiment và diễn giải kết quả. Feature trong source vẫn là research candidate
+cho tới khi được promote theo quy trình production.
+
+Quyết định này kèm một quy ước lưu trữ: **feature đã tính lưu thành Parquet qua
+`credit_scoring.feature_store`**, không phải CSV. Lý do là Parquet giữ nguyên
+dtype và `NaN`, nhỏ hơn khoảng ba lần và đọc nhanh hơn khoảng hai mươi lần; đo
+trên block bureau thật cho 27,5 MB và 0,31 giây, so với 83,2 MB và 5,84 giây.
 
 ## Ví dụ trong credit scoring
 
@@ -47,7 +53,9 @@ loại bất biến phải có test chứ không thể kiểm bằng mắt trong
 - [x] Mỗi builder có test chứng minh schema không đổi khi tập client thay đổi.
 - [x] Mỗi builder có test cardinality `SK_ID_CURR` duy nhất.
 - [x] Mỗi feature có nhãn family sinh ra từ cùng khai báo tạo ra giá trị.
-- [ ] Cập nhật `AGENTS.md` khi quyết định này được xác nhận với mentor.
+- [x] Cập nhật `AGENTS.md` theo ranh giới mới.
+- [x] Feature đã tính lưu Parquet kèm manifest, không lưu CSV.
+- [ ] Thông báo cho mentor khi review; quyết định do repo owner chấp thuận.
 
 ## Tài liệu liên quan
 
@@ -58,6 +66,7 @@ loại bất biến phải có test chứ không thể kiểm bằng mắt trong
 
 ## Trạng thái áp dụng trong project
 
-Proposed ngày 2026-08-06. Code đã theo quyết định này; `AGENTS.md` chưa sửa vì
-ranh giới source/notebook vừa được merge và cần mentor xác nhận trước khi thay.
-TODO(FPT): cần xác nhận với mentor hoặc data owner.
+Accepted ngày 2026-08-06 bởi repo owner. `AGENTS.md` đã cập nhật theo ranh giới
+này, gồm cả yêu cầu về schema ổn định, missing khác zero, cardinality, nhãn family
+và quy ước lưu Parquet. Chưa đưa ra thảo luận với mentor FPT.
+TODO(FPT): cần xác nhận với mentor hoặc data owner khi review.
