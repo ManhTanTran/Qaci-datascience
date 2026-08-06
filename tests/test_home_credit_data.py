@@ -81,3 +81,72 @@ def test_audit_reports_only_structural_statistics(tmp_path: Path) -> None:
     assert audit.loc["application_train", "rows"] == 3
     assert audit.loc["application_train", "duplicate_primary_keys"] == 0
     assert audit.loc["application_train", "missing_cells"] == 1
+
+
+def test_compact_dtypes_cover_ids_categories_and_measures() -> None:
+    from credit_scoring.data.home_credit import compact_home_credit_dtypes
+
+    dtypes = compact_home_credit_dtypes(
+        [
+            "SK_ID_CURR",
+            "SK_ID_BUREAU",
+            "MONTHS_BALANCE",
+            "STATUS",
+            "AMT_CREDIT_SUM",
+            "DAYS_CREDIT",
+            "SK_DPD_DEF",
+            "TARGET",
+            "UNKNOWN_COLUMN",
+        ]
+    )
+
+    assert dtypes["SK_ID_CURR"] == "int32"
+    assert dtypes["SK_ID_BUREAU"] == "int32"
+    assert dtypes["MONTHS_BALANCE"] == "int16"
+    assert dtypes["STATUS"] == "category"
+    assert dtypes["AMT_CREDIT_SUM"] == "float32"
+    assert dtypes["DAYS_CREDIT"] == "float32"
+    assert dtypes["SK_DPD_DEF"] == "float32"
+    # Columns the mapping does not recognise are left for pandas to infer, and
+    # TARGET in particular must not be coerced away from its integer coding.
+    assert "TARGET" not in dtypes
+    assert "UNKNOWN_COLUMN" not in dtypes
+
+
+def test_load_home_credit_table_applies_compact_dtypes(tmp_path) -> None:
+    from credit_scoring.data.home_credit import load_home_credit_table
+
+    frame = pd.DataFrame(
+        {
+            "SK_ID_BUREAU": [10, 11],
+            "MONTHS_BALANCE": [-1, -2],
+            "STATUS": ["C", "0"],
+        }
+    )
+    frame.to_csv(tmp_path / "bureau_balance.csv", index=False)
+
+    loaded = load_home_credit_table(
+        "bureau_balance", tmp_path, compact=True, validate=False
+    )
+
+    assert loaded["SK_ID_BUREAU"].dtype == "int32"
+    assert loaded["MONTHS_BALANCE"].dtype == "int16"
+    assert str(loaded["STATUS"].dtype) == "category"
+
+
+def test_explicit_dtype_overrides_compact(tmp_path) -> None:
+    from credit_scoring.data.home_credit import load_home_credit_table
+
+    pd.DataFrame({"SK_ID_BUREAU": [10], "MONTHS_BALANCE": [-1], "STATUS": ["C"]}).to_csv(
+        tmp_path / "bureau_balance.csv", index=False
+    )
+
+    loaded = load_home_credit_table(
+        "bureau_balance",
+        tmp_path,
+        compact=True,
+        dtype={"SK_ID_BUREAU": "int64"},
+        validate=False,
+    )
+
+    assert loaded["SK_ID_BUREAU"].dtype == "int64"

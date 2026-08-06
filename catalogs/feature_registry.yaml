@@ -435,3 +435,275 @@ features:
     permitted_for_modeling: true
     implementation_location: "notebooks/03_home_credit_multitable/01_bureau_ablation.ipynb"
     documentation_path: "docs/features/home_credit_bureau_features.md"
+  - name: home_credit_bureau_amounts
+    description: "24 Home Credit bureau amount and ratio research features at SK_ID_CURR grain."
+    category: bureau_amounts
+    source_columns:
+      - "bureau.csv, bureau_balance.csv"
+    formula_or_aggregation: "Two-level aggregation: bureau_balance to SK_ID_BUREAU, one-to-one onto bureau, then to SK_ID_CURR. Declared statistics only; see documentation_path for every feature."
+    data_type: numeric
+    expected_direction: higher_exposure_may_indicate_higher_risk
+    missing_policy: "SUM uses min_count=1 so unobserved totals stay NaN; safe_divide returns NaN for a zero or missing denominator."
+    outlier_policy: "No clipping; negative values preserved."
+    leakage_risk: "low_if_all_history_is_cut_off_at_the_application_snapshot"
+    available_at_application_time: "Public Home Credit auxiliary tables linked to the application."
+    permitted_for_modeling: true
+    implementation_location: "src/credit_scoring/features/home_credit_bureau.py"
+    builder_version: "bureau-v1"
+    documentation_path: "docs/features/home_credit_auxiliary_features.md"
+  - name: home_credit_bureau_counts
+    description: "14 Home Credit bureau count research features at SK_ID_CURR grain."
+    category: bureau_counts
+    source_columns:
+      - "bureau.csv, bureau_balance.csv"
+    formula_or_aggregation: "Two-level aggregation: bureau_balance to SK_ID_BUREAU, one-to-one onto bureau, then to SK_ID_CURR. Declared statistics only; see documentation_path for every feature."
+    data_type: numeric
+    expected_direction: count_direction_depends_on_the_family
+    missing_policy: "Fill 0; an absent source row genuinely means zero."
+    outlier_policy: "No clipping; negative values preserved."
+    leakage_risk: "low_if_all_history_is_cut_off_at_the_application_snapshot"
+    available_at_application_time: "Public Home Credit auxiliary tables linked to the application."
+    permitted_for_modeling: true
+    implementation_location: "src/credit_scoring/features/home_credit_bureau.py"
+    builder_version: "bureau-v1"
+    documentation_path: "docs/features/home_credit_auxiliary_features.md"
+  - name: home_credit_bureau_delinquency
+    description: "17 Home Credit bureau delinquency research features at SK_ID_CURR grain."
+    category: bureau_delinquency
+    source_columns:
+      - "bureau.csv, bureau_balance.csv"
+    formula_or_aggregation: "Two-level aggregation: bureau_balance to SK_ID_BUREAU, one-to-one onto bureau, then to SK_ID_CURR. Declared statistics only; see documentation_path for every feature."
+    data_type: numeric
+    expected_direction: higher_delinquency_may_indicate_higher_risk
+    missing_policy: "NaN when no history or no observed month; indicator sums fill 0."
+    outlier_policy: "No clipping; negative values preserved."
+    leakage_risk: "low_if_all_history_is_cut_off_at_the_application_snapshot"
+    available_at_application_time: "Public Home Credit auxiliary tables linked to the application."
+    permitted_for_modeling: true
+    implementation_location: "src/credit_scoring/features/home_credit_bureau.py"
+    builder_version: "bureau-v1"
+    documentation_path: "docs/features/home_credit_auxiliary_features.md"
+  - name: home_credit_bureau_recency
+    description: "6 Home Credit bureau time research features at SK_ID_CURR grain."
+    category: bureau_recency
+    source_columns:
+      - "bureau.csv, bureau_balance.csv"
+    formula_or_aggregation: "Two-level aggregation: bureau_balance to SK_ID_BUREAU, one-to-one onto bureau, then to SK_ID_CURR. Declared statistics only; see documentation_path for every feature."
+    data_type: numeric
+    expected_direction: more_recent_activity_may_indicate_higher_risk
+    missing_policy: "NaN when there is no history; day offsets stay negative relative to the application date."
+    outlier_policy: "No clipping; negative values preserved."
+    leakage_risk: "low_if_all_history_is_cut_off_at_the_application_snapshot"
+    available_at_application_time: "Public Home Credit auxiliary tables linked to the application."
+    permitted_for_modeling: true
+    implementation_location: "src/credit_scoring/features/home_credit_bureau.py"
+    builder_version: "bureau-v1"
+    documentation_path: "docs/features/home_credit_auxiliary_features.md"
+  - name: home_credit_previous_application_amounts
+    description: "20 Home Credit previous_application amount and ratio research features at SK_ID_CURR grain."
+    category: previous_application_amounts
+    source_columns:
+      - "previous_application.csv"
+    formula_or_aggregation: "Single-level aggregation of prior applications to SK_ID_CURR. Declared statistics only; see documentation_path for every feature."
+    data_type: numeric
+    expected_direction: higher_exposure_may_indicate_higher_risk
+    missing_policy: "SUM uses min_count=1 so unobserved totals stay NaN; safe_divide returns NaN for a zero or missing denominator."
+    outlier_policy: "No clipping; negative values preserved."
+    leakage_risk: "low_if_all_history_is_cut_off_at_the_application_snapshot"
+    available_at_application_time: "Public Home Credit auxiliary tables linked to the application."
+    permitted_for_modeling: true
+    implementation_location: "src/credit_scoring/features/home_credit_previous_application.py"
+    builder_version: "previous-application-v1"
+    documentation_path: "docs/features/home_credit_auxiliary_features.md"
+  - name: home_credit_previous_application_counts
+    description: "22 Home Credit previous_application count research features at SK_ID_CURR grain."
+    category: previous_application_counts
+    source_columns:
+      - "previous_application.csv"
+    formula_or_aggregation: "Single-level aggregation of prior applications to SK_ID_CURR. Declared statistics only; see documentation_path for every feature."
+    data_type: numeric
+    expected_direction: count_direction_depends_on_the_family
+    missing_policy: "Fill 0; an absent source row genuinely means zero."
+    outlier_policy: "No clipping; negative values preserved."
+    leakage_risk: "low_if_all_history_is_cut_off_at_the_application_snapshot"
+    available_at_application_time: "Public Home Credit auxiliary tables linked to the application."
+    permitted_for_modeling: true
+    implementation_location: "src/credit_scoring/features/home_credit_previous_application.py"
+    builder_version: "previous-application-v1"
+    documentation_path: "docs/features/home_credit_auxiliary_features.md"
+  - name: home_credit_previous_application_recency
+    description: "3 Home Credit previous_application time research features at SK_ID_CURR grain."
+    category: previous_application_recency
+    source_columns:
+      - "previous_application.csv"
+    formula_or_aggregation: "Single-level aggregation of prior applications to SK_ID_CURR. Declared statistics only; see documentation_path for every feature."
+    data_type: numeric
+    expected_direction: more_recent_activity_may_indicate_higher_risk
+    missing_policy: "NaN when there is no history; day offsets stay negative relative to the application date."
+    outlier_policy: "No clipping; negative values preserved."
+    leakage_risk: "low_if_all_history_is_cut_off_at_the_application_snapshot"
+    available_at_application_time: "Public Home Credit auxiliary tables linked to the application."
+    permitted_for_modeling: true
+    implementation_location: "src/credit_scoring/features/home_credit_previous_application.py"
+    builder_version: "previous-application-v1"
+    documentation_path: "docs/features/home_credit_auxiliary_features.md"
+  - name: home_credit_installments_amounts
+    description: "21 Home Credit installments amount and ratio research features at SK_ID_CURR grain."
+    category: installments_amounts
+    source_columns:
+      - "installments_payments.csv"
+    formula_or_aggregation: "Row to SK_ID_PREV to SK_ID_CURR, plus 60/90/180/365-day windows and recent-minus-lifetime gaps. Declared statistics only; see documentation_path for every feature."
+    data_type: numeric
+    expected_direction: higher_exposure_may_indicate_higher_risk
+    missing_policy: "SUM uses min_count=1 so unobserved totals stay NaN; safe_divide returns NaN for a zero or missing denominator."
+    outlier_policy: "No clipping; negative values preserved."
+    leakage_risk: "low_if_all_history_is_cut_off_at_the_application_snapshot"
+    available_at_application_time: "Public Home Credit auxiliary tables linked to the application."
+    permitted_for_modeling: true
+    implementation_location: "src/credit_scoring/features/home_credit_installments.py"
+    builder_version: "installments-v1"
+    documentation_path: "docs/features/home_credit_auxiliary_features.md"
+  - name: home_credit_installments_counts
+    description: "10 Home Credit installments count research features at SK_ID_CURR grain."
+    category: installments_counts
+    source_columns:
+      - "installments_payments.csv"
+    formula_or_aggregation: "Row to SK_ID_PREV to SK_ID_CURR, plus 60/90/180/365-day windows and recent-minus-lifetime gaps. Declared statistics only; see documentation_path for every feature."
+    data_type: numeric
+    expected_direction: count_direction_depends_on_the_family
+    missing_policy: "Fill 0; an absent source row genuinely means zero."
+    outlier_policy: "No clipping; negative values preserved."
+    leakage_risk: "low_if_all_history_is_cut_off_at_the_application_snapshot"
+    available_at_application_time: "Public Home Credit auxiliary tables linked to the application."
+    permitted_for_modeling: true
+    implementation_location: "src/credit_scoring/features/home_credit_installments.py"
+    builder_version: "installments-v1"
+    documentation_path: "docs/features/home_credit_auxiliary_features.md"
+  - name: home_credit_installments_delinquency
+    description: "54 Home Credit installments delinquency research features at SK_ID_CURR grain."
+    category: installments_delinquency
+    source_columns:
+      - "installments_payments.csv"
+    formula_or_aggregation: "Row to SK_ID_PREV to SK_ID_CURR, plus 60/90/180/365-day windows and recent-minus-lifetime gaps. Declared statistics only; see documentation_path for every feature."
+    data_type: numeric
+    expected_direction: higher_delinquency_may_indicate_higher_risk
+    missing_policy: "NaN when no history or no observed month; indicator sums fill 0."
+    outlier_policy: "No clipping; negative values preserved."
+    leakage_risk: "low_if_all_history_is_cut_off_at_the_application_snapshot"
+    available_at_application_time: "Public Home Credit auxiliary tables linked to the application."
+    permitted_for_modeling: true
+    implementation_location: "src/credit_scoring/features/home_credit_installments.py"
+    builder_version: "installments-v1"
+    documentation_path: "docs/features/home_credit_auxiliary_features.md"
+  - name: home_credit_installments_recency
+    description: "1 Home Credit installments time research features at SK_ID_CURR grain."
+    category: installments_recency
+    source_columns:
+      - "installments_payments.csv"
+    formula_or_aggregation: "Row to SK_ID_PREV to SK_ID_CURR, plus 60/90/180/365-day windows and recent-minus-lifetime gaps. Declared statistics only; see documentation_path for every feature."
+    data_type: numeric
+    expected_direction: more_recent_activity_may_indicate_higher_risk
+    missing_policy: "NaN when there is no history; day offsets stay negative relative to the application date."
+    outlier_policy: "No clipping; negative values preserved."
+    leakage_risk: "low_if_all_history_is_cut_off_at_the_application_snapshot"
+    available_at_application_time: "Public Home Credit auxiliary tables linked to the application."
+    permitted_for_modeling: true
+    implementation_location: "src/credit_scoring/features/home_credit_installments.py"
+    builder_version: "installments-v1"
+    documentation_path: "docs/features/home_credit_auxiliary_features.md"
+  - name: home_credit_credit_card_amounts
+    description: "23 Home Credit credit_card amount and ratio research features at SK_ID_CURR grain."
+    category: credit_card_amounts
+    source_columns:
+      - "credit_card_balance.csv"
+    formula_or_aggregation: "Monthly snapshots to SK_ID_PREV card level, then to SK_ID_CURR; portfolio utilisation is a ratio of sums. Declared statistics only; see documentation_path for every feature."
+    data_type: numeric
+    expected_direction: higher_exposure_may_indicate_higher_risk
+    missing_policy: "SUM uses min_count=1 so unobserved totals stay NaN; safe_divide returns NaN for a zero or missing denominator."
+    outlier_policy: "No clipping; negative values preserved."
+    leakage_risk: "low_if_all_history_is_cut_off_at_the_application_snapshot"
+    available_at_application_time: "Public Home Credit auxiliary tables linked to the application."
+    permitted_for_modeling: true
+    implementation_location: "src/credit_scoring/features/home_credit_credit_card.py"
+    builder_version: "credit-card-v1"
+    documentation_path: "docs/features/home_credit_auxiliary_features.md"
+  - name: home_credit_credit_card_counts
+    description: "4 Home Credit credit_card count research features at SK_ID_CURR grain."
+    category: credit_card_counts
+    source_columns:
+      - "credit_card_balance.csv"
+    formula_or_aggregation: "Monthly snapshots to SK_ID_PREV card level, then to SK_ID_CURR; portfolio utilisation is a ratio of sums. Declared statistics only; see documentation_path for every feature."
+    data_type: numeric
+    expected_direction: count_direction_depends_on_the_family
+    missing_policy: "Fill 0; an absent source row genuinely means zero."
+    outlier_policy: "No clipping; negative values preserved."
+    leakage_risk: "low_if_all_history_is_cut_off_at_the_application_snapshot"
+    available_at_application_time: "Public Home Credit auxiliary tables linked to the application."
+    permitted_for_modeling: true
+    implementation_location: "src/credit_scoring/features/home_credit_credit_card.py"
+    builder_version: "credit-card-v1"
+    documentation_path: "docs/features/home_credit_auxiliary_features.md"
+  - name: home_credit_credit_card_delinquency
+    description: "9 Home Credit credit_card delinquency research features at SK_ID_CURR grain."
+    category: credit_card_delinquency
+    source_columns:
+      - "credit_card_balance.csv"
+    formula_or_aggregation: "Monthly snapshots to SK_ID_PREV card level, then to SK_ID_CURR; portfolio utilisation is a ratio of sums. Declared statistics only; see documentation_path for every feature."
+    data_type: numeric
+    expected_direction: higher_delinquency_may_indicate_higher_risk
+    missing_policy: "NaN when no history or no observed month; indicator sums fill 0."
+    outlier_policy: "No clipping; negative values preserved."
+    leakage_risk: "low_if_all_history_is_cut_off_at_the_application_snapshot"
+    available_at_application_time: "Public Home Credit auxiliary tables linked to the application."
+    permitted_for_modeling: true
+    implementation_location: "src/credit_scoring/features/home_credit_credit_card.py"
+    builder_version: "credit-card-v1"
+    documentation_path: "docs/features/home_credit_auxiliary_features.md"
+  - name: home_credit_pos_cash_counts
+    description: "13 Home Credit pos_cash count research features at SK_ID_CURR grain."
+    category: pos_cash_counts
+    source_columns:
+      - "POS_CASH_balance.csv"
+    formula_or_aggregation: "Monthly snapshots to SK_ID_PREV contract level, then to SK_ID_CURR. Declared statistics only; see documentation_path for every feature."
+    data_type: numeric
+    expected_direction: count_direction_depends_on_the_family
+    missing_policy: "Fill 0; an absent source row genuinely means zero."
+    outlier_policy: "No clipping; negative values preserved."
+    leakage_risk: "low_if_all_history_is_cut_off_at_the_application_snapshot"
+    available_at_application_time: "Public Home Credit auxiliary tables linked to the application."
+    permitted_for_modeling: true
+    implementation_location: "src/credit_scoring/features/home_credit_pos_cash.py"
+    builder_version: "pos-cash-v1"
+    documentation_path: "docs/features/home_credit_auxiliary_features.md"
+  - name: home_credit_pos_cash_delinquency
+    description: "19 Home Credit pos_cash delinquency research features at SK_ID_CURR grain."
+    category: pos_cash_delinquency
+    source_columns:
+      - "POS_CASH_balance.csv"
+    formula_or_aggregation: "Monthly snapshots to SK_ID_PREV contract level, then to SK_ID_CURR. Declared statistics only; see documentation_path for every feature."
+    data_type: numeric
+    expected_direction: higher_delinquency_may_indicate_higher_risk
+    missing_policy: "NaN when no history or no observed month; indicator sums fill 0."
+    outlier_policy: "No clipping; negative values preserved."
+    leakage_risk: "low_if_all_history_is_cut_off_at_the_application_snapshot"
+    available_at_application_time: "Public Home Credit auxiliary tables linked to the application."
+    permitted_for_modeling: true
+    implementation_location: "src/credit_scoring/features/home_credit_pos_cash.py"
+    builder_version: "pos-cash-v1"
+    documentation_path: "docs/features/home_credit_auxiliary_features.md"
+  - name: home_credit_pos_cash_recency
+    description: "1 Home Credit pos_cash time research features at SK_ID_CURR grain."
+    category: pos_cash_recency
+    source_columns:
+      - "POS_CASH_balance.csv"
+    formula_or_aggregation: "Monthly snapshots to SK_ID_PREV contract level, then to SK_ID_CURR. Declared statistics only; see documentation_path for every feature."
+    data_type: numeric
+    expected_direction: more_recent_activity_may_indicate_higher_risk
+    missing_policy: "NaN when there is no history; day offsets stay negative relative to the application date."
+    outlier_policy: "No clipping; negative values preserved."
+    leakage_risk: "low_if_all_history_is_cut_off_at_the_application_snapshot"
+    available_at_application_time: "Public Home Credit auxiliary tables linked to the application."
+    permitted_for_modeling: true
+    implementation_location: "src/credit_scoring/features/home_credit_pos_cash.py"
+    builder_version: "pos-cash-v1"
+    documentation_path: "docs/features/home_credit_auxiliary_features.md"

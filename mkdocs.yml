@@ -57,6 +57,8 @@ nav:
   - Feature:
       - Feature Catalog: features/feature_catalog.md
       - Feature Groups: features/feature_groups.md
+      - Feature Store: features/feature_store.md
+      - Home Credit Auxiliary Features: features/home_credit_auxiliary_features.md
       - Demographic Features: features/demographic_features.md
       - Income Employment Features: features/income_employment_features.md
       - Loan Features: features/loan_features.md
