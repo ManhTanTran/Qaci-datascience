@@ -62,9 +62,12 @@ dòng khớp, khóa duy nhất.
 
 ## Ví dụ trong credit scoring
 
-Build block `bureau` từ full `bureau` và `bureau_balance` mất 284 giây; đọc lại
-mất 0,25 giây. Năm block mất 18 phút cho lần đầu và dưới một giây cho mọi lần
-sau. Khi thử một cấu hình model khác, chi phí feature engineering bằng không.
+Build năm block từ CSV thô mất 1.098 giây; đọc lại cả năm từ Parquet mất 0,70
+giây — **nhanh hơn khoảng 1.560 lần**. Nếu lưu chính năm block đó bằng CSV thì
+đọc mất 9,30 giây và chiếm 355,0 MB, tức Parquet nhanh hơn 13 lần và nhỏ hơn 3,3
+lần trên cùng dữ liệu.
+
+Khi thử một cấu hình model khác, chi phí feature engineering gần như bằng không.
 
 ## Điều cần kiểm tra trong project
 

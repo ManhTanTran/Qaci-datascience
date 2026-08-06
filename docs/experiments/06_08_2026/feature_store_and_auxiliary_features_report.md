@@ -103,10 +103,40 @@ thông và bộ feature phụ có tín hiệu, không kết luận feature nào 
 
 ### Hiệu quả về thời gian
 
+Có hai phép so sánh khác nhau, không nên gộp làm một.
+
+**So với xử lý lại từ CSV thô.** Đây là phần tiết kiệm lớn nhất, vì nó bỏ hẳn
+bước aggregate hơn 30 triệu dòng:
+
+| | Thời gian |
+|---|---|
+| Build năm block từ CSV thô | 1.098s (18 phút 18) |
+| Đọc năm block từ Parquet | 0,70s |
+| **Nhanh hơn** | **khoảng 1.560 lần** |
+
+**So với lưu chính năm block đó bằng CSV.** Đây là phần tiết kiệm do chọn định
+dạng, đo trên cùng dữ liệu:
+
+| | CSV | Parquet |
+|---|---|---|
+| Đọc năm block | 9,30s | 0,70s |
+| Ghi năm block | 52,0s | gần như tức thì |
+| Dung lượng | 355,0 MB | 106,5 MB |
+| **Chênh lệch** | | **nhanh hơn 13 lần, nhỏ hơn 3,3 lần** |
+
+Ngoài tốc độ, Parquet giữ nguyên dtype: qua CSV một vòng thì `int32` thành
+`int64` và `category` thành `object`, nên `categorical_features` của LightGBM
+phải cast lại tay mỗi lần chạy.
+
+**Quy đổi ra nhịp làm việc.** Một lượt thử nghiệm mới trước đây tốn 18 phút xử lý
+lại dữ liệu; nay tốn dưới một giây. Thử mười cấu hình model tiết kiệm khoảng ba
+giờ, và toàn bộ thời gian đó chuyển sang phần train — phần thật sự sinh ra thông
+tin.
+
 | | Trước | Sau |
 |---|---|---|
-| Mỗi lần thử nghiệm mới | 18 phút xử lý lại | dưới 1 giây |
-| Dung lượng lưu trung gian | ~320 MB (CSV) | 106,6 MB (Parquet) |
+| Mỗi lần thử nghiệm mới | 1.098s xử lý lại | 0,70s |
+| Dung lượng lưu trung gian | 355,0 MB (CSV) | 106,5 MB (Parquet) |
 | Đỉnh RAM khi build | — | 2,7 GB trên máy 16 GB |
 
 ## 4. Kế hoạch tiếp theo
