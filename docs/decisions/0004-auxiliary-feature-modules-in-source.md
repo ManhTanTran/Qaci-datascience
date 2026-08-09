@@ -61,7 +61,7 @@ loại bất biến phải có test chứ không thể kiểm bằng mắt trong
 
 - [Decision index](README.md)
 - [0001 Project structure](0001-project-structure.md)
-- [Home Credit Bureau features](../features/home_credit_bureau_features.md)
+- [Home Credit Bureau Spark candidate](../features/home_credit_bureau_spark.md)
 - [Feature engineering](../features/feature_engineering.md)
 
 ## Trạng thái áp dụng trong project

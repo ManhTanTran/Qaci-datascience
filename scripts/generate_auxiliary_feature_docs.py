@@ -374,7 +374,7 @@ lines += [
     "## Tài liệu liên quan",
     "",
     "- [Feature store](feature_store.md)",
-    "- [Home Credit Bureau features](home_credit_bureau_features.md)",
+    "- [Home Credit Bureau Spark candidate](home_credit_bureau_spark.md)",
     "- [Feature engineering](feature_engineering.md)",
     "- [ADR-0004](../decisions/0004-auxiliary-feature-modules-in-source.md)",
     "",

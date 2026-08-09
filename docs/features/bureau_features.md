@@ -45,11 +45,12 @@ Trước khi đăng ký `active accounts`, kiểm tra availability tại thời 
 
 - [Feature catalog](feature_catalog.md)
 - [Feature groups](feature_groups.md)
-- [Home Credit Bureau research features](home_credit_bureau_features.md)
+- [Home Credit Bureau Spark candidate](home_credit_bureau_spark.md)
 - [Leakage](leakage_checklist.md)
 - [Stability](feature_stability.md)
 
 ## Trạng thái áp dụng trong project
 
-Home Credit E03 đã có danh sách research candidate riêng và vẫn cần screening
-OOF trước khi cân nhắc promotion. `TODO(FPT): cần xác nhận với mentor hoặc data owner.`
+Home Credit Bureau hiện dùng Spark full-block candidate đã pass full pandas
+parity; table-level ablation vẫn cần được chạy trước khi cân nhắc promotion.
+`TODO(FPT): cần xác nhận với mentor hoặc data owner.`
