@@ -26,6 +26,7 @@ Dataset được thêm vào local chỉ được coi là registered khi registry
 - [Home Credit Default Risk](home_credit_default_risk.md)
 - [Model Stability](home_credit_model_stability.md)
 - [FPT placeholder](fpt_dataset_template.md)
+- [DC5 synthetic demo](dc5_synthetic_demo.md)
 
 ## Trạng thái áp dụng trong project
 

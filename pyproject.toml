@@ -29,6 +29,21 @@ modeling = [
 notebook = [
   "matplotlib>=3.7",
 ]
+dc5 = [
+  "catboost>=1.2",
+  "matplotlib>=3.7",
+  "openpyxl>=3.1",
+  "PyYAML>=6",
+]
+ui = [
+  "streamlit>=1.36",
+]
+
+[project.scripts]
+dc5-pipeline = "credit_scoring.dc5.pipeline:main"
+dc5-ui = "credit_scoring.dc5.ui:cli_main"
+dc5-admin-ui = "credit_scoring.dc5.admin_ui:cli_main"
+dc5-customer-ui = "credit_scoring.dc5.customer_ui:cli_main"
 
 [tool.setuptools.packages.find]
 where = ["src"]

@@ -49,3 +49,15 @@ datasets:
     status: "placeholder"
     local_path: "TODO(FPT): approved secure location, never Git"
     documentation_path: "docs/datasets/fpt_dataset_template.md"
+  - name: "DC5 Synthetic Demo"
+    version: "generator-v1; seed 20260805"
+    source: "Code-generated from the user-provided DC5 workbook schema; no customer records copied."
+    description: "Privacy-safe synthetic dataset for exercising the DC5 UI and research pipeline."
+    grain: "One row per synthetic customer."
+    target: "Synthetic high Telco monetary flag derived from telco_monetary_group_ord == 4."
+    id_columns: ["user_id", "fid; both synthetic and unique"]
+    date_columns: []
+    number_of_tables: "One Parquet feature matrix and one Excel reference view."
+    status: "synthetic_demo_only"
+    local_path: "Ignored local paths data_extracted/model_df_extracted.parquet and artifacts/dc5_demo_100k.xlsx"
+    documentation_path: "docs/datasets/dc5_synthetic_demo.md"

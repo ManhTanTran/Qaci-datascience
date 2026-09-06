@@ -21,6 +21,7 @@ site/
 
 # Local data and model artifacts
 /data/
+/data_extracted/
 outputs/
 artifacts/
 models/

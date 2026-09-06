@@ -73,6 +73,7 @@ nav:
       - Leakage Checklist: features/leakage_checklist.md
       - Feature Stability: features/feature_stability.md
   - Modeling:
+      - DC5 Customer Analysis Pipeline: pipelines/dc5_customer_analysis.md
       - Modeling Overview: modeling/modeling_overview.md
       - Logistic Regression: modeling/logistic_regression.md
       - Tree Based Models: modeling/tree_based_models.md
@@ -123,6 +124,7 @@ nav:
       - 0002-Validation-Strategy: decisions/0002-validation-strategy.md
       - 0003-Primary-Metric: decisions/0003-primary-metric.md
       - 0004-Auxiliary-Feature-Modules: decisions/0004-auxiliary-feature-modules-in-source.md
+      - 0005-DC5-Pipeline-Validation: decisions/0005-dc5-pipeline-validation.md
   - Tham khảo:
       - Kaggle Notebooks: references/kaggle_notebooks.md
       - Home Credit Solution Write-ups: references/home_credit_solution_writeups.md

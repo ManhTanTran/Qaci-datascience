@@ -1,0 +1,19 @@
+data_path: ../data_extracted/model_df_extracted.parquet
+output_dir: ../artifacts/dc5_customer_analysis
+mode: quick
+model_names: []
+include_city_comparison: true
+individual_customers_only: true
+clustering_enabled: true
+n_clusters: 4
+top_n_importance: 15
+
+validation:
+  n_splits: 5
+  random_state: 42
+
+model:
+  backend: catboost
+  iterations: 500
+  depth: 6
+  learning_rate: 0.05
