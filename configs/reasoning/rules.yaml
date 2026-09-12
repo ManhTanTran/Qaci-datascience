@@ -1,0 +1,118 @@
+schema_version: "alternative-data-rules-v1"
+knowledge_base_version: "reasoning-kb-v1"
+status_policy: "All initial rules remain candidate until evidence and human review pass."
+rules:
+  - id: RULE_PAY_001
+    type: evidence_priority
+    domains: [payment, engagement]
+    features:
+      - payment_on_time_rate_12m
+      - overdue_days_max_12m
+      - payment_failure_count_12m
+      - active_domain_count
+      - telco_internet_usage_group
+    rule: "When payment behavior conflicts with service engagement, payment behavior should normally receive greater evidential priority."
+    source: human
+    evidence: "User-specified reasoning principle; the supplied ZIP has no historical population or statistical support for promotion."
+    limitation: "Payment type and denominator are not confirmed; this rule must not be treated as a credit default rule."
+    confidence: medium
+    status: candidate
+    version: "1.0"
+    owner: "TODO(FPT): cần xác nhận với mentor hoặc data owner."
+    validation:
+      data_support: not_run
+      holdout: not_run
+      logical_consistency: pending
+      causal_claim_check: passed
+      human_review: pending
+  - id: RULE_ENG_001
+    type: guardrail
+    domains: [engagement, consumption]
+    features:
+      - tenure_group
+      - active_domain_count
+      - telco_internet_usage_group
+      - loyalty_tier
+      - telco_monetary_group
+    rule: "Strong ecosystem engagement or high service usage alone must not be interpreted as high repayment capacity."
+    source: domain_rule
+    evidence: "Guardrail required by the project specification; no causal or statistical claim is asserted."
+    limitation: "Engagement may corroborate a conclusion but cannot override missing or negative payment evidence."
+    confidence: medium
+    status: candidate
+    version: "1.0"
+    owner: "TODO(FPT): cần xác nhận với mentor hoặc data owner."
+    validation:
+      data_support: not_applicable
+      holdout: not_applicable
+      logical_consistency: pending
+      causal_claim_check: passed
+      human_review: pending
+  - id: RULE_PAY_002
+    type: cross_domain
+    domains: [payment, engagement, shopping]
+    features:
+      - payment_on_time_rate_12m
+      - overdue_days_max_12m
+      - payment_failure_count_12m
+      - tenure_group
+      - online_purchase_frequency
+      - recent_purchase_trend
+    rule: "Positive engagement or increasing shopping activity cannot automatically override negative payment behavior."
+    source: domain_rule
+    evidence: "The B_conflict scenario is designed to test this conflict; it is an evaluation intent, not population evidence."
+    limitation: "Do not infer default, fraud or causation from the conflict without an approved target and supporting data."
+    confidence: medium
+    status: candidate
+    version: "1.0"
+    owner: "TODO(FPT): cần xác nhận với mentor hoặc data owner."
+    validation:
+      data_support: not_run
+      holdout: not_run
+      logical_consistency: pending
+      causal_claim_check: passed
+      human_review: pending
+  - id: RULE_PAY_003
+    type: limitation
+    domains: [payment]
+    features:
+      - payment_on_time_rate_12m
+      - overdue_days_max_12m
+      - payment_failure_count_12m
+    rule: "Service-bill payment history must not be treated as equivalent to formal loan repayment history unless payment semantics are confirmed."
+    source: human
+    evidence: "The supplied ZIP does not identify the payment obligation, denominator or event definition."
+    limitation: "This rule limits interpretation; it does not remove payment behavior from descriptive analysis."
+    confidence: high
+    status: candidate
+    version: "1.0"
+    owner: "TODO(FPT): cần xác nhận với mentor hoặc data owner."
+    validation:
+      data_support: not_applicable
+      holdout: not_applicable
+      logical_consistency: pending
+      causal_claim_check: passed
+      human_review: pending
+  - id: RULE_SHOP_001
+    type: guardrail
+    domains: [shopping, capacity]
+    features:
+      - online_purchase_frequency
+      - purchase_category_distribution
+      - recent_purchase_trend
+      - monthly_income
+      - monthly_expense
+    rule: "High shopping frequency or a rising purchase trend alone must not be interpreted as high repayment capacity."
+    source: domain_rule
+    evidence: "The ZIP contains purchase frequency and category descriptions but no retail GMV for these scenarios."
+    limitation: "Frequency without order values, obligations and verified cash flow cannot establish affordability."
+    confidence: medium
+    status: candidate
+    version: "1.0"
+    owner: "TODO(FPT): cần xác nhận với mentor hoặc data owner."
+    validation:
+      data_support: not_run
+      holdout: not_run
+      logical_consistency: pending
+      causal_claim_check: passed
+      human_review: pending

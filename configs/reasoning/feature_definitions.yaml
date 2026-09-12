@@ -1,0 +1,377 @@
+schema_version: "alternative-data-reasoning-v1"
+scope: "The 31 fields exposed by Prompt_View; scenario and synthetic user_id are identifiers, not reasoning features."
+source_dataset: "simulate.zip / FPT_credit_scoring_synthetic_3_cases.xlsx"
+default_missing_policy: "Preserve missing as unknown; never convert missing to negative evidence."
+features:
+  - name: age_group
+    domain: demographic
+    evidence_type: demographic_context
+    credit_relevance: not_established
+    data_type: categorical
+    expected_direction: not_established
+    source_column: age_group
+    formula_or_aggregation: "Source value"
+    time_window: null
+    missing_policy: "Unknown if absent"
+    allowed_for_reasoning: false
+    limitation: "Do not use as a proxy for repayment capacity; retain for fairness and coverage review."
+  - name: gender
+    domain: demographic
+    evidence_type: sensitive_context
+    credit_relevance: not_established
+    data_type: categorical
+    expected_direction: not_established
+    source_column: gender
+    formula_or_aggregation: "Source value"
+    time_window: null
+    missing_policy: "Unknown if absent"
+    allowed_for_reasoning: false
+    limitation: "Sensitive attribute; do not use for individual credit reasoning without approval."
+  - name: city
+    domain: regional_context
+    evidence_type: regional_context
+    credit_relevance: contextual_only
+    data_type: categorical
+    expected_direction: not_established
+    source_column: city
+    formula_or_aggregation: "Source value"
+    time_window: null
+    missing_policy: "Unknown if absent"
+    allowed_for_reasoning: false
+    limitation: "Do not infer individual wealth or creditworthiness from location."
+  - name: income_band_est
+    domain: capacity
+    evidence_type: capacity_proxy
+    credit_relevance: indirect
+    data_type: ordinal_category
+    expected_direction: context_dependent
+    source_column: income_band_est
+    formula_or_aggregation: "Source bucket"
+    time_window: null
+    missing_policy: "Unknown if absent"
+    allowed_for_reasoning: true
+    limitation: "Estimated band; do not treat as verified income."
+  - name: active_domain_count
+    domain: engagement
+    evidence_type: engagement_proxy
+    credit_relevance: indirect
+    data_type: ordinal_category
+    expected_direction: context_dependent
+    source_column: active_domain_count
+    formula_or_aggregation: "Source bucket"
+    time_window: null
+    missing_policy: "Unknown if absent"
+    allowed_for_reasoning: true
+    limitation: "Engagement does not establish repayment capacity."
+  - name: tenure_group
+    domain: engagement
+    evidence_type: engagement_proxy
+    credit_relevance: indirect
+    data_type: ordinal_category
+    expected_direction: context_dependent
+    source_column: tenure_group
+    formula_or_aggregation: "Source bucket"
+    time_window: null
+    missing_policy: "Unknown if absent"
+    allowed_for_reasoning: true
+    limitation: "Long tenure must not be treated as evidence of credit stability by itself."
+  - name: recency_group
+    domain: engagement
+    evidence_type: recency_proxy
+    credit_relevance: indirect
+    data_type: ordinal_category
+    expected_direction: context_dependent
+    source_column: recency_group
+    formula_or_aggregation: "Source bucket"
+    time_window: null
+    missing_policy: "Unknown if absent"
+    allowed_for_reasoning: true
+    limitation: "Reduced activity has multiple plausible explanations."
+  - name: app_count_group
+    domain: engagement
+    evidence_type: engagement_proxy
+    credit_relevance: indirect
+    data_type: ordinal_category
+    expected_direction: context_dependent
+    source_column: app_count_group
+    formula_or_aggregation: "Source bucket"
+    time_window: null
+    missing_policy: "Unknown if absent"
+    allowed_for_reasoning: true
+    limitation: "App activity is not repayment evidence."
+  - name: app_tenure_group
+    domain: engagement
+    evidence_type: engagement_proxy
+    credit_relevance: indirect
+    data_type: ordinal_category
+    expected_direction: context_dependent
+    source_column: app_tenure_group
+    formula_or_aggregation: "Source bucket"
+    time_window: null
+    missing_policy: "Unknown if absent"
+    allowed_for_reasoning: true
+    limitation: "App tenure is not repayment evidence."
+  - name: app_recency_days
+    domain: engagement
+    evidence_type: recency_proxy
+    credit_relevance: indirect
+    data_type: ordinal_category
+    expected_direction: context_dependent
+    source_column: app_recency_days
+    formula_or_aggregation: "Source bucket"
+    time_window: "App activity lookback is not specified"
+    missing_policy: "Unknown if absent"
+    allowed_for_reasoning: true
+    limitation: "Exact recency definition and cutoff require confirmation."
+  - name: loyalty_points
+    domain: loyalty
+    evidence_type: engagement_proxy
+    credit_relevance: indirect
+    data_type: ordinal_category
+    expected_direction: context_dependent
+    source_column: loyalty_points
+    formula_or_aggregation: "Source bucket"
+    time_window: "Not specified"
+    missing_policy: "Unknown if absent"
+    allowed_for_reasoning: true
+    limitation: "Loyalty is not evidence of repayment ability."
+  - name: loyalty_tier
+    domain: loyalty
+    evidence_type: engagement_proxy
+    credit_relevance: indirect
+    data_type: ordinal_category
+    expected_direction: context_dependent
+    source_column: loyalty_tier
+    formula_or_aggregation: "Source bucket"
+    time_window: "Not specified"
+    missing_policy: "Unknown if absent"
+    allowed_for_reasoning: true
+    limitation: "Loyalty is not evidence of repayment ability."
+  - name: telco_contract_status
+    domain: payment
+    evidence_type: service_status_proxy
+    credit_relevance: indirect
+    data_type: categorical
+    expected_direction: context_dependent
+    source_column: telco_contract_status
+    formula_or_aggregation: "Source value"
+    time_window: "Not specified"
+    missing_policy: "Unknown if absent"
+    allowed_for_reasoning: true
+    limitation: "Contract status is not a formal credit outcome."
+  - name: telco_internet_usage_group
+    domain: engagement
+    evidence_type: usage_proxy
+    credit_relevance: indirect
+    data_type: ordinal_category
+    expected_direction: context_dependent
+    source_column: telco_internet_usage_group
+    formula_or_aggregation: "Source bucket"
+    time_window: "Monthly bucket; exact aggregation not specified"
+    missing_policy: "Unknown if absent"
+    allowed_for_reasoning: true
+    limitation: "High usage must not be interpreted as high repayment capacity."
+  - name: telco_internet_trend_group
+    domain: engagement
+    evidence_type: trend_proxy
+    credit_relevance: indirect
+    data_type: ordinal_category
+    expected_direction: context_dependent
+    source_column: telco_internet_trend_group
+    formula_or_aggregation: "Source bucket"
+    time_window: "Trend window not specified"
+    missing_policy: "Unknown if absent"
+    allowed_for_reasoning: true
+    limitation: "A declining trend is not by itself financial deterioration."
+  - name: telco_monetary_group
+    domain: consumption
+    evidence_type: spending_proxy
+    credit_relevance: indirect
+    data_type: ordinal_category
+    expected_direction: context_dependent
+    source_column: telco_monetary_group
+    formula_or_aggregation: "Source bucket"
+    time_window: "Window and currency basis not specified"
+    missing_policy: "Unknown if absent"
+    allowed_for_reasoning: true
+    limitation: "Spending must not be equated with repayment capacity or low risk."
+  - name: healthcare_last_order_date
+    domain: healthcare
+    evidence_type: sensitive_behavioral_proxy
+    credit_relevance: indirect
+    data_type: ordinal_category
+    expected_direction: not_established
+    source_column: healthcare_last_order_date
+    formula_or_aggregation: "Source bucket"
+    time_window: "Not specified"
+    missing_policy: "Unknown if absent"
+    allowed_for_reasoning: false
+    limitation: "Do not infer medical condition or creditworthiness from healthcare activity."
+  - name: healthcare_order_count_6m
+    domain: healthcare
+    evidence_type: sensitive_behavioral_proxy
+    credit_relevance: indirect
+    data_type: ordinal_category
+    expected_direction: not_established
+    source_column: healthcare_order_count_6m
+    formula_or_aggregation: "Source bucket"
+    time_window: "6 months"
+    missing_policy: "Unknown if absent"
+    allowed_for_reasoning: false
+    limitation: "Sensitive context; no health or credit inference."
+  - name: healthcare_spend_6m
+    domain: healthcare
+    evidence_type: sensitive_behavioral_proxy
+    credit_relevance: indirect
+    data_type: ordinal_category
+    expected_direction: not_established
+    source_column: healthcare_spend_6m
+    formula_or_aggregation: "Source bucket"
+    time_window: "6 months"
+    missing_policy: "Unknown if absent"
+    allowed_for_reasoning: false
+    limitation: "Sensitive spending context; no health or credit inference."
+  - name: healthcare_aov_6m
+    domain: healthcare
+    evidence_type: sensitive_behavioral_proxy
+    credit_relevance: indirect
+    data_type: ordinal_category
+    expected_direction: not_established
+    source_column: healthcare_aov_6m
+    formula_or_aggregation: "Source bucket"
+    time_window: "6 months"
+    missing_policy: "Unknown if absent"
+    allowed_for_reasoning: false
+    limitation: "Sensitive spending context; no health or credit inference."
+  - name: healthcare_repeat_purchase_rate_6m
+    domain: healthcare
+    evidence_type: sensitive_behavioral_proxy
+    credit_relevance: indirect
+    data_type: ordinal_category
+    expected_direction: not_established
+    source_column: healthcare_repeat_purchase_rate_6m
+    formula_or_aggregation: "Source bucket"
+    time_window: "6 months"
+    missing_policy: "Unknown if absent"
+    allowed_for_reasoning: false
+    limitation: "Sensitive behavior; no health or credit inference."
+  - name: occupation
+    domain: employment
+    evidence_type: employment_context
+    credit_relevance: indirect
+    data_type: categorical
+    expected_direction: context_dependent
+    source_column: occupation
+    formula_or_aggregation: "Source value"
+    time_window: "Not specified"
+    missing_policy: "Unknown if absent"
+    allowed_for_reasoning: true
+    limitation: "Occupation alone does not establish income stability."
+  - name: employment_status
+    domain: employment
+    evidence_type: employment_context
+    credit_relevance: indirect
+    data_type: categorical
+    expected_direction: context_dependent
+    source_column: employment_status
+    formula_or_aggregation: "Source value"
+    time_window: "Not specified"
+    missing_policy: "Unknown if absent"
+    allowed_for_reasoning: true
+    limitation: "Employment status requires verified income and continuity semantics."
+  - name: monthly_income
+    domain: capacity
+    evidence_type: capacity_self_reported
+    credit_relevance: indirect
+    data_type: numeric
+    expected_direction: context_dependent
+    source_column: monthly_income
+    formula_or_aggregation: "Source value"
+    time_window: "Monthly; unit VND/month; TODO(FPT): cần xác nhận với mentor hoặc data owner."
+    missing_policy: "Unknown if absent; do not impute zero"
+    allowed_for_reasoning: true
+    limitation: "Self-reported capacity signal, not verified cash flow."
+  - name: monthly_expense
+    domain: capacity
+    evidence_type: capacity_self_reported
+    credit_relevance: indirect
+    data_type: numeric
+    expected_direction: higher_may_reduce_buffer
+    source_column: monthly_expense
+    formula_or_aggregation: "Source value"
+    time_window: "Monthly; unit VND/month; TODO(FPT): cần xác nhận với mentor hoặc data owner."
+    missing_policy: "Unknown if absent; do not impute zero"
+    allowed_for_reasoning: true
+    limitation: "Self-reported expense may not represent all obligations."
+  - name: payment_on_time_rate_12m
+    domain: payment
+    evidence_type: payment_behavior
+    credit_relevance: indirect_until_semantics_confirmed
+    data_type: ratio
+    expected_direction: higher_may_indicate_better_payment_discipline
+    source_column: payment_on_time_rate_12m
+    formula_or_aggregation: "On-time payments / observed payments; numerator and denominator not supplied"
+    time_window: "12 months"
+    missing_policy: "Unknown if absent; preserve denominator uncertainty"
+    allowed_for_reasoning: true
+    limitation: "Payment type and denominator are unconfirmed; not automatically a credit repayment label."
+  - name: overdue_days_max_12m
+    domain: payment
+    evidence_type: payment_behavior
+    credit_relevance: indirect_until_semantics_confirmed
+    data_type: integer_or_bucket
+    expected_direction: higher_may_indicate_weaker_payment_discipline
+    source_column: overdue_days_max_12m
+    formula_or_aggregation: "Maximum observed overdue days; event definition not supplied"
+    time_window: "12 months"
+    missing_policy: "Unknown if absent; zero only when verified no overdue event"
+    allowed_for_reasoning: true
+    limitation: "Do not equate any overdue value with default without approved target semantics."
+  - name: payment_failure_count_12m
+    domain: payment
+    evidence_type: payment_behavior
+    credit_relevance: indirect_until_semantics_confirmed
+    data_type: integer
+    expected_direction: higher_may_indicate_weaker_payment_discipline
+    source_column: payment_failure_count_12m
+    formula_or_aggregation: "Count of failed payments; event definition not supplied"
+    time_window: "12 months"
+    missing_policy: "Unknown if absent; zero only when verified no failure event"
+    allowed_for_reasoning: true
+    limitation: "Payment type and technical-failure semantics are unconfirmed."
+  - name: online_purchase_frequency
+    domain: shopping
+    evidence_type: consumption_proxy
+    credit_relevance: indirect
+    data_type: ordinal_category
+    expected_direction: context_dependent
+    source_column: online_purchase_frequency
+    formula_or_aggregation: "Source bucket"
+    time_window: "Window not specified"
+    missing_policy: "Unknown if absent"
+    allowed_for_reasoning: true
+    limitation: "Frequency without order value cannot establish overspending."
+  - name: purchase_category_distribution
+    domain: shopping
+    evidence_type: consumption_proxy
+    credit_relevance: indirect
+    data_type: categorical_text
+    expected_direction: context_dependent
+    source_column: purchase_category_distribution
+    formula_or_aggregation: "Source description"
+    time_window: "Window not specified"
+    missing_policy: "Unknown if absent"
+    allowed_for_reasoning: true
+    limitation: "Category mix is not a causal indicator of repayment capacity."
+  - name: recent_purchase_trend
+    domain: shopping
+    evidence_type: trend_proxy
+    credit_relevance: indirect
+    data_type: ordinal_category
+    expected_direction: context_dependent
+    source_column: recent_purchase_trend
+    formula_or_aggregation: "Source bucket"
+    time_window: "Trend window not specified"
+    missing_policy: "Unknown if absent"
+    allowed_for_reasoning: true
+    limitation: "Increasing or decreasing purchases has multiple plausible explanations."

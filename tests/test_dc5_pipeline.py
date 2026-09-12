@@ -9,11 +9,14 @@ import pytest
 from credit_scoring.dc5.clustering import CLUSTER_FEATURES, run_clustering
 from credit_scoring.dc5.config import ModelConfig, PipelineConfig, ValidationConfig
 from credit_scoring.dc5.data import (
+    PHARMACY_FEATURES,
     TARGET_COLUMN,
     feature_sets,
+    model_catalog,
     prepare_population,
     validate_prepared_schema,
 )
+from credit_scoring.dc5.lead import parse_lead_json
 from credit_scoring.dc5.pipeline import run_pipeline, smoke_check
 from credit_scoring.dc5.simulation import simulate_profile
 from credit_scoring.dc5.synthetic import SAMPLE_COLUMNS, build_demo_frame
@@ -62,6 +65,26 @@ def test_phase_one_simulation_is_explainable_and_does_not_use_cic() -> None:
     assert len(result["components"]) == 6
 
 
+def test_lead_json_contract_is_validated_and_normalized() -> None:
+    lead = parse_lead_json(
+        '{"schema_version":"dc5-lead-v1","age":35,"income_million_vnd":15,'
+        '"occupation":"Nhân viên văn phòng","employment_years":3,'
+        '"household_type":"Chung cư","dependents":1,"service_count":2}'
+    )
+    assert lead["age"] == 35
+    assert lead["income_million_vnd"] == 15.0
+    assert lead["cic_score"] is None
+
+
+def test_lead_json_rejects_missing_and_unknown_fields() -> None:
+    with pytest.raises(ValueError, match="Thiếu trường bắt buộc"):
+        parse_lead_json('{"age":35}')
+    with pytest.raises(ValueError, match="Trường không được hỗ trợ"):
+        parse_lead_json('{"age":35,"income_million_vnd":15,"occupation":"Khác",'
+                        '"employment_years":3,"household_type":"Nhà thường",'
+                        '"dependents":1,"service_count":2,"email":"x@example.com"}')
+
+
 def test_demo_frame_is_deterministic_and_pipeline_ready() -> None:
     first = build_demo_frame(n_rows=120, seed=7)
     second = build_demo_frame(n_rows=120, seed=7)
@@ -84,6 +107,10 @@ def test_feature_schema_is_declared_and_does_not_depend_on_data() -> None:
     assert with_city["M0"] == ("age_group_ord", "gender", "household_type", "city")
     assert "city" not in without_city["M4"]
     assert len(with_city["M4"]) == len(without_city["M4"]) + 1
+    catalog = {row["model"]: row for row in model_catalog()}
+    assert catalog["M1"]["parent"] == "M0"
+    assert catalog["M2"]["parent"] == "M1"
+    assert catalog["M2"]["added_features"] == list(PHARMACY_FEATURES)
 
 
 def test_population_filters_organizations_and_builds_target() -> None:
@@ -132,6 +159,8 @@ def test_pipeline_runs_end_to_end_and_reuses_cache(tmp_path: Path) -> None:
     assert second.run_dir == first.run_dir
     report = first.report_path.read_text(encoding="utf-8")
     assert "DC5 Customer Analysis" in report
+    assert "Dashboard tổng quan" in report
+    assert "Rút ra từ dashboard" in report
     assert "data:image/png;base64," in report
     assert "synthetic-" not in report
 

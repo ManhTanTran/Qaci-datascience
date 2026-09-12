@@ -1,0 +1,134 @@
+.harness-result {
+  background: #132020;
+  border-color: #2a4140;
+  color: #e8f0ee;
+  box-shadow: 0 12px 30px #07101055;
+}
+
+.harness-result .result-top h2,
+.harness-result .result-top p {
+  color: #e8f0ee;
+}
+
+.harness-result .result-top p {
+  color: #9bb0ac;
+}
+
+.harness-result .valid {
+  background: #1b302d;
+  border-color: #45635e;
+  color: #d2f78a;
+}
+
+.harness-result .harness-stage-grid article,
+.harness-result .harness-case-grid article {
+  background: #182b2a;
+  border-color: #2c4542;
+}
+
+.harness-result .harness-stage-grid b,
+.harness-result .harness-case-grid b {
+  color: #eaf7f2;
+}
+
+.harness-result .harness-stage-grid small,
+.harness-result .harness-case-grid small,
+.harness-result .harness-case-grid span {
+  color: #829b95;
+}
+
+.harness-result .harness-stage-grid article > span {
+  color: #c9f060;
+}
+
+.harness-result .harness-rules {
+  background: #1c2b27;
+  border-color: #38594b;
+}
+
+.harness-result .harness-reasoning {
+  margin: 20px 0;
+  padding: 20px;
+  background: #1c2b27;
+  border: 1px solid #38594b;
+  border-radius: 12px;
+}
+
+.harness-result .harness-reasoning h4 {
+  margin: 12px 0 18px;
+  color: #eaf7f2;
+  font: 600 20px/1.35 "Space Grotesk", system-ui, sans-serif;
+}
+
+.reasoning-columns {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
+}
+
+.reasoning-columns h5 {
+  margin: 0 0 8px;
+  color: #c9f060;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: .1em;
+}
+
+.reasoning-columns ul {
+  margin: 0;
+  padding-left: 17px;
+  color: #afc4be;
+  font-size: 11px;
+  line-height: 1.6;
+}
+
+.harness-error {
+  display: block;
+  margin-top: 14px;
+  color: #ffc3b6;
+  font-size: 10px;
+}
+
+@media (max-width: 800px) {
+  .reasoning-columns {
+    grid-template-columns: 1fr;
+  }
+}
+
+.harness-result .harness-section-title h3,
+.harness-result .harness-rule-list b {
+  color: #eaf7f2;
+}
+
+.harness-result .harness-section-title span {
+  color: #c9f060;
+}
+
+.harness-result .harness-rules > p,
+.harness-result .harness-rule-list small {
+  color: #9bb0ac;
+}
+
+.harness-result .harness-rule-list article {
+  background: #132020;
+  border-color: #2c4542;
+}
+
+.harness-result .harness-rule-list strong {
+  color: #cde0db;
+}
+
+.harness-result .trace h4 {
+  color: #c9f060;
+}
+
+.harness-result .trace > div {
+  color: #8ca7a0;
+  border-color: #2a4140;
+}
+
+.harness-result .harness-restart {
+  background: #1a2d2c;
+  border-color: #34504b;
+  color: #c9f060;
+}

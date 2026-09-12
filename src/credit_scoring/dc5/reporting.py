@@ -132,6 +132,35 @@ def _image_data_uri(path: Path) -> str:
     return f"data:image/png;base64,{encoded}"
 
 
+def _dashboard_insights(
+    metrics: pd.DataFrame,
+    importance: pd.DataFrame,
+    eda: EDAResult,
+    clustering: ClusteringResult | None,
+) -> list[str]:
+    """Return factual, run-specific observations for the dashboard.
+
+    These are descriptive statements only; they deliberately avoid causal or
+    production-credit claims.
+    """
+
+    best_roc = metrics.loc[metrics["roc_auc"].idxmax()]
+    best_pr = metrics.loc[metrics["pr_auc"].idxmax()]
+    top_feature = importance.iloc[0]["feature"] if not importance.empty else "chưa có"
+    highest_missing = eda.missingness.sort_values("missing_pct", ascending=False).iloc[0]
+    insights = [
+        f"ROC-AUC cao nhất trong run: {best_roc['setting']} / {best_roc['model']} ({best_roc['roc_auc']:.3f}).",
+        f"PR-AUC cao nhất trong run: {best_pr['setting']} / {best_pr['model']} ({best_pr['pr_auc']:.3f}); so sánh với positive rate {best_pr['positive_rate']:.2%}.",
+        f"Feature đứng đầu bảng importance là <code>{html.escape(str(top_feature))}</code>; đây là mức đóng góp của mô hình, không phải quan hệ nhân quả.",
+        f"Missingness cao nhất thuộc về <code>{html.escape(str(highest_missing['feature']))}</code> ({highest_missing['missing_pct']:.2f}%).",
+    ]
+    if clustering is not None:
+        insights.append(
+            f"Clustering giữ lại {clustering.n_complete_rows:,}/{clustering.n_input_rows:,} dòng complete case; silhouette = {clustering.silhouette:.3f}.",
+        )
+    return insights
+
+
 def write_run_artifacts(
     results: list[ExperimentResult],
     *,
@@ -210,6 +239,19 @@ def write_run_artifacts(
         lambda value: f"{value:.1f}"
     )
     report_path = run_dir / "report.html"
+    dashboard_insights = _dashboard_insights(metrics, importance, eda, clustering)
+    dashboard_cards = "".join(
+        [
+            f"<div class='kpi'><span>{label}</span><strong>{value}</strong></div>"
+            for label, value in (
+                ("Rows", f"{population_summary['n_rows']:,}"),
+                ("Positive rate", f"{population_summary['positive_rate']:.2%}"),
+                ("Best ROC-AUC", f"{metrics['roc_auc'].max():.3f}"),
+                ("Best PR-AUC", f"{metrics['pr_auc'].max():.3f}"),
+            )
+        ]
+    )
+    insight_list = "".join(f"<li>{insight}</li>" for insight in dashboard_insights)
     report_path.write_text(
         f"""<!doctype html>
 <html lang="vi">
@@ -226,12 +268,26 @@ def write_run_artifacts(
              box-shadow:0 3px 18px rgba(26,44,78,.08); overflow:auto; }}
     table {{ border-collapse:collapse; width:100%; }} th,td {{ padding:10px; border-bottom:1px solid #e6eaf0; text-align:left; }}
     .summary th {{ width:260px; }} img {{ width:100%; height:auto; }}
+    .dashboard {{ display:grid; grid-template-columns:repeat(4,1fr); gap:10px; }}
+    .kpi {{ background:#eef4fb; border-radius:10px; padding:14px; }}
+    .kpi span {{ display:block; color:var(--muted); font-size:12px; }} .kpi strong {{ display:block; font-size:24px; margin-top:5px; }}
+    .charts {{ display:grid; grid-template-columns:1fr 1fr; gap:18px; }}
+    .insights {{ background:#fff8e7; border-left:4px solid #e59b35; padding:12px 18px; }}
+    @media(max-width:760px) {{ .dashboard,.charts {{ grid-template-columns:1fr 1fr; }} }}
+    @media(max-width:520px) {{ .dashboard,.charts {{ grid-template-columns:1fr; }} }}
     .links a {{ margin-right:16px; }} code {{ background:#eef2f7; padding:2px 5px; border-radius:4px; }}
   </style>
 </head>
 <body><main>
   <h1>DC5 Customer Analysis</h1>
   <p class="muted">Research candidate — không phải mô hình production hoặc credit-risk target.</p>
+  <section class="card"><h2>Dashboard tổng quan</h2>
+    <div class="dashboard">{dashboard_cards}</div>
+    <div class="charts"><img src="{_image_data_uri(comparison_path)}" alt="Biểu đồ so sánh ROC-AUC và PR-AUC">
+      <img src="{_image_data_uri(eda_path)}" alt="Biểu đồ EDA tổng quan"></div>
+    <div class="insights"><h3>Rút ra từ dashboard</h3><ul>{insight_list}</ul>
+      <p class="muted">Các insight trên chỉ mô tả run hiện tại; cần kiểm tra stability, leakage và review của data/risk owner trước khi sử dụng.</p></div>
+  </section>
   <section class="card"><h2>Population</h2>{_format_summary(population_summary)}</section>
   <section class="card"><h2>EDA overview</h2>
     <img src="{_image_data_uri(eda_path)}" alt="EDA overview"></section>

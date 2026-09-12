@@ -16,6 +16,11 @@ from credit_scoring.features.home_credit_bureau import (
     build_bureau_balance_features,
     build_bureau_features,
 )
+from credit_scoring.features.home_credit_bureau_spark import (
+    build_bureau_balance_features_spark,
+    build_bureau_features_spark,
+    write_bureau_feature_block_spark,
+)
 from credit_scoring.features.home_credit_credit_amount_factorial import (
     CREDIT_AMOUNT_FACTOR_ORDER,
     CREDIT_AMOUNT_FACTORIAL_EXPERIMENTS,
@@ -42,7 +47,9 @@ __all__ = [
     "build_aligned_application_features",
     "build_aligned_credit_amount_factorial_features",
     "build_bureau_balance_features",
+    "build_bureau_balance_features_spark",
     "build_bureau_features",
+    "build_bureau_features_spark",
     "build_credit_amount_factorial_features",
     "build_credit_card_features",
     "build_e01_application_features",
@@ -54,4 +61,5 @@ __all__ = [
     "safe_divide",
     "sanitize_feature_names",
     "summarize_feature_matrix_differences",
+    "write_bureau_feature_block_spark",
 ]

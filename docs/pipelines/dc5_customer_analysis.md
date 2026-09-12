@@ -31,6 +31,13 @@ Người dùng có thể đính kèm CCCD hoặc tài liệu thu nhập để th
 file chỉ tồn tại trong phiên Streamlit, chưa OCR/chưa lưu và không được đưa vào
 model ở giai đoạn này. Không dùng CCCD thật trong môi trường demo.
 
+Customer UI hỗ trợ upload một lead dạng JSON theo schema `dc5-lead-v1`. JSON
+phải là một object duy nhất, gồm các trường `age`, `income_million_vnd`,
+`occupation`, `employment_years`, `household_type`, `dependents` và
+`service_count`; `cic_score` là tùy chọn và vẫn không được dùng để tính điểm.
+Các trường lạ bị từ chối để tránh hiểu nhầm dữ liệu; file chỉ được đọc trong
+phiên Streamlit và có bước preview/xác nhận trước khi chạy simulation.
+
 Logic dùng lại nằm trong `src/credit_scoring/dc5/`. Notebook
 `notebooks/04_dc5_pipeline/01_run_dc5_pipeline.ipynb` chỉ chạy synthetic
 assertion rồi gọi pipeline. Artifact nằm dưới `artifacts/` và không commit.
@@ -40,6 +47,22 @@ Hai chế độ chính:
 - `quick`: M0/M1/M4, tối đa 3 folds để kiểm tra nhanh.
 - `full`: M0-M4, số fold lấy từ config (mặc định 5), kèm KMeans/PCA nếu bật.
 - `report-only`: mở artifact gần nhất, không đọc dữ liệu hoặc train lại.
+
+## Model ladder M0–M4
+
+- **M0:** baseline gồm tuổi theo nhóm, giới tính, loại hình hộ gia đình và City
+  khi chạy setting `With City`.
+- **M1:** M0 cộng 12 feature relationship/engagement như số domain hoạt động,
+  tenure, recency, app usage và loyalty.
+- **M2:** M1 cộng 6 feature Pharmacy/Healthcare. M2 được so với M1.
+- **M3:** M1 cộng 10 feature Retail/thiết bị/trade-in. M3 được so với M1, không
+  chứa nhóm Pharmacy của M2.
+- **M4:** M1 cộng 5 feature Telco behavior trong 180 ngày. M4 được so với M1,
+  không chứa nhóm Pharmacy hoặc Retail của M2/M3.
+
+Admin React dashboard hiển thị delta ROC-AUC/PR-AUC của M1 so với M0 và của
+M2/M3/M4 so với M1 trong cùng setting. City ablation được tính riêng bằng
+`With City - Without City` cho cùng model.
 
 Fingerprint gồm đường dẫn/kích thước/mtime của Parquet, config và pipeline
 version. Khi fingerprint không đổi, pipeline dùng lại run đã có.

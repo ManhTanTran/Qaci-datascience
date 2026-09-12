@@ -1,0 +1,34 @@
+.topbar-actions {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.harness-result{margin-top:0}.harness-result .result-top{align-items:flex-start}.harness-result .result-top h2{margin-bottom:8px}.harness-stage-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:20px 0}.harness-stage-grid article{display:grid;grid-template-columns:auto 1fr;gap:4px 9px;padding:13px;background:#edf4ef;border:1px solid #d8e4dc;border-radius:11px}.harness-stage-grid article>span{grid-row:span 2;color:#36735c}.harness-stage-grid b{font-size:12px;color:#19362b}.harness-stage-grid small{font-size:10px;color:#678077;line-height:1.4}.harness-case-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:12px 0 22px}.harness-case-grid article{display:grid;gap:6px;padding:13px;border:1px solid #d8e4dc;border-radius:11px;background:#f8fbf8}.harness-case-grid b{font-size:12px;color:#19362b}.harness-case-grid small,.harness-case-grid span{font-size:10px;color:#678077;line-height:1.4}.harness-case-grid strong{font-size:11px;color:#36735c}.harness-restart{margin-top:18px}@media(max-width:800px){.harness-stage-grid,.harness-case-grid{grid-template-columns:1fr 1fr}}@media(max-width:520px){.harness-stage-grid,.harness-case-grid{grid-template-columns:1fr}}
+.harness-rules{margin:20px 0;padding:16px;background:#f2f7f3;border:1px solid #d8e4dc;border-radius:11px}.harness-section-title{display:flex;align-items:center;justify-content:space-between;gap:10px}.harness-section-title h3{margin:0;color:#19362b;font-size:15px}.harness-section-title span{font-size:10px;color:#36735c}.harness-rules>p{margin:7px 0 12px;color:#678077;font-size:11px;line-height:1.45}.harness-rule-list{display:grid;gap:8px}.harness-rule-list article{display:grid;gap:5px;padding:12px;background:#fff;border:1px solid #d8e4dc;border-radius:9px}.harness-rule-list b{color:#19362b;font-size:12px}.harness-rule-list strong{color:#315648;font-size:12px;line-height:1.45}.harness-rule-list small{color:#71867d;font-size:10px;line-height:1.4}
+
+.result-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 18px;
+}
+
+@media (max-width: 680px) {
+  .topbar-actions {
+    gap: 0;
+  }
+
+  .topbar-actions .secure {
+    display: none;
+  }
+
+  .result-actions {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .result-actions .button {
+    justify-content: center;
+  }
+}

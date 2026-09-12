@@ -90,6 +90,14 @@ hiệu lực quyết định; lượt `smoke` chỉ kiểm tra pipeline. Noteboo
 `oof_predictions.csv` có cột `FOLD`, `fold_assignments.csv`, `fold_metrics.csv`,
 `robustness_summary.csv` và `decision.json`.
 
+Notebook Spark parity nằm tại
+`03_home_credit_multitable/00_spark_bureau_parity_smoke.ipynb`. Trên Kaggle, gắn
+competition data và một source snapshot chứa `src/credit_scoring`; notebook tự
+kiểm tra Python/Java/PySpark, chạy fixture pandas-vs-Spark trước raw data, rồi ghi
+candidate riêng dưới `E03_spark_parity_smoke`. Có thể đặt
+`REFERENCE_BUREAU_BLOCK_ROOT` để bật full-block comparison với `bureau-v1`.
+Notebook dừng trước LightGBM và không overwrite reference block.
+
 Notebook Bureau ablation 32/36-feature cũ đã được chuyển vào
 `docs/archive/e03_bureau_legacy_screening/01_bureau_ablation.ipynb`. Nó chỉ giữ
 cho audit/reproducibility và không dùng cho experiment mới.

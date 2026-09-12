@@ -1,0 +1,33 @@
+schema_version: "credit-reasoning-synthetic-cases-v1"
+source: "Project-authored synthetic fixtures; no customer records and no gold credit label."
+cases:
+  - case_id: stable_profile
+    label: "Stable payment with ordinary engagement"
+    description: "Payment behavior is observed and engagement is unremarkable."
+    features:
+      payment_on_time_rate_12m: 0.96
+      overdue_days_max_12m: 0
+      payment_failure_count_12m: 0
+      active_domain_count: medium
+      telco_internet_usage_group: medium
+      recent_purchase_trend: stable
+  - case_id: conflicting_signals
+    label: "Positive engagement, conflicting payment signals"
+    description: "Engagement and shopping are positive while payment behavior is incomplete."
+    features:
+      payment_on_time_rate_12m: 0.82
+      overdue_days_max_12m: 15
+      payment_failure_count_12m: 1
+      active_domain_count: high
+      telco_internet_usage_group: high
+      recent_purchase_trend: rising
+  - case_id: deteriorating_profile
+    label: "Deteriorating payment behavior"
+    description: "Payment observations are weaker and recent engagement is declining."
+    features:
+      payment_on_time_rate_12m: 0.65
+      overdue_days_max_12m: 30
+      payment_failure_count_12m: 2
+      active_domain_count: low
+      telco_internet_usage_group: low
+      recent_purchase_trend: declining

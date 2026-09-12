@@ -1,0 +1,48 @@
+{
+  "type": "object",
+  "properties": {
+    "rule_result": {
+      "type": "string",
+      "enum": ["ELIGIBLE", "NOT_ELIGIBLE", "MANUAL_REVIEW"]
+    },
+    "financial_assessment": {
+      "type": "string",
+      "enum": ["POSITIVE", "MIXED", "NEGATIVE", "INSUFFICIENT_DATA"]
+    },
+    "conflict_detected": {"type": "boolean"},
+    "recommendation": {
+      "type": "string",
+      "enum": ["REJECT_BY_RULE", "CONSIDER", "MANUAL_REVIEW"]
+    },
+    "supporting_evidence": {
+      "type": "array",
+      "items": {"type": "string"}
+    },
+    "risk_evidence": {
+      "type": "array",
+      "items": {"type": "string"}
+    },
+    "missing_data": {
+      "type": "array",
+      "items": {"type": "string"}
+    },
+    "reason": {"type": "string"},
+    "confidence": {
+      "type": "string",
+      "enum": ["LOW", "MEDIUM", "HIGH"]
+    }
+  },
+  "required": [
+    "rule_result",
+    "financial_assessment",
+    "conflict_detected",
+    "recommendation",
+    "supporting_evidence",
+    "risk_evidence",
+    "missing_data",
+    "reason",
+    "confidence"
+  ],
+  "additionalProperties": false
+}
+

@@ -7,7 +7,7 @@ Repository này hiện tập trung vào knowledge base tiếng Việt cho credit
 Yêu cầu Python 3.10+.
 
 ```bash
-python -m pip install -e ".[dev,modeling,notebook]"
+python -m pip install -e ".[dev,modeling,notebook,reasoning]"
 mkdocs serve
 mkdocs build --strict
 ```
@@ -27,6 +27,26 @@ Mở trang chủ tại `docs/index.md`. Registry máy đọc nằm trong `catalo
 - [Trang chủ knowledge base](docs/index.md)
 - [Lộ trình học](docs/roadmap/learning_path.md)
 - [Governance](docs/governance/model_approval_checklist.md)
+- [FPT Credit Reasoning PoC](docs/pipelines/fpt_credit_reasoning_poc.md)
+
+## Hai luồng được tách riêng
+
+- `src/credit_scoring/research/fpt_reasoning_poc/`: research/evaluation trên
+  synthetic cases; không dùng cho request người dùng.
+- `src/credit_scoring/application/`: boundary cho user-facing flow; không đọc
+  research output.
+
+Chạy research pipeline:
+
+```powershell
+python -m credit_scoring.research.fpt_reasoning_poc.pipeline
+```
+
+Kiểm tra application boundary:
+
+```powershell
+python -m pytest tests/test_application_boundary.py -q
+```
 
 ## Trạng thái áp dụng trong project
 

@@ -62,6 +62,42 @@ TELCO_BEHAVIOR_FEATURES = (
     "telco_internet_trend_group_ord",
 )
 
+MODEL_PARENTS: dict[str, str | None] = {
+    "M0": None,
+    "M1": "M0",
+    "M2": "M1",
+    "M3": "M1",
+    "M4": "M1",
+}
+
+MODEL_DESCRIPTIONS = {
+    "M0": "Baseline nhân khẩu học và loại hình hộ gia đình.",
+    "M1": "M0 cộng mức độ quan hệ/engagement trên các domain và ứng dụng.",
+    "M2": "M1 cộng hành vi mua sắm và sử dụng dịch vụ Pharmacy/Healthcare.",
+    "M3": "M1 cộng hành vi mua sắm Retail, thiết bị và trade-in.",
+    "M4": "M1 cộng hành vi sử dụng và tương tác dịch vụ Telco trong 180 ngày.",
+}
+
+
+def model_catalog(*, include_city: bool = True) -> list[dict[str, Any]]:
+    """Describe the declared model ladder and its incremental feature groups."""
+
+    schemas = feature_sets(include_city=include_city)
+    rows = []
+    for model, features in schemas.items():
+        parent = MODEL_PARENTS[model]
+        parent_features = set(schemas[parent]) if parent is not None else set()
+        rows.append(
+            {
+                "model": model,
+                "parent": parent,
+                "description": MODEL_DESCRIPTIONS[model],
+                "n_features": len(features),
+                "added_features": [feature for feature in features if feature not in parent_features],
+            }
+        )
+    return rows
+
 
 def feature_sets(*, include_city: bool = True) -> dict[str, tuple[str, ...]]:
     """Return declared schemas for M0-M4; schemas never depend on observed data."""

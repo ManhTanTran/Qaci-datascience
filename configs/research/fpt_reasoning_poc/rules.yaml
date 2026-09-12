@@ -1,0 +1,25 @@
+version: "1.0"
+rules:
+  - id: AGE_OVER_23
+    description: Người dùng phải trên 23 tuổi.
+    type: hard
+    field: age
+    operator: age_gt
+    value: 23
+    on_fail: NOT_ELIGIBLE
+    on_unknown: MANUAL_REVIEW
+
+  - id: PAYMENT_HISTORY_POSITIVE
+    description: Có ít nhất 6 tháng quan sát, không quá 1 tháng trễ và không trễ quá 5 ngày.
+    type: soft
+    all:
+      - field: payment_history_12m.observed_months
+        operator: gte
+        value: 6
+      - field: payment_history_12m.late_months
+        operator: lte
+        value: 1
+      - field: payment_history_12m.max_late_days
+        operator: lte
+        value: 5
+

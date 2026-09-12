@@ -1,0 +1,58 @@
+version: "1.0"
+fields:
+  user_id:
+    sources: [user_id]
+    source_type: observed
+  age:
+    sources: [age_group]
+    source_type: observed
+    transform: parse_age_range
+  local_context:
+    sources: [avg_monthly_income, avg_monthly_spend, poverty_rate, unemployment_rate]
+    source_type: contextual_proxy
+    note: Các số liệu mô tả khu vực, không phải tài chính cá nhân.
+  location:
+    sources: [city, city_install, district, ward]
+    source_type: observed
+  device_usage:
+    sources:
+      - fplay_device_id_nunique_30D
+      - fplay_device_id_count_30D
+      - fplay_RECENCY
+      - internet_device_id_nunique_30D
+      - internet_device_id_count_30D
+      - internet_RECENCY
+      - telco_internet_usage_group
+      - telco_internet_trend_group
+    source_type: observed
+  payment_history_12m:
+    sources:
+      - telco_monetary_sum_12M
+      - telco_monetary_mean_12M
+      - payment_month_count_12M
+      - is_late_sum_12M
+      - total_late_day_max_12M
+    source_type: derived
+  shopping_installment:
+    sources:
+      - retail_last_order_date
+      - retail_tradein_count_24m
+      - retail_product_group
+      - retail_max_device_product_price_segment_24m
+    source_type: observed
+    missing_sources: [installment_count_24m, installment_late_count_24m]
+  orders:
+    sources: [retail_order_count_12m, retail_gmv_12m, retail_aov_12m]
+    source_type: observed
+  healthcare_spending:
+    sources:
+      - healthcare_order_count_6m
+      - healthcare_spend_6m
+      - healthcare_aov_6m
+      - healthcare_repeat_purchase_rate_6m
+    source_type: observed
+  fpt_education:
+    sources: []
+    source_type: missing
+    missing_sources: [child_studies_at_fpt, fpt_major]
+

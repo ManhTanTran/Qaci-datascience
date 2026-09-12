@@ -1,0 +1,68 @@
+{
+  "manifest_version": "simulate-evaluation-v1",
+  "source_archive": "simulate.zip",
+  "source_policy": "Attachment is audited externally and raw customer/response files remain outside Git.",
+  "classification_labels": [
+    "Relatively stable",
+    "Mixed",
+    "Potentially risky"
+  ],
+  "scenarios": [
+    {
+      "scenario_id": "A_stable",
+      "customer_number": 1,
+      "latent_pattern": "Nhiều tín hiệu tích cực và nhất quán",
+      "evaluation_purpose": "Nhận diện hồ sơ tương đối rõ ràng",
+      "credit_target": false
+    },
+    {
+      "scenario_id": "B_conflict",
+      "customer_number": 2,
+      "latent_pattern": "Quan hệ FPT/tiêu dùng mạnh nhưng kỷ luật thanh toán yếu",
+      "evaluation_purpose": "Phân biệt engagement với repayment capacity",
+      "credit_target": false
+    },
+    {
+      "scenario_id": "C_deteriorating",
+      "customer_number": 3,
+      "latent_pattern": "Quan hệ lâu năm nhưng recency, Internet trend và healthcare activity yếu",
+      "evaluation_purpose": "Kiểm tra temporal/recency reasoning",
+      "credit_target": false
+    }
+  ],
+  "runs": [
+    {
+      "run_id": "chatgpt-one-shot-attachment",
+      "model": "ChatGPT",
+      "turn": "one_shot",
+      "prompt_variant": null,
+      "response_file": "chatgpt_one_shot.txt",
+      "metadata_status": "incomplete"
+    },
+    {
+      "run_id": "chatgpt-counter-attachment",
+      "model": "ChatGPT",
+      "turn": "counter_argument",
+      "prompt_variant": null,
+      "response_file": "chatgpt_counter_argument.txt",
+      "metadata_status": "incomplete"
+    },
+    {
+      "run_id": "gemini-one-shot-attachment",
+      "model": "Gemini",
+      "turn": "one_shot",
+      "prompt_variant": null,
+      "response_file": "gemini_one_shot.txt",
+      "metadata_status": "incomplete"
+    },
+    {
+      "run_id": "gemini-counter-attachment",
+      "model": "Gemini",
+      "turn": "counter_argument",
+      "prompt_variant": null,
+      "response_file": "gemini_counter_argument.txt",
+      "metadata_status": "incomplete"
+    }
+  ],
+  "metrics_policy": "Do not report accuracy, robustness or hallucination rates until raw prompts, model metadata, structured outputs and an approved rubric are available."
+}

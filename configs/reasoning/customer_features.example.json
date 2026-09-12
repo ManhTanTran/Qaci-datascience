@@ -1,0 +1,12 @@
+{
+  "income_band_est": "medium",
+  "active_domain_count": 4,
+  "telco_contract_status": "active",
+  "telco_internet_usage_group": "high",
+  "telco_internet_trend_group": "stable",
+  "payment_on_time_rate_12m": 0.95,
+  "overdue_days_max_12m": 0,
+  "payment_failure_count_12m": 0,
+  "online_purchase_frequency": "medium",
+  "recent_purchase_trend": "stable"
+}

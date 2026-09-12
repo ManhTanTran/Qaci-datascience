@@ -21,6 +21,7 @@ from credit_scoring.dc5.data import (
     summarize_population,
     validate_prepared_schema,
 )
+from credit_scoring.dc5.inference import build_latest_catboost_bundle
 from credit_scoring.dc5.modeling import run_model_suite
 from credit_scoring.dc5.reporting import write_run_artifacts
 
@@ -143,6 +144,11 @@ def run_pipeline(
     run_dir = output_dir / "runs" / run_id
     if not force and (run_dir / "report.html").is_file():
         cached = _read_cached_run(run_dir)
+        if (
+            resolved_config.model.backend == "catboost"
+            and not (run_dir / "research_inference_manifest.json").is_file()
+        ):
+            build_latest_catboost_bundle(data_path, run_dir)
         _write_latest_pointer(output_dir, run_dir, cached.report_path)
         return cached
 
@@ -205,6 +211,8 @@ def run_pipeline(
         run_dir=run_dir,
         top_n_importance=resolved_config.top_n_importance,
     )
+    if resolved_config.model.backend == "catboost":
+        build_latest_catboost_bundle(data_path, run_dir)
     _write_latest_pointer(output_dir, run_dir, report_path)
     return PipelineRun(
         report_path=report_path,

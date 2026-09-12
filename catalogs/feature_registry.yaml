@@ -372,6 +372,9 @@ features:
     available_at_application_time: "Public Home Credit auxiliary tables linked to the application."
     permitted_for_modeling: true
     implementation_location: "src/credit_scoring/features/home_credit_bureau.py"
+    candidate_implementation_location: "src/credit_scoring/features/home_credit_bureau_spark.py"
+    candidate_builder_version: "bureau-v1-spark-smoke"
+    candidate_documentation_path: "docs/features/home_credit_bureau_spark.md"
     builder_version: "bureau-v1"
     documentation_path: "docs/features/home_credit_auxiliary_features.md"
   - name: home_credit_bureau_counts
@@ -388,6 +391,9 @@ features:
     available_at_application_time: "Public Home Credit auxiliary tables linked to the application."
     permitted_for_modeling: true
     implementation_location: "src/credit_scoring/features/home_credit_bureau.py"
+    candidate_implementation_location: "src/credit_scoring/features/home_credit_bureau_spark.py"
+    candidate_builder_version: "bureau-v1-spark-smoke"
+    candidate_documentation_path: "docs/features/home_credit_bureau_spark.md"
     builder_version: "bureau-v1"
     documentation_path: "docs/features/home_credit_auxiliary_features.md"
   - name: home_credit_bureau_delinquency
@@ -404,6 +410,9 @@ features:
     available_at_application_time: "Public Home Credit auxiliary tables linked to the application."
     permitted_for_modeling: true
     implementation_location: "src/credit_scoring/features/home_credit_bureau.py"
+    candidate_implementation_location: "src/credit_scoring/features/home_credit_bureau_spark.py"
+    candidate_builder_version: "bureau-v1-spark-smoke"
+    candidate_documentation_path: "docs/features/home_credit_bureau_spark.md"
     builder_version: "bureau-v1"
     documentation_path: "docs/features/home_credit_auxiliary_features.md"
   - name: home_credit_bureau_recency
@@ -420,6 +429,9 @@ features:
     available_at_application_time: "Public Home Credit auxiliary tables linked to the application."
     permitted_for_modeling: true
     implementation_location: "src/credit_scoring/features/home_credit_bureau.py"
+    candidate_implementation_location: "src/credit_scoring/features/home_credit_bureau_spark.py"
+    candidate_builder_version: "bureau-v1-spark-smoke"
+    candidate_documentation_path: "docs/features/home_credit_bureau_spark.md"
     builder_version: "bureau-v1"
     documentation_path: "docs/features/home_credit_auxiliary_features.md"
   - name: home_credit_previous_application_amounts
@@ -630,3 +642,19 @@ features:
     implementation_location: "src/credit_scoring/features/home_credit_pos_cash.py"
     builder_version: "pos-cash-v1"
     documentation_path: "docs/features/home_credit_auxiliary_features.md"
+  - name: alternative_data_reasoning_v1
+    description: "31 alternative-data fields used by the synthetic LLM reasoning evaluation prompt; research candidate only."
+    category: alternative_data_reasoning
+    source_columns:
+      - "FPT_credit_scoring_synthetic_3_cases.xlsx / Prompt_View"
+    formula_or_aggregation: "Source values and source buckets; detailed field-level contract is in documentation_path."
+    data_type: mixed
+    expected_direction: "Mostly context-dependent; no causal direction established."
+    missing_policy: "Preserve missing as unknown; never convert missing to negative evidence."
+    outlier_policy: "Not applicable to categorical fixture; numeric capacity fields require semantic review."
+    leakage_risk: "unknown_until_observation_cutoff_and_payment_semantics_are_confirmed"
+    available_at_application_time: "TODO(FPT): cần xác nhận với mentor hoặc data owner."
+    permitted_for_modeling: false
+    implementation_location: "configs/reasoning/feature_definitions.yaml"
+    builder_version: "alternative-data-reasoning-v1"
+    documentation_path: "docs/features/alternative_data_feature_registry.md"

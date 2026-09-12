@@ -54,12 +54,18 @@ nav:
       - Home Credit Model Stability: datasets/home_credit_model_stability.md
       - Fpt Dataset Template: datasets/fpt_dataset_template.md
       - Data Quality Checklist: datasets/data_quality_checklist.md
+      - Simulate Synthetic Evaluation: datasets/simulate_synthetic_evaluation.md
+      - FPT Credit Reasoning PoC Synthetic Bundle: datasets/fpt_credit_reasoning_poc.md
   - Feature:
       - Feature Catalog: features/feature_catalog.md
       - Feature Groups: features/feature_groups.md
       - Feature Store: features/feature_store.md
       - Home Credit Auxiliary Features: features/home_credit_auxiliary_features.md
+      - Home Credit Bureau Spark Candidate: features/home_credit_bureau_spark.md
+      - Bureau Non-monetary Feature Specification: features/bureau_non_monetary_feature_spec.md
       - Demographic Features: features/demographic_features.md
+      - Alternative Data Reasoning Registry: features/alternative_data_feature_registry.md
+      - Alternative Data Rule Knowledge Base: features/alternative_data_rule_knowledge_base.md
       - Income Employment Features: features/income_employment_features.md
       - Loan Features: features/loan_features.md
       - Repayment Features: features/repayment_features.md
@@ -74,6 +80,7 @@ nav:
       - Feature Stability: features/feature_stability.md
   - Modeling:
       - DC5 Customer Analysis Pipeline: pipelines/dc5_customer_analysis.md
+      - DC5 Customer Website Development: pipelines/dc5_customer_web_development.md
       - Modeling Overview: modeling/modeling_overview.md
       - Logistic Regression: modeling/logistic_regression.md
       - Tree Based Models: modeling/tree_based_models.md
@@ -95,6 +102,10 @@ nav:
       - Threshold Selection: evaluation/threshold_selection.md
       - Business Simulation: evaluation/business_simulation.md
       - Error Analysis: evaluation/error_analysis.md
+  - Reasoning:
+      - Alternative Data Agent Harness: pipelines/alternative_data_agent_harness.md
+      - FPT Credit Reasoning PoC: pipelines/fpt_credit_reasoning_poc.md
+      - Customer Application Flow: pipelines/customer_application.md
   - Monitoring:
       - Model Stability: monitoring/model_stability.md
       - Population Stability Index: monitoring/population_stability_index.md

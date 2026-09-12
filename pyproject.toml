@@ -38,6 +38,17 @@ dc5 = [
 ui = [
   "streamlit>=1.36",
 ]
+web = [
+  "fastapi>=0.110",
+  "openai>=1.68",
+  "uvicorn[standard]>=0.29",
+]
+reasoning = [
+  "jsonschema>=4.23,<5",
+  "openai>=1.100",
+  "openpyxl>=3.1,<4",
+  "PyYAML>=6,<7",
+]
 
 [project.scripts]
 dc5-pipeline = "credit_scoring.dc5.pipeline:main"

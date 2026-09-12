@@ -1,0 +1,38 @@
+{
+  "version": "epi-demo-kb-v1",
+  "title": "EPI employee reasoning demo",
+  "rules": [
+    {
+      "id": "R001",
+      "field": "kpi_attainment",
+      "operator": "gte",
+      "value": 0.9,
+      "message": "Kết quả KPI đang ở mức vượt ngưỡng kỳ vọng.",
+      "action": "Ưu tiên xem xét bằng chứng delivery và phạm vi ảnh hưởng."
+    },
+    {
+      "id": "R002",
+      "field": "skill_match",
+      "operator": "lt",
+      "value": 0.6,
+      "message": "Mức khớp kỹ năng với vai trò mục tiêu còn thấp.",
+      "action": "Đề xuất kế hoạch đào tạo hoặc mentoring trước khi quyết định."
+    },
+    {
+      "id": "R003",
+      "field": "projects_delivered",
+      "operator": "gte",
+      "value": 3,
+      "message": "Đã có ít nhất ba dự án hoàn thành trong hồ sơ demo.",
+      "action": "Kiểm tra thêm chất lượng, độ khó và vai trò thực tế trong từng dự án."
+    },
+    {
+      "id": "R004",
+      "field": "certifications",
+      "operator": "gte",
+      "value": 1,
+      "message": "Có chứng chỉ liên quan được khai báo.",
+      "action": "Đối chiếu thời hạn và mức liên quan của chứng chỉ với vai trò mục tiêu."
+    }
+  ]
+}

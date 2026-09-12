@@ -1,0 +1,139 @@
+.ai-action {
+  margin: 20px 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  background: #f5f7fa;
+  border: 1px solid #e5eaf0;
+  border-radius: 12px;
+  padding: 15px;
+}
+.ai-action > div {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #e85d3f;
+}
+.ai-action span {
+  display: grid;
+  gap: 3px;
+}
+.ai-action strong {
+  color: #213a55;
+  font-size: 13px;
+}
+.ai-action small {
+  color: #7e8b9b;
+  font-size: 10px;
+}
+.ai-conclusion {
+  margin: 20px 0;
+  background: #fffaf0;
+  border-left: 4px solid #e59b35;
+  padding: 20px 22px;
+}
+.ai-conclusion h3 {
+  font: 600 19px/1.45 "Space Grotesk";
+  margin: 0 0 18px;
+  color: #1d3853;
+}
+.ai-columns {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+.ai-conclusion h4 {
+  font: 600 12px "DM Sans";
+  color: #5f6f82;
+  margin: 13px 0 7px;
+}
+.ai-conclusion ul,
+.ai-conclusion ol {
+  margin: 0;
+  padding-left: 20px;
+  color: #43566c;
+  font-size: 12px;
+  line-height: 1.7;
+}
+.ai-disclaimer {
+  display: flex;
+  align-items: flex-start;
+  gap: 7px;
+  color: #8a6a30;
+  background: #fff3d7;
+  padding: 10px 12px;
+  font-size: 10px;
+  margin: 17px 0 0;
+}
+.ai-disclaimer svg {
+  flex: 0 0 auto;
+}
+@media (max-width: 650px) {
+  .ai-action {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+  .ai-action .button {
+    width: 100%;
+    justify-content: center;
+  }
+  .ai-columns {
+    grid-template-columns: 1fr;
+  }
+}
+.model-context {
+  display: grid;
+  gap: 4px;
+  margin: 0 0 16px;
+  padding: 12px 14px;
+  border: 1px solid #dfe8e4;
+  border-radius: 10px;
+  background: #f2f8f5;
+}
+.model-context strong {
+  font-size: 11px;
+  color: #287058;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+.model-context span {
+  font-size: 12px;
+  font-weight: 700;
+  color: #234b3e;
+}
+.model-context small {
+  font-size: 10px;
+  line-height: 1.5;
+  color: #64786f;
+}
+.model-context.individual {
+  border-color: #bfd8ee;
+  background: #eef6fd;
+}
+.model-context.individual strong {
+  color: #286da0;
+}
+@media (prefers-color-scheme: dark) {
+  .ai-action {
+    background: #202426;
+    border-color: #343a3e;
+  }
+  .ai-action strong {
+    color: #f2f4f5;
+  }
+  .ai-conclusion {
+    background: #28231a;
+  }
+  .ai-conclusion h3 {
+    color: #f3efe7;
+  }
+  .ai-conclusion h4,
+  .ai-conclusion li {
+    color: #d6cec0;
+  }
+  .ai-disclaimer {
+    background: #3a2f1c;
+    color: #e4c98f;
+  }
+}

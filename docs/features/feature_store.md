@@ -89,3 +89,7 @@ Khi thử một cấu hình model khác, chi phí feature engineering gần như
 Đang dùng cho năm block Home Credit. Block lưu ngoài git tại thư mục do tham số
 `root` quyết định; đường dẫn không hardcode trong source. Chưa dùng cho dataset
 khác và chưa áp cho feature production.
+
+Spark Bureau parity smoke dùng cùng manifest schema nhưng ghi block riêng với
+`builder_version="bureau-v1-spark-smoke"`. Writer từ chối overwrite cả Parquet
+lẫn manifest; candidate chỉ được promote sau khi so khớp full block `bureau-v1`.
