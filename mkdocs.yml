@@ -53,6 +53,7 @@ nav:
       - Home Credit Default Risk: datasets/home_credit_default_risk.md
       - Home Credit Model Stability: datasets/home_credit_model_stability.md
       - Fpt Dataset Template: datasets/fpt_dataset_template.md
+      - FPT Credit Reasoning PoC: datasets/fpt_credit_reasoning_poc.md
       - Data Quality Checklist: datasets/data_quality_checklist.md
   - Feature:
       - Feature Catalog: features/feature_catalog.md
@@ -72,8 +73,10 @@ nav:
       - Home Credit Application Features: features/home_credit_application_features.md
       - Leakage Checklist: features/leakage_checklist.md
       - Feature Stability: features/feature_stability.md
+      - FPT Reasoning PoC Feature Groups: features/fpt_reasoning_poc_features.md
   - Modeling:
       - DC5 Customer Analysis Pipeline: pipelines/dc5_customer_analysis.md
+      - FPT Credit Reasoning Pipeline: pipelines/fpt_credit_reasoning_poc.md
       - Modeling Overview: modeling/modeling_overview.md
       - Logistic Regression: modeling/logistic_regression.md
       - Tree Based Models: modeling/tree_based_models.md
@@ -125,6 +128,7 @@ nav:
       - 0003-Primary-Metric: decisions/0003-primary-metric.md
       - 0004-Auxiliary-Feature-Modules: decisions/0004-auxiliary-feature-modules-in-source.md
       - 0005-DC5-Pipeline-Validation: decisions/0005-dc5-pipeline-validation.md
+      - 0006-FPT-Reasoning-PoC-Boundary: decisions/0006-fpt-reasoning-poc-boundary.md
   - Tham khảo:
       - Kaggle Notebooks: references/kaggle_notebooks.md
       - Home Credit Solution Write-ups: references/home_credit_solution_writeups.md

@@ -1,0 +1,45 @@
+version: "1.0"
+source_sheet: Scenario_Design
+note: >-
+  Structured scenario metadata derived from the supplied workbook. These are
+  research expectations, not loan labels and must not be sent to the model as
+  scenario names or gold answers.
+scenarios:
+  - id: customer_0
+    description: Sparse-profile case
+    expected_missing: [device_usage, payment_history_12m, shopping_installment, orders, healthcare_spending, fpt_education]
+    must_not_infer: [personal_income, personal_spend, repayment_capacity]
+  - id: customer_1
+    description: Healthcare-heavy + device + payment
+    must_not_infer: [personal_income, repayment_capacity]
+  - id: customer_2
+    description: High usage + payment tension
+    should_detect_conflict: true
+    strong_negative_evidence: [payment_history_12m]
+    weak_positive_evidence: [device_usage, orders, healthcare_spending]
+  - id: customer_3
+    description: Stable payment + limited breadth
+    weak_positive_evidence: [payment_history_12m]
+  - id: customer_4
+    description: Active ecosystem + declining internet
+    weak_positive_evidence: [device_usage, orders]
+  - id: customer_5
+    description: Lower-usage + incomplete monetary/payment coverage
+    expected_missing: [payment_history_12m]
+    must_not_infer: [poor_payment_behavior, repayment_capacity]
+  - id: customer_6
+    description: Recent payment friction
+    should_detect_conflict: true
+    strong_negative_evidence: [payment_history_12m]
+  - id: customer_7
+    description: Young profile + high service tenure
+    must_not_infer: [repayment_capacity]
+    weak_positive_evidence: [device_usage]
+  - id: customer_8
+    description: Urban profile + broad engagement
+    weak_positive_evidence: [device_usage, orders, healthcare_spending]
+  - id: customer_9
+    description: Mixed profile across sources
+    should_detect_conflict: true
+    strong_negative_evidence: [payment_history_12m]
+    weak_positive_evidence: [device_usage, orders, healthcare_spending]

@@ -1,6 +1,6 @@
 # Credit Scoring Knowledge Base
 
-Repository này hiện tập trung vào knowledge base tiếng Việt cho credit scoring: domain, dataset, feature, modeling, evaluation, monitoring và governance. Không lưu dữ liệu khách hàng, PII hoặc kết quả thực nghiệm chưa được xác minh.
+Repository này hiện tập trung vào knowledge base tiếng Việt cho credit scoring: domain, dataset, feature, modeling, evaluation, monitoring và governance. Ngoài ra có FPT Credit Reasoning PoC research để kiểm thử raw → profile → rule → AI explanation trên dữ liệu synthetic. Không lưu dữ liệu khách hàng, PII hoặc kết quả thực nghiệm chưa được xác minh.
 
 ## Bắt đầu
 
@@ -22,6 +22,26 @@ Mở trang chủ tại `docs/index.md`. Registry máy đọc nằm trong `catalo
 - Thay đổi validation hoặc metric: tạo decision record.
 - Dùng `TODO(FPT): cần xác nhận với mentor hoặc data owner.` cho thông tin nội bộ chưa được xác nhận.
 
+## FPT Credit Reasoning PoC
+
+Application dùng `credit_scoring.application.fpt_reasoning_poc` cho một file upload;
+research dùng `credit_scoring.research.fpt_reasoning_poc` cho scenario, ablation và
+repeated runs. `Synthetic_Customers` là source of truth; `Prompt_View` không tham gia
+pipeline. Rule engine deterministic là source of truth cho `PASS`/`FAIL`/`UNKNOWN`,
+AI chỉ giải thích và đánh dấu `rule_conflict`.
+
+```powershell
+python -m credit_scoring.research.fpt_reasoning_poc.pipeline
+fpt-reasoning-ui
+python -m pytest
+mkdocs build --strict
+```
+
+Workbook synthetic đặt tại `data/raw/research/fpt_reasoning_poc/` và bị ignore; có
+thể chuẩn bị từ archive bằng `python -m credit_scoring.research.fpt_reasoning_poc.prepare_data --zip <path>`.
+LLM research chỉ đọc secret từ `OPENROUTER_API_KEY`, không ghi secret vào code,
+notebook hay output.
+
 ## Tài liệu liên quan
 
 - [Trang chủ knowledge base](docs/index.md)
@@ -30,4 +50,6 @@ Mở trang chủ tại `docs/index.md`. Registry máy đọc nằm trong `catalo
 
 ## Trạng thái áp dụng trong project
 
-Bộ khung tài liệu đã được tạo; target, schema, feature permission, validation và production metric của FPT chưa được xác nhận.
+FPT reasoning PoC đã có shared data pipeline và Streamlit UI cho research candidate;
+target, schema, feature permission, đơn vị dữ liệu và production metric của FPT vẫn
+chưa được xác nhận.

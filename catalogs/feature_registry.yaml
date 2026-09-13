@@ -1,6 +1,22 @@
 schema_version: "1.0"
 note: "Các feature dưới đây chỉ là mẫu minh họa; phải xác nhận lại với schema thật. Expected direction không phải quan hệ nhân quả."
 features:
+  - name: fpt_reasoning_poc_business_groups
+    description: "Ten research business groups mapped from the Synthetic_Customers raw schema with evidence/source trace."
+    category: research_candidate
+    source_columns:
+      - "See configs/research/fpt_reasoning_poc/feature_mapping.yaml; 194 declared raw source columns plus optional absent installment columns."
+    formula_or_aggregation: "Declared transforms build_local_context, build_payment_history_12m and group-specific deterministic projections."
+    data_type: nested_profile
+    expected_direction: not_defined
+    missing_policy: "Preserve missing; never coerce missing or invalid values to zero."
+    outlier_policy: "Report invalid values; no silent clipping."
+    leakage_risk: "research_only; production availability and semantics are not approved"
+    available_at_application_time: "TODO(FPT): cần xác nhận với mentor hoặc data owner."
+    permitted_for_modeling: false
+    implementation_location: "src/credit_scoring/reasoning/profiles.py"
+    builder_version: "fpt-reasoning-poc-v1"
+    documentation_path: "docs/features/fpt_reasoning_poc_features.md"
   - name: debt_to_income
     description: "Tổng nghĩa vụ nợ chia cho thu nhập theo cùng kỳ/đơn vị."
     category: ratio

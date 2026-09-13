@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "FPT credit reasoning profile",
+  "type": "object",
+  "required": [
+    "user_id",
+    "age",
+    "local_context",
+    "location",
+    "device_usage",
+    "payment_history_12m",
+    "shopping_installment",
+    "orders",
+    "healthcare_spending",
+    "fpt_education",
+    "evidence_trace"
+  ],
+  "properties": {
+    "user_id": {"type": ["string", "number", "null"]},
+    "age": {"type": "object"},
+    "local_context": {"type": "object"},
+    "location": {"type": "object"},
+    "device_usage": {"type": "object"},
+    "payment_history_12m": {"type": "object"},
+    "shopping_installment": {"type": "object"},
+    "orders": {"type": "object"},
+    "healthcare_spending": {"type": "object"},
+    "fpt_education": {"type": "object"},
+    "_metadata": {"type": "object"},
+    "evidence_trace": {"type": "array", "items": {"type": "object"}}
+  },
+  "additionalProperties": false
+}

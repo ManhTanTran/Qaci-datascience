@@ -1,0 +1,23 @@
+version: "1.0"
+status: research_only
+rules:
+  - id: AGE_OVER_23_RESEARCH
+    description: "Research condition: exact age must be greater than 23."
+    type: research_condition
+    field: age
+    operator: age_gt
+    value: 23
+    decision_on_fail: FAIL
+    decision_on_unknown: UNKNOWN
+    official_hard_rule: false
+    note: "TODO(FPT): cần xác nhận với mentor hoặc data owner."
+  - id: PAYMENT_HISTORY_12M_SUPPORT
+    description: "Observed payment history is supporting evidence only."
+    type: evidence_check
+    fields: [payment_history_12m.observed_months, payment_history_12m.late_months, payment_history_12m.max_late_days]
+    operator: payment_discipline
+    thresholds:
+      observed_months_min: 6
+      late_months_max: 1
+      max_late_days_max: 5
+    official_hard_rule: false

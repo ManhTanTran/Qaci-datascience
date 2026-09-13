@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "FPT reasoning explanation response",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "explanation",
+    "strong_evidence",
+    "weak_evidence",
+    "contextual_evidence",
+    "missing_data",
+    "contradictions",
+    "unsupported_inferences",
+    "rule_conflict"
+  ],
+  "properties": {
+    "explanation": {"type": "string"},
+    "strong_evidence": {"type": "array", "items": {}},
+    "weak_evidence": {"type": "array", "items": {}},
+    "contextual_evidence": {"type": "array", "items": {}},
+    "missing_data": {"type": "array", "items": {}},
+    "contradictions": {"type": "array", "items": {}},
+    "unsupported_inferences": {"type": "array", "items": {}},
+    "rule_conflict": {"type": "boolean"},
+    "assessment": {
+      "type": "string",
+      "enum": ["PASS", "FAIL", "UNKNOWN"],
+      "description": "Optional model assessment for evaluation only; never the official rule decision."
+    },
+    "confidence": {"type": "string", "enum": ["low", "medium", "high"]}
+  }
+}

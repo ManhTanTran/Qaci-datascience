@@ -1,0 +1,278 @@
+version: "1.0"
+source:
+  sheet_preference: Synthetic_Customers
+  id_column: user_id
+  expected_non_id_columns: 194
+  note: >-
+    Đây là mapping research cho workbook synthetic. Các cột cấp vùng giữ
+    semantic_type contextual_proxy; không được diễn giải thành thuộc tính cá nhân.
+fields:
+  user_id:
+    raw_columns: [user_id]
+    transform: identity
+    required: true
+    semantic_type: identifier
+    description: Mã khách hàng synthetic dùng để truy vết một dòng nguồn.
+    missing_policy: reject_row
+  age:
+    raw_columns:
+      - age
+      - age_group
+      - age_group_install
+      - age_group_ord
+      - gender
+      - household_type
+      - income_band_est
+      - income_band_est_ord
+    transform: build_age_demographics
+    required: true
+    semantic_type: direct_demographic
+    description: Tuổi hoặc khoảng tuổi quan sát được; khoảng giao với ngưỡng vẫn là UNKNOWN.
+    valid_range: [0, 120]
+    missing_policy: preserve_missing
+  local_context:
+    raw_columns:
+      - area_km2
+      - population
+      - population_density
+      - population_growth_rate
+      - avg_monthly_income
+      - avg_grdp
+      - avg_monthly_spend
+      - poverty_rate
+      - scoli
+      - unemployment_rate
+      - informal_employment_rate
+      - labor_productivity
+      - social_insurance_rate
+      - unemployment_insurance_rate
+      - health_insurance_rate
+      - avg_housing_area
+      - has_computer_rate
+      - has_phone_rate
+      - internet_penetration
+      - household_internet_rate
+    transform: build_local_context
+    required: false
+    semantic_type: contextual_proxy
+    description: Chỉ báo kinh tế-xã hội của khu vực, không phải thu nhập hoặc chi tiêu cá nhân.
+    unit: source_defined_but_unconfirmed
+    missing_policy: preserve_missing
+    validation_warning: "TODO(FPT): cần xác nhận với mentor hoặc data owner."
+  location:
+    raw_columns:
+      - city
+      - city_install
+      - district
+      - ward
+      - has_install_address_data
+      - has_install_address
+      - install_matches_profile_city
+      - install_address_completeness
+    transform: build_location
+    required: false
+    semantic_type: direct_profile
+    description: Địa chỉ hồ sơ và địa chỉ lắp đặt quan sát được.
+    missing_policy: preserve_missing
+  device_usage:
+    raw_columns:
+      - fplay_device_id_nunique_30D
+      - fplay_device_id_count_30D
+      - fplay_device_type_nunique_30D
+      - fplay_device_id_nunique_90D
+      - fplay_device_id_count_90D
+      - fplay_device_type_nunique_90D
+      - fplay_device_id_nunique_180D
+      - fplay_device_id_count_180D
+      - fplay_device_type_nunique_180D
+      - fplay_device_id_nunique_ALL
+      - fplay_device_id_count_ALL
+      - fplay_device_type_nunique_ALL
+      - fplay_RECENCY
+      - fplay_is_multi_device
+      - internet_device_id_nunique_30D
+      - internet_device_id_count_30D
+      - internet_device_type_nunique_30D
+      - internet_device_id_nunique_90D
+      - internet_device_id_count_90D
+      - internet_device_type_nunique_90D
+      - internet_device_id_nunique_180D
+      - internet_device_id_count_180D
+      - internet_device_type_nunique_180D
+      - internet_device_id_nunique_ALL
+      - internet_device_id_count_ALL
+      - internet_device_type_nunique_ALL
+      - internet_RECENCY
+      - internet_is_multi_device
+      - active_domain_count
+      - available_domain_count
+      - tenure_group
+      - recency_group
+      - app_count_group
+      - app_tenure_group
+      - app_recency_days
+      - active_domain_count_ord
+      - tenure_group_ord
+      - recency_group_ord
+      - app_count_group_ord
+      - app_tenure_group_ord
+      - app_recency_days_ord
+      - telco_install_date
+      - telco_install_date_year
+      - telco_package_code
+      - telco_package_family
+      - telco_package_is_super
+      - telco_package_super_speed
+      - telco_contract_status
+      - telco_is_cancelled
+      - telco_cancel_date
+      - telco_cancel_date_year
+      - telco_inbound_count_180d
+      - telco_outbound_count_180d
+      - telco_ticket_count_180d
+      - telco_inbound_count_180d_ord
+      - telco_outbound_count_180d_ord
+      - telco_ticket_count_180d_ord
+      - telco_internet_usage_group
+      - telco_internet_trend_group
+      - telco_internet_usage_group_ord
+      - telco_internet_trend_group_ord
+      - telco_payment_method
+      - has_telco
+      - has_retail
+      - has_pharmacy
+      - has_app
+      - has_loyalty
+      - has_device_fplay
+      - has_device_internet
+      - has_telco_monetary
+      - has_telco_payment
+      - loyalty_points
+      - loyalty_tier
+      - loyalty_points_ord
+      - loyalty_tier_ord
+    transform: build_device_usage
+    required: false
+    semantic_type: direct_behavior
+    description: Hoạt động thiết bị, mức sử dụng và độ gắn bó hệ sinh thái quan sát được.
+    missing_policy: preserve_missing
+  payment_history_12m:
+    raw_columns:
+      - telco_monetary_group
+      - telco_monetary_group_ord
+      - telco_monetary_trend
+      - telco_monetary_sum_3M
+      - telco_monetary_mean_3M
+      - telco_monetary_max_3M
+      - telco_monetary_min_3M
+      - telco_monetary_std_3M
+      - telco_monetary_sum_6M
+      - telco_monetary_mean_6M
+      - telco_monetary_max_6M
+      - telco_monetary_min_6M
+      - telco_monetary_std_6M
+      - telco_monetary_sum_12M
+      - telco_monetary_mean_12M
+      - telco_monetary_max_12M
+      - telco_monetary_min_12M
+      - telco_monetary_std_12M
+      - telco_monetary_sum_ALL
+      - telco_monetary_mean_ALL
+      - telco_monetary_max_ALL
+      - telco_monetary_min_ALL
+      - telco_monetary_std_ALL
+      - RECENCY
+      - is_late_mean_3M
+      - is_late_sum_3M
+      - is_prepaid_mean_3M
+      - total_late_day_sum_3M
+      - total_late_day_mean_3M
+      - total_late_day_max_3M
+      - payment_month_count_3M
+      - is_late_mean_6M
+      - is_late_sum_6M
+      - is_prepaid_mean_6M
+      - total_late_day_sum_6M
+      - total_late_day_mean_6M
+      - total_late_day_max_6M
+      - payment_month_count_6M
+      - is_late_mean_12M
+      - is_late_sum_12M
+      - is_prepaid_mean_12M
+      - total_late_day_sum_12M
+      - total_late_day_mean_12M
+      - total_late_day_max_12M
+      - payment_month_count_12M
+      - is_late_mean_ALL
+      - is_late_sum_ALL
+      - is_prepaid_mean_ALL
+      - total_late_day_sum_ALL
+      - total_late_day_mean_ALL
+      - total_late_day_max_ALL
+      - payment_month_count_ALL
+      - RECENCY_telco_payment
+    transform: build_payment_history_12m
+    required: false
+    semantic_type: direct_behavior
+    description: Lịch sử thanh toán cước và amount aggregate trong các cửa sổ quan sát.
+    missing_policy: preserve_missing
+  shopping_installment:
+    raw_columns:
+      - retail_max_device_product_category_segment_24m
+      - retail_max_device_product_price_segment_24m
+      - retail_first_phone_order_date_12m
+      - retail_tradein_count_24m
+      - retail_is_apple
+      - retail_product_group
+      - retail_max_device_product_price_segment_24m_ord
+      - retail_tradein_count_24m_ord
+      - installment_count_24m
+      - installment_late_count_24m
+    transform: build_shopping_installment
+    required: false
+    semantic_type: direct_behavior
+    description: Hành vi mua thiết bị và các trường trả góp nếu nguồn cung cấp.
+    missing_policy: preserve_missing
+  orders:
+    raw_columns:
+      - retail_last_order_date
+      - retail_order_count_12m
+      - retail_gmv_12m
+      - retail_aov_12m
+      - retail_utility_recency_group
+      - retail_utility_frequency_group
+      - retail_last_order_date_ord
+      - retail_order_count_12m_ord
+      - retail_gmv_12m_ord
+      - retail_aov_12m_ord
+    transform: build_orders
+    required: false
+    semantic_type: direct_behavior
+    description: Giá trị và tần suất đơn hàng retail quan sát được.
+    missing_policy: preserve_missing
+  healthcare_spending:
+    raw_columns:
+      - healthcare_last_order_date
+      - healthcare_order_count_6m
+      - healthcare_spend_6m
+      - healthcare_aov_6m
+      - healthcare_repeat_purchase_rate_6m
+      - healthcare_vaccine_visit_count_12m
+      - healthcare_has_vaccine_visit
+      - healthcare_last_order_date_ord
+      - healthcare_order_count_6m_ord
+      - healthcare_spend_6m_ord
+      - healthcare_aov_6m_ord
+      - healthcare_repeat_purchase_rate_6m_ord
+    transform: build_healthcare_spending
+    required: false
+    semantic_type: direct_behavior
+    description: Hoạt động chi tiêu chăm sóc sức khỏe; không suy ra bệnh hoặc khả năng trả nợ.
+    missing_policy: preserve_missing
+  fpt_education:
+    raw_columns: [has_fpt_edu, fpt_edu_year]
+    transform: build_fpt_education
+    required: false
+    semantic_type: direct_behavior
+    description: Cờ/năm giáo dục FPT nếu có trong input; không suy ra quan hệ gia đình khi thiếu.
+    missing_policy: preserve_missing

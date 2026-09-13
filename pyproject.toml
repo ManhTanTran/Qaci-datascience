@@ -35,6 +35,10 @@ dc5 = [
   "openpyxl>=3.1",
   "PyYAML>=6",
 ]
+fpt = [
+  "openpyxl>=3.1",
+  "PyYAML>=6",
+]
 ui = [
   "streamlit>=1.36",
 ]
@@ -44,6 +48,7 @@ dc5-pipeline = "credit_scoring.dc5.pipeline:main"
 dc5-ui = "credit_scoring.dc5.ui:cli_main"
 dc5-admin-ui = "credit_scoring.dc5.admin_ui:cli_main"
 dc5-customer-ui = "credit_scoring.dc5.customer_ui:cli_main"
+fpt-reasoning-ui = "credit_scoring.application.fpt_reasoning_poc.ui:cli_main"
 
 [tool.setuptools.packages.find]
 where = ["src"]
@@ -54,4 +59,4 @@ testpaths = ["tests"]
 [tool.ruff]
 target-version = "py310"
 line-length = 100
-extend-exclude = ["site"]
+extend-exclude = ["site", "notebooks", "docs/archive"]

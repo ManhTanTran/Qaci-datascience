@@ -49,6 +49,18 @@ datasets:
     status: "placeholder"
     local_path: "TODO(FPT): approved secure location, never Git"
     documentation_path: "docs/datasets/fpt_dataset_template.md"
+  - name: "FPT Credit Reasoning PoC Synthetic 10 Cases"
+    version: "simulate_v4 workbook; local attachment inspected 2026-09-12"
+    source: "User-supplied synthetic workbook; not a production or customer dataset."
+    description: "Synthetic cases for testing raw-to-profile evidence, deterministic rules and AI explanation guardrails."
+    grain: "One row per synthetic user in Synthetic_Customers."
+    target: "No modeling target; rule output is a research condition only."
+    id_columns: ["user_id"]
+    date_columns: ["telco_install_date", "telco_cancel_date"]
+    number_of_tables: "One workbook with Synthetic_Customers, Scenario_Design, Source_Mapping and legacy Prompt_View sheets."
+    status: "research_candidate_synthetic_only"
+    local_path: "Ignored local path data/raw/research/fpt_reasoning_poc/FPT_credit_scoring_synthetic_10_cases.xlsx"
+    documentation_path: "docs/datasets/fpt_credit_reasoning_poc.md"
   - name: "DC5 Synthetic Demo"
     version: "generator-v1; seed 20260805"
     source: "Code-generated from the user-provided DC5 workbook schema; no customer records copied."
