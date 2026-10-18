@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<DataSet>
+  <Table>
+    <MaTinh>01</MaTinh><TenTinh>Tỉnh Demo</TenTinh>
+    <MaQuanHuyen>001</MaQuanHuyen><TenQuanHuyen>Quận Demo</TenQuanHuyen>
+    <MaPhuongXa>00001</MaPhuongXa><TenPhuongXa>Phường Trung Tâm</TenPhuongXa>
+    <LoaiHinh>Phường</LoaiHinh>
+  </Table>
+  <Table>
+    <MaTinh>01</MaTinh><TenTinh>Tỉnh Demo</TenTinh>
+    <MaQuanHuyen>001</MaQuanHuyen><TenQuanHuyen>Quận Demo</TenQuanHuyen>
+    <MaPhuongXa>00002</MaPhuongXa><TenPhuongXa>Xã Trùng</TenPhuongXa>
+    <LoaiHinh>Xã</LoaiHinh>
+  </Table>
+  <Table>
+    <MaTinh>02</MaTinh><TenTinh>Tỉnh Khác</TenTinh>
+    <MaQuanHuyen>02</MaQuanHuyen><TenQuanHuyen>Tỉnh Khác</TenQuanHuyen>
+    <MaPhuongXa>00003</MaPhuongXa><TenPhuongXa>Xã Trùng</TenPhuongXa>
+    <LoaiHinh>Xã</LoaiHinh>
+  </Table>
+</DataSet>

@@ -1,0 +1,13 @@
+{
+  "version": 1,
+  "file_drop_enabled": false,
+  "external_collection_enabled": false,
+  "scheduler_registered": false,
+  "daily_goal": 500,
+  "scheduled_time": "08:00",
+  "timezone": "Asia/Ho_Chi_Minh",
+  "max_records_per_input_file": 10000,
+  "statistics_include_only_source_page_confirmed": true,
+  "historical_dataset_mixed": false,
+  "demo_database_mixed": false
+}

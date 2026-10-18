@@ -1,0 +1,51 @@
+﻿ward_code,ward_name,province,district,source_rank,n_customers,pct,admin_source
+TOP50-001,Phường Bình Hưng Hòa,Thành phố Hồ Chí Minh,Quận Bình Tân,1,836,0.97,top_50.txt row 0
+TOP50-002,Phường Hiệp Bình Chánh,Thành phố Hồ Chí Minh,Thành phố Thủ Đức,2,388,0.45,top_50.txt row 1
+TOP50-003,Xã Vĩnh Lộc B,Thành phố Hồ Chí Minh,Huyện Bình Chánh,3,343,0.40,top_50.txt row 2
+TOP50-004,Xã Bình Hưng,Thành phố Hồ Chí Minh,Huyện Bình Chánh,4,340,0.40,top_50.txt row 3
+TOP50-005,Xã Vĩnh Lộc A,Thành phố Hồ Chí Minh,Huyện Bình Chánh,5,310,0.36,top_50.txt row 4
+TOP50-006,Phường Đại Kim,Thành phố Hà Nội,Quận Hoàng Mai,6,306,0.36,top_50.txt row 5
+TOP50-007,Phường Linh Trung,Thành phố Hồ Chí Minh,Thành phố Thủ Đức,7,287,0.33,top_50.txt row 6
+TOP50-008,Phường Trảng Dài,Tỉnh Đồng Nai,Thành phố Biên Hòa,8,278,0.32,top_50.txt row 7
+TOP50-009,Phường Phước Long B,Thành phố Hồ Chí Minh,Thành phố Thủ Đức,9,277,0.32,top_50.txt row 8
+TOP50-010,Phường Long Thạnh Mỹ,Thành phố Hồ Chí Minh,Thành phố Thủ Đức,10,263,0.31,top_50.txt row 9
+TOP50-011,Phường Bình Trị Đông,Thành phố Hồ Chí Minh,Quận Bình Tân,11,257,0.30,top_50.txt row 10
+TOP50-012,Phường An Lạc,Thành phố Hồ Chí Minh,Quận Bình Tân,12,243,0.28,top_50.txt row 11
+TOP50-013,Phường Tân Đông Hiệp,Tỉnh Bình Dương,Thành phố Dĩ An,13,233,0.27,top_50.txt row 12
+TOP50-014,Phường Tân Tạo,Thành phố Hồ Chí Minh,Quận Bình Tân,14,231,0.27,top_50.txt row 13
+TOP50-015,Phường Tây Mỗ,Thành phố Hà Nội,Quận Nam Từ Liêm,15,222,0.26,top_50.txt row 14
+TOP50-016,Phường Minh Khai,Thành phố Hà Nội,Quận Hai Bà Trưng,16,221,0.26,top_50.txt row 15
+TOP50-017,Xã Hòa Bình,Tỉnh Hòa Bình,Thành phố Hòa Bình,17,217,0.25,top_50.txt row 16
+TOP50-018,Phường Bình Trị Đông A,Thành phố Hồ Chí Minh,Quận Bình Tân,18,217,0.25,top_50.txt row 17
+TOP50-019,Phường Tân Hưng,Thành phố Hồ Chí Minh,Quận 7,19,215,0.25,top_50.txt row 18
+TOP50-020,Phường Lĩnh Nam,Thành phố Hà Nội,Quận Hoàng Mai,20,205,0.24,top_50.txt row 19
+TOP50-021,Phường Phú Thuận,Thành phố Hồ Chí Minh,Quận 7,21,199,0.23,top_50.txt row 20
+TOP50-022,Phường Long Bình,Tỉnh Đồng Nai,Thành phố Biên Hòa,22,195,0.23,top_50.txt row 21
+TOP50-023,Phường Thạnh Xuân,Thành phố Hồ Chí Minh,Quận 12,23,194,0.23,top_50.txt row 22
+TOP50-024,Phường Định Công,Thành phố Hà Nội,Quận Hoàng Mai,24,191,0.22,top_50.txt row 23
+TOP50-025,Phường Hiệp Thành,Thành phố Hồ Chí Minh,Quận 12,25,190,0.22,top_50.txt row 24
+TOP50-026,Phường Thạnh Lộc,Thành phố Hồ Chí Minh,Quận 12,26,186,0.22,top_50.txt row 25
+TOP50-027,Phường Hoàng Liệt,Thành phố Hà Nội,Quận Hoàng Mai,27,183,0.21,top_50.txt row 26
+TOP50-028,Phường Nhân Chính,Thành phố Hà Nội,Quận Thanh Xuân,28,180,0.21,top_50.txt row 27
+TOP50-029,Phường Tây Thạnh,Thành phố Hồ Chí Minh,Quận Tân Phú,29,179,0.21,top_50.txt row 28
+TOP50-030,Phường Mai Dịch,Thành phố Hà Nội,Quận Cầu Giấy,30,179,0.21,top_50.txt row 29
+TOP50-031,Phường Tân Chánh Hiệp,Thành phố Hồ Chí Minh,Quận 12,31,179,0.21,top_50.txt row 30
+TOP50-032,Phường Mễ Trì,Thành phố Hà Nội,Quận Nam Từ Liêm,32,178,0.21,top_50.txt row 31
+TOP50-033,Phường Khương Đình,Thành phố Hà Nội,Quận Thanh Xuân,33,176,0.20,top_50.txt row 32
+TOP50-034,Phường Tăng Nhơn Phú A,Thành phố Hồ Chí Minh,Thành phố Thủ Đức,34,174,0.20,top_50.txt row 33
+TOP50-035,Phường Trường Thọ,Thành phố Hồ Chí Minh,Thành phố Thủ Đức,35,173,0.20,top_50.txt row 34
+TOP50-036,Phường Cổ Nhuế 1,Thành phố Hà Nội,Quận Bắc Từ Liêm,36,173,0.20,top_50.txt row 35
+TOP50-037,Phường Thuận Giao,Tỉnh Bình Dương,Thành phố Thuận An,37,169,0.20,top_50.txt row 36
+TOP50-038,Phường Bình Hòa,Tỉnh Bình Dương,Thành phố Thuận An,38,162,0.19,top_50.txt row 37
+TOP50-039,Phường Trung Hòa,Thành phố Hà Nội,Quận Cầu Giấy,39,161,0.19,top_50.txt row 38
+TOP50-040,Phường Tân Thuận Đông,Thành phố Hồ Chí Minh,Quận 7,40,160,0.19,top_50.txt row 39
+TOP50-041,Xã Bà Điểm,Thành phố Hồ Chí Minh,Huyện Hóc Môn,41,160,0.19,top_50.txt row 40
+TOP50-042,Phường Xuân Đỉnh,Thành phố Hà Nội,Quận Bắc Từ Liêm,42,159,0.19,top_50.txt row 41
+TOP50-043,Phường Vĩnh Hưng,Thành phố Hà Nội,Quận Hoàng Mai,43,159,0.19,top_50.txt row 42
+TOP50-044,Phường Tân Thới Nhất,Thành phố Hồ Chí Minh,Quận 12,44,157,0.18,top_50.txt row 43
+TOP50-045,Phường Dịch Vọng,Thành phố Hà Nội,Quận Cầu Giấy,45,157,0.18,top_50.txt row 44
+TOP50-046,Phường Hòa Minh,Thành phố Đà Nẵng,Quận Liên Chiểu,46,157,0.18,top_50.txt row 45
+TOP50-047,Phường Ngọc Thụy,Thành phố Hà Nội,Quận Long Biên,47,156,0.18,top_50.txt row 46
+TOP50-048,Phường Bình Chiểu,Thành phố Hồ Chí Minh,Thành phố Thủ Đức,48,153,0.18,top_50.txt row 47
+TOP50-049,Phường Tăng Nhơn Phú B,Thành phố Hồ Chí Minh,Thành phố Thủ Đức,49,153,0.18,top_50.txt row 48
+TOP50-050,Phường Nghĩa Đô,Thành phố Hà Nội,Quận Cầu Giấy,50,150,0.17,top_50.txt row 49

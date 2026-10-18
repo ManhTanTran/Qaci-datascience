@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#f2f4ef" />
+    <title>Sổ tay giá bất động sản</title>
+    <link rel="stylesheet" href="/assets/dashboard.css?v=20261014-6" />
+    <script src="/assets/dashboard.js?v=20261014-6" defer></script>
+  </head>
+  <body>
+    <div class="demo-banner" id="modeBanner" role="status" aria-live="polite">
+      <span class="banner-dot" aria-hidden="true"></span>
+      <strong>Đang kiểm tra chế độ dữ liệu…</strong>
+      <span id="modeDescription">Kết nối tới kho dữ liệu cục bộ.</span>
+    </div>
+
+    <header class="site-header page-shell">
+      <a class="brand" href="#lookup" aria-label="Sổ tay giá bất động sản, trang tra cứu">
+        <span class="brand-mark" aria-hidden="true">W</span>
+        <span class="brand-copy"><strong>Sổ tay giá</strong><small>BẤT ĐỘNG SẢN · VIỆT NAM</small></span>
+      </a>
+      <nav class="primary-nav" aria-label="Điều hướng chính">
+        <button class="nav-link is-active" type="button" data-view="lookup">Tra cứu giá</button>
+        <button class="nav-link" type="button" data-view="aiContext">Ngữ cảnh AI</button>
+        <button class="nav-link" type="button" data-view="coverage">Độ phủ dữ liệu</button>
+        <button class="nav-link" type="button" data-view="history">Lịch sử</button>
+      </nav>
+      <span class="local-status"><span class="status-dot"></span> Dữ liệu cục bộ</span>
+    </header>
+
+    <main class="page-shell">
+      <section class="view is-visible" id="lookupView" aria-labelledby="pageTitle">
+        <div class="hero">
+          <div>
+            <p class="eyebrow">THỊ TRƯỜNG NHÀ Ở · VIỆT NAM</p>
+            <h1 id="pageTitle">Sổ tay giá,<br />theo từng phường.</h1>
+            <p class="hero-copy">Tra cứu giá rao theo địa bàn và loại bất động sản. Mỗi nhóm giá được tính riêng từ các tin đang theo dõi.</p>
+          </div>
+          <aside class="hero-route" aria-label="Luồng dữ liệu địa bàn vào ngữ cảnh AI">
+            <p class="route-title">Từ nơi ở đến phản hồi</p>
+            <ol class="route-steps">
+              <li><span class="route-index">01</span><span><strong>Nhập nơi sống</strong><small>Phường / xã người dùng cung cấp</small></span></li>
+              <li><span class="route-index">02</span><span><strong>Đối chiếu địa bàn</strong><small>Tra dữ liệu đúng đơn vị hành chính</small></span></li>
+              <li><span class="route-index">03</span><span><strong>Tạo tham chiếu R1</strong><small>Giữ loại giá, số mẫu và phạm vi</small></span></li>
+            </ol>
+            <button class="route-link" type="button" data-view="aiContext">Xem bản xem trước <span aria-hidden="true">↗</span></button>
+          </aside>
+        </div>
+
+        <form class="search-panel" id="searchForm">
+          <div class="field">
+            <label for="provinceFilter">TỈNH / THÀNH</label>
+            <select id="provinceFilter" name="province" required><option value="">Chọn tỉnh / thành trước</option></select>
+          </div>
+          <div class="field field-location">
+            <label for="wardSearch">ĐỊA BÀN CẦN TRA CỨU</label>
+            <input id="wardSearch" name="q" list="wardOptions" autocomplete="off" placeholder="Chọn tỉnh / thành trước…" required disabled />
+            <datalist id="wardOptions"></datalist>
+          </div>
+          <div class="field">
+            <label for="propertyType">LOẠI BẤT ĐỘNG SẢN</label>
+            <select id="propertyType" name="property_type">
+              <option value="">Tất cả loại</option>
+              <option value="NHA_RIENG">Nhà riêng</option>
+              <option value="DAT_O">Đất ở</option>
+              <option value="CHUNG_CU">Chung cư</option>
+            </select>
+          </div>
+          <button class="button button-primary search-button" type="submit">Tra cứu giá <span aria-hidden="true">↗</span></button>
+        </form>
+
+        <div class="quick-row">
+          <span class="quick-label">Xem nhanh:</span>
+          <div class="quick-filters" role="group" aria-label="Lọc nhanh theo loại bất động sản">
+            <button type="button" class="filter-chip" data-type="NHA_RIENG">Nhà riêng</button>
+            <button type="button" class="filter-chip" data-type="DAT_O">Đất ở</button>
+            <button type="button" class="filter-chip" data-type="CHUNG_CU">Chung cư</button>
+            <button type="button" class="filter-chip is-muted" data-type="">Tất cả</button>
+          </div>
+          <span class="source-note" id="lookupSourceNote">Tính toán từ SQLite</span>
+        </div>
+
+        <div class="inline-message" id="lookupMessage" role="status" aria-live="polite" hidden></div>
+        <div id="targetPickerWrap" class="target-picker" hidden>
+          <label for="targetPicker">Chọn đúng địa bàn</label>
+          <select id="targetPicker"></select>
+        </div>
+        <section id="lookupResults" class="results-area" aria-live="polite" aria-busy="false"></section>
+      </section>
+
+      <section class="view context-view" id="aiContextView" aria-labelledby="contextTitle" hidden>
+        <div class="context-intro">
+          <div>
+            <p class="eyebrow">KẾT NỐI KHO DỮ LIỆU VỚI AI</p>
+            <h1 id="contextTitle">Địa bàn trở thành<br />ngữ cảnh rõ ràng.</h1>
+            <p class="hero-copy">Xem cách nơi sống được đối chiếu với thống kê giá rao, rồi đóng gói thành tham chiếu riêng có loại giá, số mẫu và mốc cập nhật.</p>
+          </div>
+          <div class="context-intro-note"><span class="context-note-mark">R1</span><p>Một mẩu dữ liệu khu vực.<br /><strong>Không phải hồ sơ tài chính.</strong></p></div>
+        </div>
+
+        <ol class="context-flow" aria-label="Các bước tạo ngữ cảnh">
+          <li class="is-current"><span>01</span><strong>Nơi sống</strong><small>Người dùng nhập</small></li>
+          <li><span>02</span><strong>Địa bàn chuẩn</strong><small>Đối chiếu danh mục</small></li>
+          <li><span>03</span><strong>Tham chiếu R1</strong><small>Ghim vào lượt chạy</small></li>
+          <li><span>04</span><strong>AI tạo phản hồi</strong><small>Dùng đúng phạm vi</small></li>
+        </ol>
+
+        <form class="context-search panel" id="contextForm">
+          <div class="field">
+            <label for="contextProvince">TỈNH / THÀNH</label>
+            <select id="contextProvince" required><option value="">Chọn tỉnh / thành</option></select>
+          </div>
+          <div class="field field-location">
+            <label for="contextWard">NƠI SỐNG ĐƯỢC ĐỐI CHIẾU</label>
+            <input id="contextWard" list="contextWardOptions" autocomplete="off" placeholder="Chọn tỉnh / thành trước…" required disabled />
+            <datalist id="contextWardOptions"></datalist>
+          </div>
+          <div class="field">
+            <label for="contextType">NHÓM GIÁ THAM KHẢO</label>
+            <select id="contextType">
+              <option value="">Tất cả nhóm, tách riêng</option>
+              <option value="DAT_O">Đất ở</option>
+              <option value="NHA_RIENG">Nhà riêng</option>
+              <option value="CHUNG_CU">Chung cư</option>
+            </select>
+          </div>
+          <button class="button button-primary" type="submit">Tạo bản xem trước <span aria-hidden="true">↗</span></button>
+        </form>
+
+        <div class="context-message inline-message" id="contextMessage" role="status" aria-live="polite" hidden></div>
+        <section class="context-results" id="contextResults" aria-live="polite" aria-busy="false">
+          <div class="context-empty">
+            <span class="empty-mark" aria-hidden="true">R1</span>
+            <div><strong>Chọn một địa bàn để xem ngữ cảnh được tạo</strong><p>Bản xem trước dùng dữ liệu hiện có trong kho cục bộ. Nó không gửi yêu cầu tới Gemini hoặc hệ thống đánh giá khoản vay.</p></div>
+          </div>
+        </section>
+      </section>
+
+      <section class="view" id="coverageView" aria-labelledby="coverageTitle" hidden>
+        <div class="section-heading">
+          <div><p class="eyebrow">KHU VỰC QUẢN LÝ</p><h1 id="coverageTitle">Độ phủ dữ liệu</h1></div>
+          <p class="section-intro">Tổng quan bộ dữ liệu minh họa hiện được lưu cục bộ.</p>
+        </div>
+        <div class="metric-grid" id="coverageMetrics"></div>
+        <div class="panel distribution-panel">
+          <div class="panel-heading"><div><p class="eyebrow">CƠ CẤU MẪU</p><h2>Tin theo loại bất động sản</h2></div><span class="pill pill-demo">DỮ LIỆU MINH HỌA</span></div>
+          <div id="typeDistribution" class="distribution-list"></div>
+        </div>
+        <div class="panel table-panel">
+          <div class="panel-heading"><div><p class="eyebrow">TOP 50</p><h2>Địa bàn trong danh sách</h2></div><span id="wardCoverageCount" class="subtle-label"></span></div>
+          <div class="table-scroll"><table><thead><tr><th>Hạng</th><th>Phường / xã</th><th>Quận / huyện cũ</th><th>Tỉnh / thành</th><th>Tin</th></tr></thead><tbody id="wardTable"></tbody></table></div>
+        </div>
+      </section>
+
+      <section class="view" id="historyView" aria-labelledby="historyTitle" hidden>
+        <div class="section-heading">
+          <div><p class="eyebrow">THEO DÕI QUA THỜI GIAN</p><h1 id="historyTitle">Lịch sử quan sát</h1></div>
+          <p class="section-intro">Mỗi lần ghi nhận giữ lại giá, diện tích và loại tin. Bộ dữ liệu này không có nguồn web thật.</p>
+        </div>
+        <div class="history-controls panel">
+          <div class="field"><label for="historyWard">PHƯỜNG / XÃ</label><select id="historyWard"></select></div>
+          <div class="field"><label for="historyType">LOẠI BẤT ĐỘNG SẢN</label><select id="historyType"><option value="">Tất cả loại</option><option value="DAT_O">Đất ở</option><option value="NHA_RIENG">Nhà riêng</option><option value="CHUNG_CU">Chung cư</option></select></div>
+          <button class="button button-secondary" id="loadHistory" type="button">Xem lịch sử</button>
+        </div>
+        <div class="inline-message" id="historyMessage" role="status" aria-live="polite" hidden></div>
+        <div class="panel table-panel"><div class="panel-heading"><div><p class="eyebrow">OBSERVATIONS</p><h2>Các lần ghi nhận</h2></div><span class="pill pill-demo">MINH HỌA · CHƯA XÁC MINH</span></div><div class="table-scroll"><table><thead><tr><th>Ngày</th><th>Loại</th><th>Tin</th><th>Giá</th><th>Diện tích</th><th>Giá / m²</th><th>Bằng chứng</th></tr></thead><tbody id="historyTable"></tbody></table></div></div>
+      </section>
+    </main>
+
+    <footer class="page-shell site-footer">
+      <span>WardPriceDaily</span><span>Giá và tin rao là dữ liệu minh họa, chưa được xác minh từ thị trường. Không dùng để định giá giao dịch.</span>
+    </footer>
+  </body>
+</html>

@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#f0f3ed" />
+    <title>WardPriceDaily · Quản lý pipeline</title>
+    <link rel="stylesheet" href="/assets/ingestion-pilot.css?v=20261015-f1" />
+    <script src="/assets/ingestion-pilot.js?v=20261015-f1" defer></script>
+  </head>
+  <body>
+    <header class="topbar">
+      <a class="brand" href="/" aria-label="Về trang tra cứu giá">
+        <span class="brand-mark">W</span>
+        <span><strong>Sổ tay giá</strong><small>BẤT ĐỘNG SẢN · VIỆT NAM</small></span>
+      </a>
+      <nav aria-label="Điều hướng">
+        <a href="/">Tra cứu giá</a>
+        <span class="active" aria-current="page">Quản lý pipeline</span>
+      </nav>
+      <span class="local-pill"><i></i> Pilot SQLite riêng</span>
+    </header>
+
+    <main class="shell">
+      <section class="intro">
+        <div>
+          <p class="kicker">VẬN HÀNH DỮ LIỆU · TOP 50</p>
+          <h1>Dòng dữ liệu<br />mỗi ngày.</h1>
+          <p class="lede">Theo dõi nguồn, lượt nhập, bằng chứng và độ phủ. Dữ liệu ở đây nằm trong pilot riêng, chưa đi vào giá hiện hành hay ngữ cảnh AI.</p>
+        </div>
+        <aside class="goal-note">
+          <span>Mục tiêu kế hoạch</span>
+          <strong>500</strong>
+          <small>listing mới mỗi ngày · không phải cam kết sản lượng</small>
+        </aside>
+      </section>
+
+      <section class="status-strip" id="statusStrip" aria-live="polite">
+        <span class="status-light"></span>
+        <strong id="statusTitle">Đang đọc pilot database…</strong>
+        <span id="statusDetail">Chưa gửi request ra ngoài.</span>
+      </section>
+
+      <section class="metrics" id="metrics" aria-label="Tổng quan pipeline">
+        <article class="metric metric-focus"><span>Tin mới đăng · 24 giờ</span><strong id="newPosted">—</strong><small>Phải có ngày đăng từ nguồn tin cậy</small></article>
+        <article class="metric"><span>Tin mới phát hiện</span><strong id="newDiscovered">—</strong><small>Lần đầu xuất hiện trong kho</small></article>
+        <article class="metric"><span>Tin đã xác minh</span><strong id="verified">—</strong><small>Không tính lời tự khai của AI</small></article>
+        <article class="metric"><span>Địa bàn có dữ liệu</span><strong id="coverage">—</strong><small>Trong danh sách Top 50</small></article>
+      </section>
+
+      <section class="panel target-coverage-panel">
+        <div class="panel-head">
+          <div><p class="kicker">ĐỘ PHỦ TOP 50</p><h2>Tiến độ theo phường / xã</h2></div>
+          <span class="quiet-tag" id="targetCoverageLabel">—</span>
+        </div>
+        <p class="coverage-note">Cột “Mới đăng” chỉ đếm ngày đăng được nguồn tin cậy xác nhận trong 24 giờ. Candidate mới phát hiện được hiển thị riêng, không tính vào con số này.</p>
+        <div class="table-wrap coverage-table-wrap">
+          <table>
+            <thead><tr><th>Địa bàn</th><th>Candidate</th><th>Đã xác minh</th><th>Mới đăng hôm nay</th><th>Mục tiêu / 10</th></tr></thead>
+            <tbody id="targetRows"></tbody>
+          </table>
+        </div>
+        <p class="empty" id="emptyTargets" hidden>Top 50 chưa được đồng bộ vào pilot database.</p>
+      </section>
+
+      <section class="work-grid">
+        <article class="panel runs-panel">
+          <div class="panel-head">
+            <div><p class="kicker">NHẬT KÝ</p><h2>Lượt nhập gần đây</h2></div>
+            <span class="quiet-tag" id="todayLabel">—</span>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>Thời điểm</th><th>Nguồn</th><th>Trạng thái</th><th>Nhận</th><th>Mới</th><th>Rà soát</th></tr></thead>
+              <tbody id="runRows"></tbody>
+            </table>
+          </div>
+          <p class="empty" id="emptyRuns" hidden>Chưa có lượt nhập nào. Khi có file từ nguồn được phép, nhật ký sẽ xuất hiện ở đây.</p>
+        </article>
+
+        <article class="panel sources-panel">
+          <div class="panel-head">
+            <div><p class="kicker">QUYỀN NGUỒN</p><h2>Nguồn dữ liệu</h2></div>
+            <span class="quiet-tag" id="sourceCount">—</span>
+          </div>
+          <div id="sourceRows" class="source-list"></div>
+          <p class="empty" id="emptySources" hidden>Chưa có nguồn trong registry.</p>
+        </article>
+      </section>
+
+      <section class="panel listings-panel">
+        <div class="panel-head">
+          <div><p class="kicker">CANDIDATE WAREHOUSE</p><h2>Bản ghi trong pilot</h2></div>
+          <span class="quiet-tag" id="candidateCount">—</span>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Địa bàn</th><th>Tin rao</th><th>Loại</th><th>Giá / diện tích</th><th>Bằng chứng</th><th>Trạng thái</th></tr></thead>
+            <tbody id="listingRows"></tbody>
+          </table>
+        </div>
+        <p class="empty" id="emptyListings" hidden>Chưa có candidate. Nguồn hiện tại đều đang chờ xác nhận quyền; file chưa được phép sẽ bị chặn trước khi lưu.</p>
+      </section>
+
+      <section class="bottom-grid">
+        <article class="panel">
+          <div class="panel-head"><div><p class="kicker">BẰNG CHỨNG</p><h2>Chất lượng bản ghi</h2></div></div>
+          <div id="evidenceRows" class="count-list"></div>
+          <p class="empty" id="emptyEvidence" hidden>Chưa có bản ghi để phân loại.</p>
+        </article>
+        <article class="panel quarantine-panel">
+          <div class="panel-head"><div><p class="kicker">HÀNG CHỜ XỬ LÝ</p><h2>Gần đây bị cách ly</h2></div></div>
+          <div class="table-wrap">
+            <table><thead><tr><th>Thời điểm</th><th>Nguồn</th><th>Dòng</th><th>Lý do</th></tr></thead><tbody id="quarantineRows"></tbody></table>
+          </div>
+          <p class="empty" id="emptyQuarantine" hidden>Không có dòng nào bị cách ly gần đây.</p>
+        </article>
+      </section>
+
+      <footer class="footer">
+        <span>WardPriceDaily · Pilot riêng</span>
+        <span>Không trộn historical, demo hoặc production · Task Scheduler chưa bật</span>
+      </footer>
+    </main>
+  </body>
+</html>

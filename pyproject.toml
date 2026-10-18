@@ -1,0 +1,41 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ward-price-daily"
+version = "0.2.0"
+description = "Windows-first daily real-estate price research by Vietnamese ward"
+requires-python = ">=3.10"
+dependencies = [
+  "google-genai>=1.45,<3",
+  "fastapi>=0.115,<1",
+  "openpyxl>=3.1,<4",
+  "uvicorn>=0.30,<1",
+]
+
+[project.optional-dependencies]
+dev = ["httpx>=0.27,<1", "pytest>=8,<9", "ruff>=0.6"]
+ui = ["streamlit>=1.40,<2"]
+historical = ["pyarrow>=18,<25"]
+
+[project.scripts]
+wardprice = "wardprice.__main__:main"
+wardprice-demo = "wardprice.demo:main"
+wardprice-webpilot = "wardprice_webpilot.__main__:main"
+wardprice-historical = "wardprice.historical_dataset:main"
+wardprice-ingestion = "wardprice.ingestion_pilot:main"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
+[tool.setuptools.packages.find]
+include = ["wardprice*"]
+exclude = ["tests*"]
+
+[tool.setuptools.package-data]
+wardprice = ["static/*"]
+
+[tool.ruff]
+target-version = "py310"
+line-length = 100

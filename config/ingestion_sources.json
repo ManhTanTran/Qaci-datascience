@@ -1,0 +1,190 @@
+{
+  "version": 1,
+  "sources": [
+    {
+      "source_id": "batdongsan.com.vn",
+      "source_name": "Batdongsan.com.vn",
+      "source_type": "REVIEW_REQUIRED",
+      "permission_status": "REVIEW_REQUIRED",
+      "permission_evidence": "",
+      "permitted_scope": "",
+      "permitted_frequency": "",
+      "storage_permission": false,
+      "attribution_requirements": "Nếu được cấp quyền: ghi Batdongsan.com.vn và URL tin gốc.",
+      "last_reviewed_at": "2026-10-14",
+      "enabled": false,
+      "capabilities": {
+        "published_at_authoritative": false,
+        "expires_at_authoritative": false
+      },
+      "metadata": {
+        "terms_url": "https://batdongsan.com.vn/dieu-khoan-thoa-thuan",
+        "permission_note": "Audit E1 chưa xác nhận quyền thu thập có hệ thống, lưu trữ hoặc dùng làm AI context."
+      }
+    },
+    {
+      "source_id": "alonhadat.com.vn",
+      "source_name": "Alonhadat.com.vn",
+      "source_type": "REVIEW_REQUIRED",
+      "permission_status": "REVIEW_REQUIRED",
+      "permission_evidence": "",
+      "permitted_scope": "",
+      "permitted_frequency": "",
+      "storage_permission": false,
+      "attribution_requirements": "Nếu được cấp quyền: ghi Alonhadat.com.vn và URL tin gốc.",
+      "last_reviewed_at": "2026-10-14",
+      "enabled": false,
+      "capabilities": {
+        "published_at_authoritative": false,
+        "expires_at_authoritative": false
+      },
+      "metadata": {
+        "permission_note": "Audit E1 chưa xác nhận API/feed hoặc quyền thu thập tự động."
+      }
+    },
+    {
+      "source_id": "nhatot.com",
+      "source_name": "Nhà Tốt",
+      "source_type": "REVIEW_REQUIRED",
+      "permission_status": "REVIEW_REQUIRED",
+      "permission_evidence": "",
+      "permitted_scope": "",
+      "permitted_frequency": "",
+      "storage_permission": false,
+      "attribution_requirements": "Nếu được cấp quyền: ghi Nhà Tốt và URL tin gốc.",
+      "last_reviewed_at": "2026-10-14",
+      "enabled": false,
+      "capabilities": {
+        "published_at_authoritative": false,
+        "expires_at_authoritative": false
+      },
+      "metadata": {
+        "permission_note": "Robots signals không thay thế chấp thuận API/partner bằng văn bản."
+      }
+    },
+    {
+      "source_id": "homedy.com",
+      "source_name": "Homedy.com",
+      "source_type": "REVIEW_REQUIRED",
+      "permission_status": "REVIEW_REQUIRED",
+      "permission_evidence": "",
+      "permitted_scope": "",
+      "permitted_frequency": "",
+      "storage_permission": false,
+      "attribution_requirements": "Nếu được cấp quyền: ghi Homedy và URL tin gốc.",
+      "last_reviewed_at": "2026-10-14",
+      "enabled": false,
+      "capabilities": {
+        "published_at_authoritative": false,
+        "expires_at_authoritative": false
+      },
+      "metadata": {
+        "permission_note": "Quy chế đã rà soát chưa cấp rõ quyền trích xuất listing tự động."
+      }
+    },
+    {
+      "source_id": "housing-market-api",
+      "source_name": "Housing Market Group API",
+      "source_type": "REVIEW_REQUIRED",
+      "permission_status": "REVIEW_REQUIRED",
+      "permission_evidence": "",
+      "permitted_scope": "",
+      "permitted_frequency": "",
+      "storage_permission": false,
+      "attribution_requirements": "Chờ hợp đồng/API documentation xác nhận yêu cầu ghi nguồn.",
+      "last_reviewed_at": "2026-10-14",
+      "enabled": false,
+      "capabilities": {
+        "published_at_authoritative": false,
+        "expires_at_authoritative": false
+      },
+      "metadata": {
+        "proposed_access_type": "AUTHORIZED_API",
+        "api_url": "https://housingmarketgroup.com/housing-market-api-real-time-real-estate-data-across-17-countries",
+        "permission_note": "Dịch vụ subscription; chưa có báo giá, credential, hợp đồng hoặc xác nhận schema cấp phường."
+      }
+    },
+    {
+      "source_id": "moc-housing-market-database",
+      "source_name": "CSDL nhà ở và thị trường BĐS — Bộ Xây dựng",
+      "source_type": "REVIEW_REQUIRED",
+      "permission_status": "REVIEW_REQUIRED",
+      "permission_evidence": "",
+      "permitted_scope": "",
+      "permitted_frequency": "",
+      "storage_permission": false,
+      "attribution_requirements": "Chờ cơ quan quản lý xác nhận hình thức attribution.",
+      "last_reviewed_at": "2026-10-14",
+      "enabled": false,
+      "capabilities": {
+        "published_at_authoritative": false,
+        "expires_at_authoritative": false
+      },
+      "metadata": {
+        "proposed_access_type": "AUTHORIZED_API",
+        "legal_basis_url": "https://vanban.chinhphu.vn/?docid=216395&pageid=27160&typegroupid=4",
+        "permission_note": "Nghị định 357/2025/NĐ-CP; hệ thống công khai báo cáo/dự án nhưng chưa xác nhận API công khai, quyền lưu trữ, cấp độ tin rao hoặc URL listing cho pilot này."
+      }
+    },
+    {
+      "source_id": "user-supplied-file",
+      "source_name": "File do người vận hành cung cấp",
+      "source_type": "USER_SUPPLIED",
+      "permission_status": "REVIEW_REQUIRED",
+      "permission_evidence": "",
+      "permitted_scope": "",
+      "permitted_frequency": "",
+      "storage_permission": false,
+      "attribution_requirements": "Khai báo tên nguồn/chủ sở hữu và yêu cầu attribution trong permission evidence.",
+      "last_reviewed_at": "2026-10-15",
+      "enabled": false,
+      "capabilities": {
+        "published_at_authoritative": false,
+        "expires_at_authoritative": false
+      },
+      "metadata": {
+        "permission_note": "Chỉ bật sau khi xác nhận quyền lưu trữ và sử dụng file trong phạm vi đã nêu."
+      }
+    },
+    {
+      "source_id": "partner-csv-template",
+      "source_name": "CSV từ đối tác — chưa cấu hình",
+      "source_type": "PARTNER_CSV",
+      "permission_status": "REVIEW_REQUIRED",
+      "permission_evidence": "",
+      "permitted_scope": "",
+      "permitted_frequency": "",
+      "storage_permission": false,
+      "attribution_requirements": "Chờ hợp đồng đối tác xác định credit và URL cần lưu.",
+      "last_reviewed_at": "2026-10-15",
+      "enabled": false,
+      "capabilities": {
+        "published_at_authoritative": false,
+        "expires_at_authoritative": false
+      },
+      "metadata": {
+        "permission_note": "Mẫu onboarding; không đại diện cho nguồn đang có quyền."
+      }
+    },
+    {
+      "source_id": "partner-json-template",
+      "source_name": "JSON từ đối tác — chưa cấu hình",
+      "source_type": "PARTNER_JSON",
+      "permission_status": "REVIEW_REQUIRED",
+      "permission_evidence": "",
+      "permitted_scope": "",
+      "permitted_frequency": "",
+      "storage_permission": false,
+      "attribution_requirements": "Chờ hợp đồng đối tác xác định credit và URL cần lưu.",
+      "last_reviewed_at": "2026-10-15",
+      "enabled": false,
+      "capabilities": {
+        "published_at_authoritative": false,
+        "expires_at_authoritative": false
+      },
+      "metadata": {
+        "permission_note": "Mẫu onboarding; không đại diện cho nguồn đang có quyền."
+      }
+    }
+  ]
+}

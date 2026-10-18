@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#f2f4ef" />
+    <title>Sổ tay giá · Tra cứu Top 50</title>
+    <link rel="stylesheet" href="/assets/dashboard.css?v=20261015-e3" />
+    <link rel="stylesheet" href="/assets/historical-pilot.css?v=20261015-r1-preview-2" />
+    <script src="/assets/historical-pilot.js?v=20261015-r1-preview-2" defer></script>
+  </head>
+  <body>
+    <div class="historical-banner" role="status">
+      <span class="banner-dot" aria-hidden="true"></span>
+      <strong>NGHIÊN CỨU · PHI THƯƠNG MẠI</strong>
+      <span>Dữ liệu lịch sử từ TiniX AI; không trộn vào giá hiện hành hoặc ngữ cảnh AI.</span>
+    </div>
+    <header class="site-header page-shell">
+      <a class="brand" href="/" aria-label="Quay lại Sổ tay giá bất động sản">
+        <span class="brand-mark" aria-hidden="true">W</span>
+        <span class="brand-copy"><strong>Sổ tay giá</strong><small>BẤT ĐỘNG SẢN · VIỆT NAM</small></span>
+      </a>
+      <nav class="historical-nav" aria-label="Điều hướng">
+        <span class="nav-link is-active" aria-current="page">Tra cứu Top 50</span>
+        <a class="nav-link" href="/ingestion-pilot">Quản lý pipeline</a>
+      </nav>
+      <span class="local-status"><span class="status-dot" aria-hidden="true"></span> SQLite pilot riêng</span>
+    </header>
+
+    <main class="page-shell historical-main">
+      <section class="historical-hero" aria-labelledby="historical-title">
+        <div>
+          <p class="eyebrow">DỮ LIỆU THỊ TRƯỜNG · MẪU LỊCH SỬ</p>
+          <h1 id="historical-title">Một lát cắt,<br />theo từng địa bàn.</h1>
+          <p class="hero-copy">Khám phá các tin trong mẫu TiniX AI khớp chính xác với danh sách Top 50 và xem cách dữ liệu được kiểm tra trước khi tính giá.</p>
+        </div>
+        <aside class="historical-source-card">
+          <span class="source-index" aria-hidden="true">01</span>
+          <p class="source-card-title">Nguồn và phạm vi</p>
+          <p id="datasetAttribution">Đang đọc metadata của mẫu pilot…</p>
+          <a href="https://huggingface.co/datasets/tinixai/vietnam-real-estates" target="_blank" rel="noreferrer">Xem dataset và provenance ↗</a>
+        </aside>
+      </section>
+
+      <section class="historical-disclosure" aria-label="Giới hạn của dữ liệu">
+        <div class="disclosure-mark" aria-hidden="true">i</div>
+        <div>
+          <strong>Đây là giá rao trong dataset lịch sử, chưa xác minh từng tin gốc.</strong>
+          <p>Dataset không cung cấp loại giao dịch hoặc URL riêng cho từng tin. Hệ thống chỉ đưa tiêu đề ghi rõ bán và nhóm BĐS ánh xạ rõ vào thống kê lịch sử; các trường hợp còn lại được giữ riêng để rà soát.</p>
+        </div>
+        <a class="license-pill" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank" rel="noreferrer">CC BY-NC 4.0</a>
+      </section>
+
+      <section class="historical-metrics" id="overviewMetrics" aria-label="Tổng quan mẫu lịch sử" aria-live="polite">
+        <div class="metric-card metric-loading">Đang tải phạm vi mẫu…</div>
+      </section>
+
+      <section class="panel historical-controls" aria-labelledby="lookup-heading">
+        <div class="panel-heading historical-panel-heading">
+          <div><p class="eyebrow">TRA CỨU TOP 50 · KHO LỊCH SỬ</p><h2 id="lookup-heading">Chọn tỉnh/thành, địa bàn và loại bất động sản</h2></div>
+          <span class="history-tag">LỊCH SỬ · KHÔNG PHẢI GIÁ HIỆN HÀNH</span>
+        </div>
+        <div class="historical-filter-grid">
+          <div class="field">
+            <label for="provinceSelect">TỈNH / THÀNH</label>
+            <select id="provinceSelect" aria-describedby="provinceHint"><option value="">Đang tải danh sách…</option></select>
+            <small id="provinceHint">Chọn tỉnh/thành để giới hạn gợi ý trong Top 50.</small>
+          </div>
+          <div class="field">
+            <label for="targetSelect">PHƯỜNG / XÃ TRONG TOP 50</label>
+            <select id="targetSelect" aria-describedby="targetHint" disabled><option value="">Chọn tỉnh/thành trước</option></select>
+            <small id="targetHint">Danh sách dùng nguyên mapping địa bàn cũ đã lưu trong SQLite.</small>
+          </div>
+          <div class="field">
+            <label for="propertySelect">LOẠI BẤT ĐỘNG SẢN</label>
+            <select id="propertySelect">
+              <option value="">Tất cả nhóm · thống kê tách riêng</option>
+              <option value="DAT_O">Đất ở</option>
+              <option value="NHA_RIENG">Nhà riêng</option>
+              <option value="CHUNG_CU">Chung cư</option>
+            </select>
+            <small>Nhóm giá khác nhau không bị gộp thành một trung bình.</small>
+          </div>
+        </div>
+      </section>
+
+      <section class="historical-results" aria-live="polite" aria-busy="false">
+        <div id="targetHeading" class="historical-result-heading"></div>
+        <div id="historicalStats" class="historical-stat-grid"></div>
+        <section id="historicalR1" class="historical-r1" aria-labelledby="historical-r1-title" hidden>
+          <div class="historical-r1-head">
+            <span class="historical-r1-mark" aria-hidden="true">R1</span>
+            <div class="historical-r1-heading">
+              <h3 id="historical-r1-title">Ngữ cảnh địa bàn</h3>
+              <span class="historical-r1-label">Bản xem trước · nghiên cứu lịch sử</span>
+            </div>
+          </div>
+          <p id="historicalR1Summary" class="historical-r1-summary"></p>
+          <p class="historical-r1-note">Thông tin giá rao cấp khu vực; không mô tả tài sản hay khả năng trả nợ của một cá nhân.</p>
+          <details class="historical-r1-details">
+            <summary>Xem dữ liệu được ghim vào R1</summary>
+            <pre id="historicalR1Payload" class="historical-r1-payload"></pre>
+          </details>
+          <p class="historical-r1-footer">Ghép từ SQLite · chưa gọi AI · chưa gửi sang luồng đánh giá.</p>
+        </section>
+        <div class="panel historical-table-panel">
+          <div class="panel-heading historical-panel-heading">
+            <div><p class="eyebrow">CÁC DÒNG ĐÃ ĐỐI CHIẾU</p><h2>Tin trong mẫu</h2></div>
+            <span id="candidateCount" class="subtle-label"></span>
+          </div>
+          <div class="table-scroll">
+            <table>
+              <thead><tr><th>Tiêu đề và trạng thái</th><th>Nhóm nguồn</th><th>Giá rao</th><th>Diện tích</th><th>Giá/m²</th><th>Ngày đăng</th></tr></thead>
+              <tbody id="candidateRows"></tbody>
+            </table>
+          </div>
+          <p id="emptyCandidates" class="historical-empty" hidden></p>
+        </div>
+        <div class="panel historical-table-panel">
+          <div class="panel-heading historical-panel-heading">
+            <div><p class="eyebrow">PHÂN BỐ THEO NGÀY ĐĂNG</p><h2>Tóm tắt theo tháng</h2></div>
+            <span class="subtle-label">Chỉ tính ứng viên đủ điều kiện · từng loại riêng</span>
+          </div>
+          <div class="table-scroll">
+            <table>
+              <thead><tr><th>Tháng đăng</th><th>Loại</th><th>n</th><th>Trung bình/m² (n ≥ 5)</th><th>Trung vị/m²</th><th>P25–P75</th><th>Min–Max</th><th>Cờ chất lượng</th></tr></thead>
+              <tbody id="monthlyRows"></tbody>
+            </table>
+          </div>
+          <p id="emptyMonthly" class="historical-empty" hidden>Chưa có nhóm tin đủ điều kiện để tính thống kê theo tháng.</p>
+        </div>
+      </section>
+
+      <footer class="historical-footer">
+        <p><strong>Nguồn:</strong> TiniX AI, <a href="https://huggingface.co/datasets/tinixai/vietnam-real-estates" target="_blank" rel="noreferrer">vietnam-real-estates</a>, CC BY-NC 4.0. Bản pilot giữ attribution, revision và phương pháp lấy mẫu.</p>
+        <p>Không dùng cho mục đích thương mại. Không đưa các con số này vào thống kê `CURRENT_VERIFIED`, `DAILY_NEW` hoặc tham chiếu AI.</p>
+      </footer>
+      <div id="pageMessage" class="historical-message" role="status" aria-live="polite" hidden></div>
+    </main>
+  </body>
+</html>

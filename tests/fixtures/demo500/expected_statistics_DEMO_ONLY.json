@@ -1,0 +1,1207 @@
+{
+  "description": "Expected stats in isolated demo mode only. Production verified statistics must exclude every synthetic row.",
+  "record_count": 500,
+  "administrative_targets": 50,
+  "statistics": [
+    {
+      "target_rank": 1,
+      "original_ward": "Phường Bình Hưng Hòa",
+      "property_type": "DAT_O",
+      "sample_count": 4,
+      "demo_mean_price_per_m2": 71998936.17,
+      "demo_median_price_per_m2": 71500000.0
+    },
+    {
+      "target_rank": 1,
+      "original_ward": "Phường Bình Hưng Hòa",
+      "property_type": "NHA_RIENG",
+      "sample_count": 4,
+      "demo_mean_price_per_m2": 96997524.75,
+      "demo_median_price_per_m2": 96995049.5
+    },
+    {
+      "target_rank": 1,
+      "original_ward": "Phường Bình Hưng Hòa",
+      "property_type": "CHUNG_CU",
+      "sample_count": 2,
+      "demo_mean_price_per_m2": 63500000.0,
+      "demo_median_price_per_m2": 63500000.0
+    },
+    {
+      "target_rank": 2,
+      "original_ward": "Phường Hiệp Bình Chánh",
+      "property_type": "DAT_O",
+      "sample_count": 4,
+      "demo_mean_price_per_m2": 69500957.85,
+      "demo_median_price_per_m2": 69500000.0
+    },
+    {
+      "target_rank": 2,
+      "original_ward": "Phường Hiệp Bình Chánh",
+      "property_type": "NHA_RIENG",
+      "sample_count": 4,
+      "demo_mean_price_per_m2": 103998780.49,
+      "demo_median_price_per_m2": 104000000.0
+    },
+    {
+      "target_rank": 2,
+      "original_ward": "Phường Hiệp Bình Chánh",
+      "property_type": "CHUNG_CU",
+      "sample_count": 2,
+      "demo_mean_price_per_m2": 55500000.0,
+      "demo_median_price_per_m2": 55500000.0
+    },
+    {
+      "target_rank": 3,
+      "original_ward": "Xã Vĩnh Lộc B",
+      "property_type": "DAT_O",
+      "sample_count": 4,
+      "demo_mean_price_per_m2": 67498803.83,
+      "demo_median_price_per_m2": 68000000.0
+    },
+    {
+      "target_rank": 3,
+      "original_ward": "Xã Vĩnh Lộc B",
+      "property_type": "NHA_RIENG",
+      "sample_count": 4,
+      "demo_mean_price_per_m2": 100751633.99,
+      "demo_median_price_per_m2": 101500000.0
+    },
+    {
+      "target_rank": 3,
+      "original_ward": "Xã Vĩnh Lộc B",
+      "property_type": "CHUNG_CU",
+      "sample_count": 2,
+      "demo_mean_price_per_m2": 59500000.0,
+      "demo_median_price_per_m2": 59500000.0
+    },
+    {
+      "target_rank": 4,
+      "original_ward": "Xã Bình Hưng",
+      "property_type": "DAT_O",
+      "sample_count": 4,
+      "demo_mean_price_per_m2": 72247619.05,
+      "demo_median_price_per_m2": 72995238.1
+    },
+    {
+      "target_rank": 4,
+      "original_ward": "Xã Bình Hưng",
+      "property_type": "NHA_RIENG",
+      "sample_count": 4,
+      "demo_mean_price_per_m2": 97502369.41,
+      "demo_median_price_per_m2": 97501945.53
+    },
+    {
+      "target_rank": 4,
+      "original_ward": "Xã Bình Hưng",
+      "property_type": "CHUNG_CU",
+      "sample_count": 2,
+      "demo_mean_price_per_m2": 52004065.04,
+      "demo_median_price_per_m2": 52004065.04
+    },
+    {
+      "target_rank": 5,
+      "original_ward": "Xã Vĩnh Lộc A",
+      "property_type": "DAT_O",
+      "sample_count": 4,
+      "demo_mean_price_per_m2": 70000957.85,
+      "demo_median_price_per_m2": 70000000.0
+    },
+    {
+      "target_rank": 5,
+      "original_ward": "Xã Vĩnh Lộc A",
+      "property_type": "NHA_RIENG",
+      "sample_count": 4,
+      "demo_mean_price_per_m2": 94250000.0,
+      "demo_median_price_per_m2": 93500000.0
+    },
+    {
+      "target_rank": 5,
+      "original_ward": "Xã Vĩnh Lộc A",
+      "property_type": "CHUNG_CU",
+      "sample_count": 2,
+      "demo_mean_price_per_m2": 55996644.3,
+      "demo_median_price_per_m2": 55996644.3
+    },
+    {
+      "target_rank": 6,
+      "original_ward": "Phường Đại Kim",
+      "property_type": "DAT_O",
+      "sample_count": 4,
+      "demo_mean_price_per_m2": 76748407.64,
+      "demo_median_price_per_m2": 76000000.0
+    },
+    {
+      "target_rank": 6,
+      "original_ward": "Phường Đại Kim",
+      "property_type": "NHA_RIENG",
+      "sample_count": 4,
+      "demo_mean_price_per_m2": 114248917.75,
+      "demo_median_price_per_m2": 113497835.5
+    },
+    {
+      "target_rank": 6,
+      "original_ward": "Phường Đại Kim",
+      "property_type": "CHUNG_CU",
+      "sample_count": 2,
+      "demo_mean_price_per_m2": 67500000.0,
+      "demo_median_price_per_m2": 67500000.0
+    },
+    {
+      "target_rank": 7,
+      "original_ward": "Phường Linh Trung",
+      "property_type": "DAT_O",
+      "sample_count": 4,
+      "demo_mean_price_per_m2": 65498633.88,
+      "demo_median_price_per_m2": 65500000.0
+    },
+    {
+      "target_rank": 7,
+      "original_ward": "Phường Linh Trung",
+      "property_type": "NHA_RIENG",
+      "sample_count": 4,
+      "demo_mean_price_per_m2": 97998031.5,
+      "demo_median_price_per_m2": 98000000.0
+    },
+    {
+      "target_rank": 7,
+      "original_ward": "Phường Linh Trung",
+      "property_type": "CHUNG_CU",
+      "sample_count": 2,
+      "demo_mean_price_per_m2": 63997512.44,
+      "demo_median_price_per_m2": 63997512.44
+    },
+    {
+      "target_rank": 8,
+      "original_ward": "Phường Trảng Dài",
+      "property_type": "DAT_O",
+      "sample_count": 4,
+      "demo_mean_price_per_m2": 29496895.43,
+      "demo_median_price_per_m2": 29496183.21
+    },
+    {
+      "target_rank": 8,
+      "original_ward": "Phường Trảng Dài",
+      "property_type": "NHA_RIENG",
+      "sample_count": 4,
+      "demo_mean_price_per_m2": 44000000.0,
+      "demo_median_price_per_m2": 44000000.0
+    },
+    {
+      "target_rank": 8,
+      "original_ward": "Phường Trảng Dài",
+      "property_type": "CHUNG_CU",
+      "sample_count": 2,
+      "demo_mean_price_per_m2": 23497797.36,
+      "demo_median_price_per_m2": 23497797.36
+    },
+    {
+      "target_rank": 9,
+      "original_ward": "Phường Phước Long B",
+      "property_type": "DAT_O",
+      "sample_count": 4,
+      "demo_mean_price_per_m2": 68001063.83,
+      "demo_median_price_per_m2": 68502127.66
+    },
+    {
+      "target_rank": 9,
+      "original_ward": "Phường Phước Long B",
+      "property_type": "NHA_RIENG",
+      "sample_count": 4,
+      "demo_mean_price_per_m2": 101751396.65,
+      "demo_median_price_per_m2": 102502793.3
+    },
+    {
+      "target_rank": 9,
+      "original_ward": "Phường Phước Long B",
+      "property_type": "CHUNG_CU",
+      "sample_count": 2,
+      "demo_mean_price_per_m2": 60498023.72,
+      "demo_median_price_per_m2": 60498023.72
+    },
+    {
+      "target_rank": 10,
+      "original_ward": "Phường Long Thạnh Mỹ",
+      "property_type": "DAT_O",
+      "sample_count": 4,
+      "demo_mean_price_per_m2": 72998633.88,
+      "demo_median_price_per_m2": 73500000.0
+    },
+    {
+      "target_rank": 10,
+      "original_ward": "Phường Long Thạnh Mỹ",
+      "property_type": "NHA_RIENG",
+      "sample_count": 4,
+      "demo_mean_price_per_m2": 98500000.0,
+      "demo_median_price_per_m2": 98500000.0
+    },
+    {
+      "target_rank": 10,
+      "original_ward": "Phường Long Thạnh Mỹ",
+      "property_type": "CHUNG_CU",
+      "sample_count": 2,
+      "demo_mean_price_per_m2": 52501792.11,
+      "demo_median_price_per_m2": 52501792.11
+    },
+    {
+      "target_rank": 11,
+      "original_ward": "Phường Bình Trị Đông",
+      "property_type": "DAT_O",
+      "sample_count": 4,
+      "demo_mean_price_per_m2": 70750325.09,
+      "demo_median_price_per_m2": 70998257.84
+    },
+    {
+      "target_rank": 11,
+      "original_ward": "Phường Bình Trị Đông",
+      "property_type": "NHA_RIENG",
+      "sample_count": 4,
+      "demo_mean_price_per_m2": 95247283.76,
+      "demo_median_price_per_m2": 94496732.03
+    },
+    {
+      "target_rank": 11,
+      "original_ward": "Phường Bình Trị Đông",
+      "property_type": "CHUNG_CU",
+      "sample_count": 2,
+      "demo_mean_price_per_m2": 56494845.36,
+      "demo_median_price_per_m2": 56494845.36
+    },
+    {
+      "target_rank": 12,
+      "original_ward": "Phường An Lạc",
+      "property_type": "DAT_O",
+      "sample_count": 4,
+      "demo_mean_price_per_m2": 68502380.95,
+      "demo_median_price_per_m2": 68000000.0
+    },
+    {
+      "target_rank": 12,
+      "original_ward": "Phường An Lạc",
+      "property_type": "NHA_RIENG",
+      "sample_count": 4,
+      "demo_mean_price_per_m2": 102250000.0,
+      "demo_median_price_per_m2": 101500000.0
+    },
+    {
+      "target_rank": 12,
+      "original_ward": "Phường An Lạc",
+      "property_type": "CHUNG_CU",
+      "sample_count": 2,
+      "demo_mean_price_per_m2": 60504065.04,
+      "demo_median_price_per_m2": 60504065.04
+    },
+    {
+      "target_rank": 13,
+      "original_ward": "Phường Tân Đông Hiệp",
+      "property_type": "DAT_O",
+      "sample_count": 4,
+      "demo_mean_price_per_m2": 27747133.75,
+      "demo_median_price_per_m2": 27998084.29
+    },
+    {
+      "target_rank": 13,
+      "original_ward": "Phường Tân Đông Hiệp",
+      "property_type": "NHA_RIENG",
+      "sample_count": 4,
+      "demo_mean_price_per_m2": 41500336.12,
+      "demo_median_price_per_m2": 41502439.02
+    },
+    {
+      "target_rank": 13,
+      "original_ward": "Phường Tân Đông Hiệp",
+      "property_type": "CHUNG_CU",
+      "sample_count": 2,
+      "demo_mean_price_per_m2": 27500000.0,
+      "demo_median_price_per_m2": 27500000.0
+    },
+    {
+      "target_rank": 14,
+      "original_ward": "Phường Tân Tạo",
+      "property_type": "DAT_O",
+      "sample_count": 4,
+      "demo_mean_price_per_m2": 70998407.64,
+      "demo_median_price_per_m2": 71000000.0
+    },
+    {
+      "target_rank": 14,
+      "original_ward": "Phường Tân Tạo",
+      "property_type": "NHA_RIENG",
+      "sample_count": 4,
+      "demo_mean_price_per_m2": 95752475.25,
+      "demo_median_price_per_m2": 96504950.5
+    },
+    {
+      "target_rank": 14,
+      "original_ward": "Phường Tân Tạo",
+      "property_type": "CHUNG_CU",
+      "sample_count": 2,
+      "demo_mean_price_per_m2": 56502857.14,
+      "demo_median_price_per_m2": 56502857.14
+    },
+    {
+      "target_rank": 15,
+      "original_ward": "Phường Tây Mỗ",
+      "property_type": "DAT_O",
+      "sample_count": 4,
+      "demo_mean_price_per_m2": 77997619.05,
+      "demo_median_price_per_m2": 78500000.0
+    },
+    {
+      "target_rank": 15,
+      "original_ward": "Phường Tây Mỗ",
+      "property_type": "NHA_RIENG",
+      "sample_count": 4,
+      "demo_mean_price_per_m2": 115998031.5,
+      "demo_median_price_per_m2": 116996062.99
+    },
+    {
+      "target_rank": 15,
+      "original_ward": "Phường Tây Mỗ",
+      "property_type": "CHUNG_CU",
+      "sample_count": 2,
+      "demo_mean_price_per_m2": 69002487.56,
+      "demo_median_price_per_m2": 69002487.56
+    },
+    {
+      "target_rank": 16,
+      "original_ward": "Phường Minh Khai",
+      "property_type": "DAT_O",
+      "sample_count": 4,
+      "demo_mean_price_per_m2": 75250000.0,
+      "demo_median_price_per_m2": 75500000.0
+    },
+    {
+      "target_rank": 16,
+      "original_ward": "Phường Minh Khai",
+      "property_type": "NHA_RIENG",
+      "sample_count": 4,
+      "demo_mean_price_per_m2": 112501633.99,
+      "demo_median_price_per_m2": 112503267.97
+    },
+    {
+      "target_rank": 16,
+      "original_ward": "Phường Minh Khai",
+      "property_type": "CHUNG_CU",
+      "sample_count": 2,
+      "demo_mean_price_per_m2": 60000000.0,
+      "demo_median_price_per_m2": 60000000.0
+    },
+    {
+      "target_rank": 17,
+      "original_ward": "Xã Hòa Bình",
+      "property_type": "DAT_O",
+      "sample_count": 4,
+      "demo_mean_price_per_m2": 29998407.64,
+      "demo_median_price_per_m2": 30000000.0
+    },
+    {
+      "target_rank": 17,
+      "original_ward": "Xã Hòa Bình",
+      "property_type": "NHA_RIENG",
+      "sample_count": 4,
+      "demo_mean_price_per_m2": 40248603.35,
+      "demo_median_price_per_m2": 40000000.0
+    },
+    {
+      "target_rank": 17,
+      "original_ward": "Xã Hòa Bình",
+      "property_type": "CHUNG_CU",
+      "sample_count": 2,
+      "demo_mean_price_per_m2": 24001976.28,
+      "demo_median_price_per_m2": 24001976.28
+    },
+    {
+      "target_rank": 18,
+      "original_ward": "Phường Bình Trị Đông A",
+      "property_type": "DAT_O",
+      "sample_count": 4,
+      "demo_mean_price_per_m2": 69001366.12,
+      "demo_median_price_per_m2": 68502732.24
+    },
+    {
+      "target_rank": 18,
+      "original_ward": "Phường Bình Trị Đông A",
+      "property_type": "NHA_RIENG",
+      "sample_count": 4,
+      "demo_mean_price_per_m2": 103253188.02,
+      "demo_median_price_per_m2": 102503937.01
+    },
+    {
+      "target_rank": 18,
+      "original_ward": "Phường Bình Trị Đông A",
+      "property_type": "CHUNG_CU",
+      "sample_count": 2,
+      "demo_mean_price_per_m2": 61000000.0,
+      "demo_median_price_per_m2": 61000000.0
+    },
+    {
+      "target_rank": 19,
+      "original_ward": "Phường Tân Hưng",
+      "property_type": "DAT_O",
+      "sample_count": 4,
+      "demo_mean_price_per_m2": 67000871.08,
+      "demo_median_price_per_m2": 67000000.0
+    },
+    {
+      "target_rank": 19,
+      "original_ward": "Phường Tân Hưng",
+      "property_type": "NHA_RIENG",
+      "sample_count": 4,
+      "demo_mean_price_per_m2": 100001082.25,
+      "demo_median_price_per_m2": 100000000.0
+    },
+    {
+      "target_rank": 19,
+      "original_ward": "Phường Tân Hưng",
+      "property_type": "CHUNG_CU",
+      "sample_count": 2,
+      "demo_mean_price_per_m2": 65000000.0,
+      "demo_median_price_per_m2": 65000000.0
+    },
+    {
+      "target_rank": 20,
+      "original_ward": "Phường Lĩnh Nam",
+      "property_type": "DAT_O",
+      "sample_count": 4,
+      "demo_mean_price_per_m2": 80997619.05,
+      "demo_median_price_per_m2": 81000000.0
+    },
+    {
+      "target_rank": 20,
+      "original_ward": "Phường Lĩnh Nam",
+      "property_type": "NHA_RIENG",
+      "sample_count": 4,
+      "demo_mean_price_per_m2": 109500000.0,
+      "demo_median_price_per_m2": 110000000.0
+    },
+    {
+      "target_rank": 20,
+      "original_ward": "Phường Lĩnh Nam",
+      "property_type": "CHUNG_CU",
+      "sample_count": 2,
+      "demo_mean_price_per_m2": 64995934.96,
+      "demo_median_price_per_m2": 64995934.96
+    },
+    {
+      "target_rank": 21,
+      "original_ward": "Phường Phú Thuận",
+      "property_type": "DAT_O",
+      "sample_count": 4,
+      "demo_mean_price_per_m2": 69500957.85,
+      "demo_median_price_per_m2": 70000000.0
+    },
+    {
+      "target_rank": 21,
+      "original_ward": "Phường Phú Thuận",
+      "property_type": "NHA_RIENG",
+      "sample_count": 4,
+      "demo_mean_price_per_m2": 103749116.61,
+      "demo_median_price_per_m2": 104498233.22
+    },
+    {
+      "target_rank": 21,
+      "original_ward": "Phường Phú Thuận",
+      "property_type": "CHUNG_CU",
+      "sample_count": 2,
+      "demo_mean_price_per_m2": 49500000.0,
+      "demo_median_price_per_m2": 49500000.0
+    },
+    {
+      "target_rank": 22,
+      "original_ward": "Phường Long Bình",
+      "property_type": "DAT_O",
+      "sample_count": 4,
+      "demo_mean_price_per_m2": 28249128.92,
+      "demo_median_price_per_m2": 28500000.0
+    },
+    {
+      "target_rank": 22,
+      "original_ward": "Phường Long Bình",
+      "property_type": "NHA_RIENG",
+      "sample_count": 4,
+      "demo_mean_price_per_m2": 42246442.5,
+      "demo_median_price_per_m2": 42495049.5
+    },
+    {
+      "target_rank": 22,
+      "original_ward": "Phường Long Bình",
+      "property_type": "CHUNG_CU",
+      "sample_count": 2,
+      "demo_mean_price_per_m2": 22502857.14,
+      "demo_median_price_per_m2": 22502857.14
+    },
+    {
+      "target_rank": 23,
+      "original_ward": "Phường Thạnh Xuân",
+      "property_type": "DAT_O",
+      "sample_count": 4,
+      "demo_mean_price_per_m2": 64997619.05,
+      "demo_median_price_per_m2": 64495238.1
+    },
+    {
+      "target_rank": 23,
+      "original_ward": "Phường Thạnh Xuân",
+      "property_type": "NHA_RIENG",
+      "sample_count": 4,
+      "demo_mean_price_per_m2": 97252941.27,
+      "demo_median_price_per_m2": 96501945.53
+    },
+    {
+      "target_rank": 23,
+      "original_ward": "Phường Thạnh Xuân",
+      "property_type": "CHUNG_CU",
+      "sample_count": 2,
+      "demo_mean_price_per_m2": 57500000.0,
+      "demo_median_price_per_m2": 57500000.0
+    },
+    {
+      "target_rank": 24,
+      "original_ward": "Phường Định Công",
+      "property_type": "DAT_O",
+      "sample_count": 4,
+      "demo_mean_price_per_m2": 79001196.17,
+      "demo_median_price_per_m2": 78500000.0
+    },
+    {
+      "target_rank": 24,
+      "original_ward": "Phường Định Công",
+      "property_type": "NHA_RIENG",
+      "sample_count": 4,
+      "demo_mean_price_per_m2": 117999116.61,
+      "demo_median_price_per_m2": 116998233.22
+    },
+    {
+      "target_rank": 24,
+      "original_ward": "Phường Định Công",
+      "property_type": "CHUNG_CU",
+      "sample_count": 2,
+      "demo_mean_price_per_m2": 69500000.0,
+      "demo_median_price_per_m2": 69500000.0
+    },
+    {
+      "target_rank": 25,
+      "original_ward": "Phường Hiệp Thành",
+      "property_type": "DAT_O",
+      "sample_count": 4,
+      "demo_mean_price_per_m2": 67501063.83,
+      "demo_median_price_per_m2": 67500000.0
+    },
+    {
+      "target_rank": 25,
+      "original_ward": "Phường Hiệp Thành",
+      "property_type": "NHA_RIENG",
+      "sample_count": 4,
+      "demo_mean_price_per_m2": 100997524.75,
+      "demo_median_price_per_m2": 100995049.5
+    },
+    {
+      "target_rank": 25,
+      "original_ward": "Phường Hiệp Thành",
+      "property_type": "CHUNG_CU",
+      "sample_count": 2,
+      "demo_mean_price_per_m2": 66001976.28,
+      "demo_median_price_per_m2": 66001976.28
+    },
+    {
+      "target_rank": 26,
+      "original_ward": "Phường Thạnh Lộc",
+      "property_type": "DAT_O",
+      "sample_count": 4,
+      "demo_mean_price_per_m2": 72498633.88,
+      "demo_median_price_per_m2": 72497267.76
+    },
+    {
+      "target_rank": 26,
+      "original_ward": "Phường Thạnh Lộc",
+      "property_type": "NHA_RIENG",
+      "sample_count": 4,
+      "demo_mean_price_per_m2": 97748780.49,
+      "demo_median_price_per_m2": 98497560.98
+    },
+    {
+      "target_rank": 26,
+      "original_ward": "Phường Thạnh Lộc",
+      "property_type": "CHUNG_CU",
+      "sample_count": 2,
+      "demo_mean_price_per_m2": 57998207.89,
+      "demo_median_price_per_m2": 57998207.89
+    },
+    {
+      "target_rank": 27,
+      "original_ward": "Phường Hoàng Liệt",
+      "property_type": "DAT_O",
+      "sample_count": 4,
+      "demo_mean_price_per_m2": 79250000.0,
+      "demo_median_price_per_m2": 80000000.0
+    },
+    {
+      "target_rank": 27,
+      "original_ward": "Phường Hoàng Liệt",
+      "property_type": "NHA_RIENG",
+      "sample_count": 4,
+      "demo_mean_price_per_m2": 118752716.24,
+      "demo_median_price_per_m2": 119502164.5
+    },
+    {
+      "target_rank": 27,
+      "original_ward": "Phường Hoàng Liệt",
+      "property_type": "CHUNG_CU",
+      "sample_count": 2,
+      "demo_mean_price_per_m2": 56494845.36,
+      "demo_median_price_per_m2": 56494845.36
+    },
+    {
+      "target_rank": 28,
+      "original_ward": "Phường Nhân Chính",
+      "property_type": "DAT_O",
+      "sample_count": 4,
+      "demo_mean_price_per_m2": 76997619.05,
+      "demo_median_price_per_m2": 76995238.1
+    },
+    {
+      "target_rank": 28,
+      "original_ward": "Phường Nhân Chính",
+      "property_type": "NHA_RIENG",
+      "sample_count": 4,
+      "demo_mean_price_per_m2": 114749027.24,
+      "demo_median_price_per_m2": 114998054.47
+    },
+    {
+      "target_rank": 28,
+      "original_ward": "Phường Nhân Chính",
+      "property_type": "CHUNG_CU",
+      "sample_count": 2,
+      "demo_mean_price_per_m2": 61500000.0,
+      "demo_median_price_per_m2": 61500000.0
+    },
+    {
+      "target_rank": 29,
+      "original_ward": "Phường Tây Thạnh",
+      "property_type": "DAT_O",
+      "sample_count": 4,
+      "demo_mean_price_per_m2": 65750950.54,
+      "demo_median_price_per_m2": 64998084.29
+    },
+    {
+      "target_rank": 29,
+      "original_ward": "Phường Tây Thạnh",
+      "property_type": "NHA_RIENG",
+      "sample_count": 4,
+      "demo_mean_price_per_m2": 98250000.0,
+      "demo_median_price_per_m2": 97500000.0
+    },
+    {
+      "target_rank": 29,
+      "original_ward": "Phường Tây Thạnh",
+      "property_type": "CHUNG_CU",
+      "sample_count": 2,
+      "demo_mean_price_per_m2": 58003355.7,
+      "demo_median_price_per_m2": 58003355.7
+    },
+    {
+      "target_rank": 30,
+      "original_ward": "Phường Mai Dịch",
+      "property_type": "DAT_O",
+      "sample_count": 4,
+      "demo_mean_price_per_m2": 79749128.92,
+      "demo_median_price_per_m2": 78998257.84
+    },
+    {
+      "target_rank": 30,
+      "original_ward": "Phường Mai Dịch",
+      "property_type": "NHA_RIENG",
+      "sample_count": 4,
+      "demo_mean_price_per_m2": 107250000.0,
+      "demo_median_price_per_m2": 107500000.0
+    },
+    {
+      "target_rank": 30,
+      "original_ward": "Phường Mai Dịch",
+      "property_type": "CHUNG_CU",
+      "sample_count": 2,
+      "demo_mean_price_per_m2": 70497142.86,
+      "demo_median_price_per_m2": 70497142.86
+    },
+    {
+      "target_rank": 31,
+      "original_ward": "Phường Tân Chánh Hiệp",
+      "property_type": "DAT_O",
+      "sample_count": 4,
+      "demo_mean_price_per_m2": 68502380.95,
+      "demo_median_price_per_m2": 68504761.9
+    },
+    {
+      "target_rank": 31,
+      "original_ward": "Phường Tân Chánh Hiệp",
+      "property_type": "NHA_RIENG",
+      "sample_count": 4,
+      "demo_mean_price_per_m2": 101998031.5,
+      "demo_median_price_per_m2": 102000000.0
+    },
+    {
+      "target_rank": 31,
+      "original_ward": "Phường Tân Chánh Hiệp",
+      "property_type": "CHUNG_CU",
+      "sample_count": 2,
+      "demo_mean_price_per_m2": 66502487.56,
+      "demo_median_price_per_m2": 66502487.56
+    },
+    {
+      "target_rank": 32,
+      "original_ward": "Phường Mễ Trì",
+      "property_type": "DAT_O",
+      "sample_count": 4,
+      "demo_mean_price_per_m2": 74751196.17,
+      "demo_median_price_per_m2": 75502392.34
+    },
+    {
+      "target_rank": 32,
+      "original_ward": "Phường Mễ Trì",
+      "property_type": "NHA_RIENG",
+      "sample_count": 4,
+      "demo_mean_price_per_m2": 111750000.0,
+      "demo_median_price_per_m2": 112500000.0
+    },
+    {
+      "target_rank": 32,
+      "original_ward": "Phường Mễ Trì",
+      "property_type": "CHUNG_CU",
+      "sample_count": 2,
+      "demo_mean_price_per_m2": 66000000.0,
+      "demo_median_price_per_m2": 66000000.0
+    },
+    {
+      "target_rank": 33,
+      "original_ward": "Phường Khương Đình",
+      "property_type": "DAT_O",
+      "sample_count": 4,
+      "demo_mean_price_per_m2": 80001592.36,
+      "demo_median_price_per_m2": 80500000.0
+    },
+    {
+      "target_rank": 33,
+      "original_ward": "Phường Khương Đình",
+      "property_type": "NHA_RIENG",
+      "sample_count": 4,
+      "demo_mean_price_per_m2": 119750000.0,
+      "demo_median_price_per_m2": 120500000.0
+    },
+    {
+      "target_rank": 33,
+      "original_ward": "Phường Khương Đình",
+      "property_type": "CHUNG_CU",
+      "sample_count": 2,
+      "demo_mean_price_per_m2": 57500000.0,
+      "demo_median_price_per_m2": 57500000.0
+    },
+    {
+      "target_rank": 34,
+      "original_ward": "Phường Tăng Nhơn Phú A",
+      "property_type": "DAT_O",
+      "sample_count": 4,
+      "demo_mean_price_per_m2": 68501366.12,
+      "demo_median_price_per_m2": 68500000.0
+    },
+    {
+      "target_rank": 34,
+      "original_ward": "Phường Tăng Nhơn Phú A",
+      "property_type": "NHA_RIENG",
+      "sample_count": 4,
+      "demo_mean_price_per_m2": 102500000.0,
+      "demo_median_price_per_m2": 102500000.0
+    },
+    {
+      "target_rank": 34,
+      "original_ward": "Phường Tăng Nhơn Phú A",
+      "property_type": "CHUNG_CU",
+      "sample_count": 2,
+      "demo_mean_price_per_m2": 55000000.0,
+      "demo_median_price_per_m2": 55000000.0
+    },
+    {
+      "target_rank": 35,
+      "original_ward": "Phường Trường Thọ",
+      "property_type": "DAT_O",
+      "sample_count": 4,
+      "demo_mean_price_per_m2": 66500871.08,
+      "demo_median_price_per_m2": 66000000.0
+    },
+    {
+      "target_rank": 35,
+      "original_ward": "Phường Trường Thọ",
+      "property_type": "NHA_RIENG",
+      "sample_count": 4,
+      "demo_mean_price_per_m2": 99247283.76,
+      "demo_median_price_per_m2": 98496732.03
+    },
+    {
+      "target_rank": 35,
+      "original_ward": "Phường Trường Thọ",
+      "property_type": "CHUNG_CU",
+      "sample_count": 2,
+      "demo_mean_price_per_m2": 59000000.0,
+      "demo_median_price_per_m2": 59000000.0
+    },
+    {
+      "target_rank": 36,
+      "original_ward": "Phường Cổ Nhuế 1",
+      "property_type": "DAT_O",
+      "sample_count": 4,
+      "demo_mean_price_per_m2": 80497619.05,
+      "demo_median_price_per_m2": 80000000.0
+    },
+    {
+      "target_rank": 36,
+      "original_ward": "Phường Cổ Nhuế 1",
+      "property_type": "NHA_RIENG",
+      "sample_count": 4,
+      "demo_mean_price_per_m2": 108751396.65,
+      "demo_median_price_per_m2": 108502793.3
+    },
+    {
+      "target_rank": 36,
+      "original_ward": "Phường Cổ Nhuế 1",
+      "property_type": "CHUNG_CU",
+      "sample_count": 2,
+      "demo_mean_price_per_m2": 70995934.96,
+      "demo_median_price_per_m2": 70995934.96
+    },
+    {
+      "target_rank": 37,
+      "original_ward": "Phường Thuận Giao",
+      "property_type": "DAT_O",
+      "sample_count": 4,
+      "demo_mean_price_per_m2": 29001908.4,
+      "demo_median_price_per_m2": 29000000.0
+    },
+    {
+      "target_rank": 37,
+      "original_ward": "Phường Thuận Giao",
+      "property_type": "NHA_RIENG",
+      "sample_count": 4,
+      "demo_mean_price_per_m2": 43499663.88,
+      "demo_median_price_per_m2": 43497560.98
+    },
+    {
+      "target_rank": 37,
+      "original_ward": "Phường Thuận Giao",
+      "property_type": "CHUNG_CU",
+      "sample_count": 2,
+      "demo_mean_price_per_m2": 23003355.7,
+      "demo_median_price_per_m2": 23003355.7
+    },
+    {
+      "target_rank": 38,
+      "original_ward": "Phường Bình Hòa",
+      "property_type": "DAT_O",
+      "sample_count": 4,
+      "demo_mean_price_per_m2": 28001592.36,
+      "demo_median_price_per_m2": 28503184.71
+    },
+    {
+      "target_rank": 38,
+      "original_ward": "Phường Bình Hòa",
+      "property_type": "NHA_RIENG",
+      "sample_count": 4,
+      "demo_mean_price_per_m2": 42000000.0,
+      "demo_median_price_per_m2": 42500000.0
+    },
+    {
+      "target_rank": 38,
+      "original_ward": "Phường Bình Hòa",
+      "property_type": "CHUNG_CU",
+      "sample_count": 2,
+      "demo_mean_price_per_m2": 25002857.14,
+      "demo_median_price_per_m2": 25002857.14
+    },
+    {
+      "target_rank": 39,
+      "original_ward": "Phường Trung Hòa",
+      "property_type": "DAT_O",
+      "sample_count": 4,
+      "demo_mean_price_per_m2": 81001366.12,
+      "demo_median_price_per_m2": 81502732.24
+    },
+    {
+      "target_rank": 39,
+      "original_ward": "Phường Trung Hòa",
+      "property_type": "NHA_RIENG",
+      "sample_count": 4,
+      "demo_mean_price_per_m2": 108998031.5,
+      "demo_median_price_per_m2": 108996062.99
+    },
+    {
+      "target_rank": 39,
+      "original_ward": "Phường Trung Hòa",
+      "property_type": "CHUNG_CU",
+      "sample_count": 2,
+      "demo_mean_price_per_m2": 58000000.0,
+      "demo_median_price_per_m2": 58000000.0
+    },
+    {
+      "target_rank": 40,
+      "original_ward": "Phường Tân Thuận Đông",
+      "property_type": "DAT_O",
+      "sample_count": 4,
+      "demo_mean_price_per_m2": 69498803.83,
+      "demo_median_price_per_m2": 69497607.66
+    },
+    {
+      "target_rank": 40,
+      "original_ward": "Phường Tân Thuận Đông",
+      "property_type": "NHA_RIENG",
+      "sample_count": 4,
+      "demo_mean_price_per_m2": 103497482.62,
+      "demo_median_price_per_m2": 103496732.03
+    },
+    {
+      "target_rank": 40,
+      "original_ward": "Phường Tân Thuận Đông",
+      "property_type": "CHUNG_CU",
+      "sample_count": 2,
+      "demo_mean_price_per_m2": 55500000.0,
+      "demo_median_price_per_m2": 55500000.0
+    },
+    {
+      "target_rank": 41,
+      "original_ward": "Xã Bà Điểm",
+      "property_type": "DAT_O",
+      "sample_count": 4,
+      "demo_mean_price_per_m2": 67001592.36,
+      "demo_median_price_per_m2": 66503184.71
+    },
+    {
+      "target_rank": 41,
+      "original_ward": "Xã Bà Điểm",
+      "property_type": "NHA_RIENG",
+      "sample_count": 4,
+      "demo_mean_price_per_m2": 100250000.0,
+      "demo_median_price_per_m2": 99500000.0
+    },
+    {
+      "target_rank": 41,
+      "original_ward": "Xã Bà Điểm",
+      "property_type": "CHUNG_CU",
+      "sample_count": 2,
+      "demo_mean_price_per_m2": 59500000.0,
+      "demo_median_price_per_m2": 59500000.0
+    },
+    {
+      "target_rank": 42,
+      "original_ward": "Phường Xuân Đỉnh",
+      "property_type": "DAT_O",
+      "sample_count": 4,
+      "demo_mean_price_per_m2": 81250000.0,
+      "demo_median_price_per_m2": 80500000.0
+    },
+    {
+      "target_rank": 42,
+      "original_ward": "Phường Xuân Đỉnh",
+      "property_type": "NHA_RIENG",
+      "sample_count": 4,
+      "demo_mean_price_per_m2": 109748780.49,
+      "demo_median_price_per_m2": 109500000.0
+    },
+    {
+      "target_rank": 42,
+      "original_ward": "Phường Xuân Đỉnh",
+      "property_type": "CHUNG_CU",
+      "sample_count": 2,
+      "demo_mean_price_per_m2": 71500000.0,
+      "demo_median_price_per_m2": 71500000.0
+    },
+    {
+      "target_rank": 43,
+      "original_ward": "Phường Vĩnh Hưng",
+      "property_type": "DAT_O",
+      "sample_count": 4,
+      "demo_mean_price_per_m2": 78749128.92,
+      "demo_median_price_per_m2": 79000000.0
+    },
+    {
+      "target_rank": 43,
+      "original_ward": "Phường Vĩnh Hưng",
+      "property_type": "NHA_RIENG",
+      "sample_count": 4,
+      "demo_mean_price_per_m2": 117751082.25,
+      "demo_median_price_per_m2": 117500000.0
+    },
+    {
+      "target_rank": 43,
+      "original_ward": "Phường Vĩnh Hưng",
+      "property_type": "CHUNG_CU",
+      "sample_count": 2,
+      "demo_mean_price_per_m2": 62994845.36,
+      "demo_median_price_per_m2": 62994845.36
+    },
+    {
+      "target_rank": 44,
+      "original_ward": "Phường Tân Thới Nhất",
+      "property_type": "DAT_O",
+      "sample_count": 4,
+      "demo_mean_price_per_m2": 67501063.83,
+      "demo_median_price_per_m2": 68000000.0
+    },
+    {
+      "target_rank": 44,
+      "original_ward": "Phường Tân Thới Nhất",
+      "property_type": "NHA_RIENG",
+      "sample_count": 4,
+      "demo_mean_price_per_m2": 100748603.35,
+      "demo_median_price_per_m2": 101500000.0
+    },
+    {
+      "target_rank": 44,
+      "original_ward": "Phường Tân Thới Nhất",
+      "property_type": "CHUNG_CU",
+      "sample_count": 2,
+      "demo_mean_price_per_m2": 59500000.0,
+      "demo_median_price_per_m2": 59500000.0
+    },
+    {
+      "target_rank": 45,
+      "original_ward": "Phường Dịch Vọng",
+      "property_type": "DAT_O",
+      "sample_count": 4,
+      "demo_mean_price_per_m2": 81749042.15,
+      "demo_median_price_per_m2": 82500000.0
+    },
+    {
+      "target_rank": 45,
+      "original_ward": "Phường Dịch Vọng",
+      "property_type": "NHA_RIENG",
+      "sample_count": 4,
+      "demo_mean_price_per_m2": 110250000.0,
+      "demo_median_price_per_m2": 110000000.0
+    },
+    {
+      "target_rank": 45,
+      "original_ward": "Phường Dịch Vọng",
+      "property_type": "CHUNG_CU",
+      "sample_count": 2,
+      "demo_mean_price_per_m2": 58503355.7,
+      "demo_median_price_per_m2": 58503355.7
+    },
+    {
+      "target_rank": 46,
+      "original_ward": "Phường Hòa Minh",
+      "property_type": "DAT_O",
+      "sample_count": 4,
+      "demo_mean_price_per_m2": 35498407.64,
+      "demo_median_price_per_m2": 35496815.29
+    },
+    {
+      "target_rank": 46,
+      "original_ward": "Phường Hòa Minh",
+      "property_type": "NHA_RIENG",
+      "sample_count": 4,
+      "demo_mean_price_per_m2": 48001082.25,
+      "demo_median_price_per_m2": 47502164.5
+    },
+    {
+      "target_rank": 46,
+      "original_ward": "Phường Hòa Minh",
+      "property_type": "CHUNG_CU",
+      "sample_count": 2,
+      "demo_mean_price_per_m2": 28497142.86,
+      "demo_median_price_per_m2": 28497142.86
+    },
+    {
+      "target_rank": 47,
+      "original_ward": "Phường Ngọc Thụy",
+      "property_type": "DAT_O",
+      "sample_count": 4,
+      "demo_mean_price_per_m2": 76751366.12,
+      "demo_median_price_per_m2": 76000000.0
+    },
+    {
+      "target_rank": 47,
+      "original_ward": "Phường Ngọc Thụy",
+      "property_type": "NHA_RIENG",
+      "sample_count": 4,
+      "demo_mean_price_per_m2": 114250972.76,
+      "demo_median_price_per_m2": 113501945.53
+    },
+    {
+      "target_rank": 47,
+      "original_ward": "Phường Ngọc Thụy",
+      "property_type": "CHUNG_CU",
+      "sample_count": 2,
+      "demo_mean_price_per_m2": 67500000.0,
+      "demo_median_price_per_m2": 67500000.0
+    },
+    {
+      "target_rank": 48,
+      "original_ward": "Phường Bình Chiểu",
+      "property_type": "DAT_O",
+      "sample_count": 4,
+      "demo_mean_price_per_m2": 65501196.17,
+      "demo_median_price_per_m2": 65500000.0
+    },
+    {
+      "target_rank": 48,
+      "original_ward": "Phường Bình Chiểu",
+      "property_type": "NHA_RIENG",
+      "sample_count": 4,
+      "demo_mean_price_per_m2": 98001633.99,
+      "demo_median_price_per_m2": 98000000.0
+    },
+    {
+      "target_rank": 48,
+      "original_ward": "Phường Bình Chiểu",
+      "property_type": "CHUNG_CU",
+      "sample_count": 2,
+      "demo_mean_price_per_m2": 64002202.64,
+      "demo_median_price_per_m2": 64002202.64
+    },
+    {
+      "target_rank": 49,
+      "original_ward": "Phường Tăng Nhơn Phú B",
+      "property_type": "DAT_O",
+      "sample_count": 4,
+      "demo_mean_price_per_m2": 70498407.64,
+      "demo_median_price_per_m2": 70496815.29
+    },
+    {
+      "target_rank": 49,
+      "original_ward": "Phường Tăng Nhơn Phú B",
+      "property_type": "NHA_RIENG",
+      "sample_count": 4,
+      "demo_mean_price_per_m2": 104997524.75,
+      "demo_median_price_per_m2": 104995049.5
+    },
+    {
+      "target_rank": 49,
+      "original_ward": "Phường Tăng Nhơn Phú B",
+      "property_type": "CHUNG_CU",
+      "sample_count": 2,
+      "demo_mean_price_per_m2": 56498023.72,
+      "demo_median_price_per_m2": 56498023.72
+    },
+    {
+      "target_rank": 50,
+      "original_ward": "Phường Nghĩa Đô",
+      "property_type": "DAT_O",
+      "sample_count": 4,
+      "demo_mean_price_per_m2": 76999042.15,
+      "demo_median_price_per_m2": 77498084.29
+    },
+    {
+      "target_rank": 50,
+      "original_ward": "Phường Nghĩa Đô",
+      "property_type": "NHA_RIENG",
+      "sample_count": 4,
+      "demo_mean_price_per_m2": 114998031.5,
+      "demo_median_price_per_m2": 116000000.0
+    },
+    {
+      "target_rank": 50,
+      "original_ward": "Phường Nghĩa Đô",
+      "property_type": "CHUNG_CU",
+      "sample_count": 2,
+      "demo_mean_price_per_m2": 68000000.0,
+      "demo_median_price_per_m2": 68000000.0
+    }
+  ]
+}
