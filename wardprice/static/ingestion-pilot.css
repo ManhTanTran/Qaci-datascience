@@ -42,6 +42,33 @@ h1 { margin-bottom: 14px; color: var(--deep); font: 400 clamp(40px, 5vw, 64px)/.
 .status-strip strong { color: var(--deep); }
 .status-strip span:last-child { color: var(--muted); }
 .status-strip.error { border-color: #e5c9bf; background: #f8eae5; }
+.collection-run-panel { margin: 14px 0 20px; }
+.collection-run-controls { display: grid; grid-template-columns: minmax(200px, .8fr) minmax(200px, 1.2fr) auto auto; align-items: end; gap: 12px; }
+.collection-province-field { display: grid; gap: 7px; color: #657871; font-size: 9px; font-weight: 700; letter-spacing: .08em; }
+.collection-province-field select { min-height: 42px; padding: 0 12px; border: 1px solid var(--line); border-radius: 8px; background: var(--surface); color: var(--ink); font: inherit; font-size: 12px; letter-spacing: 0; }
+.collection-run-controls .coverage-note { margin: 0; }
+.collection-run-button { min-height: 42px; padding: 0 16px; border: 0; border-radius: 8px; background: var(--deep); color: #fffbed; font: 700 11px "Aptos", "Segoe UI", sans-serif; cursor: pointer; white-space: nowrap; }
+.collection-run-button:disabled { background: #89958d; cursor: not-allowed; }
+.collection-run-all-button { border: 1px solid var(--deep); background: var(--surface); color: var(--deep); }
+.collection-run-all-button:disabled { border-color: #a6afa8; background: #f0f2ee; color: #78837b; }
+.collection-all-scope { margin-top: 8px; }
+.collection-policy-note { margin: 12px 0; color: var(--muted); font-size: 10px; line-height: 1.55; }
+.collection-run-status { padding: 12px 14px; border: 1px solid var(--line); border-radius: 8px; background: #f7f8f4; color: var(--deep); font-size: 11px; line-height: 1.55; }
+.collection-source-cards { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 9px; margin-top: 10px; }
+.collection-source-card { min-width: 0; padding: 11px 12px; border: 1px solid var(--line); border-radius: 9px; background: var(--surface); }
+.collection-source-card.is-ready { border-color: #b9d8c3; background: #f2f8f2; }
+.collection-source-card.is-configured { border-color: #e6d3a8; background: #fbf8ef; }
+.collection-source-card.is-blocked { border-color: #ead9c6; background: #fcf8f2; }
+.collection-source-card header { display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; }
+.collection-source-card strong { font-size: 10px; }
+.collection-source-card header span { color: var(--muted); font-size: 8px; font-weight: 700; white-space: nowrap; }
+.collection-source-card p { margin: 7px 0 0; color: var(--muted); font-size: 9px; line-height: 1.45; }
+.collection-run-results { margin-top: 14px; }
+.collection-run-results .metrics { margin: 10px 0; }
+.collection-run-results h3 { margin: 16px 0 8px; color: var(--deep); font: 400 17px Georgia, serif; }
+.collection-run-results .table-wrap { margin-top: 10px; border: 1px solid var(--line); border-radius: 8px; }
+.collection-run-results .table-wrap table { min-width: 700px; }
+.collection-run-footnote { margin: 9px 0 0; color: var(--muted); font-size: 9px; overflow-wrap: anywhere; }
 .metrics { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; margin: 14px 0 20px; }
 .metric { min-height: 126px; padding: 17px 19px; border: 1px solid var(--line); border-radius: 12px; background: var(--surface); }
 .metric span, .metric small { display: block; color: var(--muted); font-size: 11px; }
@@ -102,6 +129,10 @@ td a { color: #246956; font-weight: 700; text-decoration-thickness: 1px; text-un
   .topbar nav { justify-content: center; }
   .local-pill { display: none; }
   .work-grid { grid-template-columns: 1fr; }
+  .collection-run-controls { grid-template-columns: 1fr 1fr; }
+  #collectionRunButton { grid-column: 1; }
+  #collectionAllTop50Button { grid-column: 2; }
+  .collection-source-cards { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 @media (max-width: 640px) {
   .topbar { height: auto; min-height: 72px; flex-wrap: wrap; padding-block: 12px; }
@@ -112,6 +143,9 @@ td a { color: #246956; font-weight: 700; text-decoration-thickness: 1px; text-un
   .intro { grid-template-columns: 1fr; gap: 18px; }
   .goal-note { max-width: 340px; }
   .metrics { grid-template-columns: repeat(2, minmax(0,1fr)); }
+  .collection-run-controls { grid-template-columns: 1fr; align-items: stretch; }
+  #collectionRunButton, #collectionAllTop50Button { grid-column: auto; }
+  .collection-source-cards { grid-template-columns: 1fr; }
   .metric { min-height: 116px; padding: 14px; }
   .metric strong { font-size: 28px; }
   .panel { padding: 16px 14px; }

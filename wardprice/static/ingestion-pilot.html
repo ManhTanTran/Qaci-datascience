@@ -4,9 +4,9 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#f0f3ed" />
-    <title>WardPriceDaily · Quản lý pipeline</title>
-    <link rel="stylesheet" href="/assets/ingestion-pilot.css?v=20261015-f1" />
-    <script src="/assets/ingestion-pilot.js?v=20261015-f1" defer></script>
+    <title>WardPriceDaily · Thu thập dữ liệu</title>
+    <link rel="stylesheet" href="/assets/ingestion-pilot.css?v=20261019-top50-scope" />
+    <script src="/assets/ingestion-pilot.js?v=20261019-top50-scope" defer></script>
   </head>
   <body>
     <header class="topbar">
@@ -15,8 +15,8 @@
         <span><strong>Sổ tay giá</strong><small>BẤT ĐỘNG SẢN · VIỆT NAM</small></span>
       </a>
       <nav aria-label="Điều hướng">
-        <a href="/">Tra cứu giá</a>
-        <span class="active" aria-current="page">Quản lý pipeline</span>
+        <a href="/historical-pilot">Tìm kiếm dữ liệu</a>
+        <span class="active" aria-current="page">Thu thập dữ liệu</span>
       </nav>
       <span class="local-pill"><i></i> Pilot SQLite riêng</span>
     </header>
@@ -24,9 +24,9 @@
     <main class="shell">
       <section class="intro">
         <div>
-          <p class="kicker">VẬN HÀNH DỮ LIỆU · TOP 50</p>
-          <h1>Dòng dữ liệu<br />mỗi ngày.</h1>
-          <p class="lede">Theo dõi nguồn, lượt nhập, bằng chứng và độ phủ. Dữ liệu ở đây nằm trong pilot riêng, chưa đi vào giá hiện hành hay ngữ cảnh AI.</p>
+          <p class="kicker">THU THẬP DỮ LIỆU · TOP 50</p>
+          <h1>Thu thập theo<br />tỉnh/thành.</h1>
+          <p class="lede">Chọn một tỉnh để rà các địa bàn Top 50 và theo dõi kết quả thu thập trong kho candidate riêng. Dữ liệu chưa đi vào giá hiện hành hay ngữ cảnh AI.</p>
         </div>
         <aside class="goal-note">
           <span>Mục tiêu kế hoạch</span>
@@ -39,6 +39,27 @@
         <span class="status-light"></span>
         <strong id="statusTitle">Đang đọc pilot database…</strong>
         <span id="statusDetail">Chưa gửi request ra ngoài.</span>
+      </section>
+
+      <section class="panel collection-run-panel" aria-labelledby="collection-run-heading">
+        <div class="panel-head">
+          <div><p class="kicker">THU THẬP THEO TỈNH · LOCAL CONTROL</p><h2 id="collection-run-heading">Chọn tỉnh để thu thập tin Top 50</h2></div>
+          <span class="quiet-tag">TỐI ĐA 20 REQUEST / LƯỢT</span>
+        </div>
+        <div class="collection-run-controls">
+          <label class="collection-province-field" for="collectionProvinceSelect">
+            <span>TỈNH / THÀNH</span>
+            <select id="collectionProvinceSelect"><option value="">Đang tải danh sách…</option></select>
+          </label>
+          <p id="collectionProvinceScope" class="coverage-note">Chọn tỉnh/thành để xem phạm vi địa bàn Top 50.</p>
+          <button id="collectionRunButton" class="collection-run-button" type="button" disabled>Thu thập tỉnh này trên 4 nguồn</button>
+          <button id="collectionAllTop50Button" class="collection-run-button collection-run-all-button" type="button">Thu thập toàn bộ Top 50</button>
+        </div>
+        <p class="collection-policy-note">Lượt chỉ gửi request nếu nguồn qua các cổng cấu hình/quyền. Candidate được lưu trong pilot riêng; không tự nhập vào thống kê hiện hành. Không gọi Gemini, Gmail hay lịch chạy tự động.</p>
+        <p id="collectionAllTop50Scope" class="collection-policy-note collection-all-scope">Phạm vi nút toàn Top 50: đang đọc danh sách. Mỗi lượt tối đa 20 request nên có thể cần nhiều lượt để rà đủ địa bàn.</p>
+        <div id="collectionRunStatus" class="collection-run-status" role="status" aria-live="polite">Chọn tỉnh/thành để xem trạng thái nguồn.</div>
+        <div id="collectionSourceCards" class="collection-source-cards" aria-live="polite"></div>
+        <div id="collectionRunResults" class="collection-run-results" hidden></div>
       </section>
 
       <section class="metrics" id="metrics" aria-label="Tổng quan pipeline">

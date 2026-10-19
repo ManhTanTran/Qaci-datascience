@@ -258,6 +258,8 @@ def plan_collection(db, *, ranks: set[int] | None = None, batch: int | None = No
 def run_live_collection(db, *, ranks: set[int] | None = None, batch: int | None = None,
                         limit: int = 10, max_requests: int = MAX_DAILY_OBSERVATIONS,
                         resume: bool = False, source_id: str | None = None,
+                        source_ids: set[str] | None = None,
+                        allow_auto_ingest: bool = True,
                         transport=None, sleeper=None) -> dict:
     """Execute only after two explicit enable gates, with one host-bound client per source."""
     if not db.execute(
@@ -272,6 +274,8 @@ def run_live_collection(db, *, ranks: set[int] | None = None, batch: int | None 
     sources = source_rows(db)
     if source_id:
         sources = [source for source in sources if source["source_id"] == source_id]
+    if source_ids is not None:
+        sources = [source for source in sources if source["source_id"] in source_ids]
     readiness = source_readiness(db)
     ready_ids = {item["source_id"] for item in readiness["ready_sources"]}
     selected_sources = [source for source in sources if source["source_id"] in ready_ids]
@@ -459,7 +463,8 @@ def run_live_collection(db, *, ranks: set[int] | None = None, batch: int | None 
                                 verified_candidates += 1
                                 counts["source_verified"] += 1
                                 can_ingest = bool(
-                                    settings.get("auto_ingest_verified")
+                                    allow_auto_ingest
+                                    and settings.get("auto_ingest_verified")
                                     and source.get("auto_ingest_verified")
                                     and target.administrative_unit_id
                                     and candidate["area_basis"] in {"LAND_AREA", "FLOOR_AREA", "USABLE_AREA", "OTHER"}

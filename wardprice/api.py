@@ -10,6 +10,7 @@ from typing import Any
 from fastapi import FastAPI, HTTPException, Query
 from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
+from pydantic import BaseModel, Field
 
 from .config import PROJECT_ROOT
 from .database import connect
@@ -18,11 +19,17 @@ from .national_registry import (
     WardPriceLookupService,
     national_collection_priorities,
     national_coverage,
+    normalize_admin_name,
 )
 
 DEFAULT_API_DB = PROJECT_ROOT / "state" / "ward_prices.sqlite3"
 DEFAULT_INGESTION_PILOT_DB = PROJECT_ROOT / "state" / "ward_prices.ingestion_pilot.sqlite3"
+DEFAULT_SOURCE_REGISTRY = PROJECT_ROOT / "config" / "collector_sources.json"
 UI_DIR = PROJECT_ROOT / "wardprice" / "static"
+
+
+class ProvinceSearchRequest(BaseModel):
+    province: str | None = Field(default=None, min_length=1, max_length=120)
 
 
 def create_app(
@@ -31,6 +38,7 @@ def create_app(
     demo_mode: bool = False,
     historical_pilot_db_path: Path | str | None = None,
     ingestion_pilot_db_path: Path | str | None = None,
+    collector_source_registry_path: Path | str | None = None,
 ) -> FastAPI:
     app = FastAPI(
         title="WardPriceDaily National Real Estate Knowledge Base",
@@ -51,6 +59,11 @@ def create_app(
         ingestion_pilot_db_path
         if ingestion_pilot_db_path is not None
         else DEFAULT_INGESTION_PILOT_DB
+    )
+    app.state.collector_source_registry_path = Path(
+        collector_source_registry_path
+        if collector_source_registry_path is not None
+        else DEFAULT_SOURCE_REGISTRY
     )
     production_db = (PROJECT_ROOT / "state" / "ward_prices.sqlite3").resolve()
     demo_db = (PROJECT_ROOT / "state" / "ward_prices.demo.sqlite3").resolve()
@@ -302,6 +315,299 @@ def create_app(
             from .collectors.storage import monitoring_summary
 
             return monitoring_summary(db)
+
+    def province_search_context(province: str | None) -> dict[str, Any]:
+        from .collectors.source_registry import (
+            configured_source_readiness,
+            load_source_registry,
+        )
+        from .historical_dataset import pilot_targets
+
+        try:
+            targets = pilot_targets(app.state.historical_pilot_db_path)
+            registry = load_source_registry(app.state.collector_source_registry_path)
+        except FileNotFoundError as exc:
+            raise HTTPException(status_code=404, detail=str(exc)) from exc
+        except (OSError, ValueError) as exc:
+            raise HTTPException(status_code=500, detail=f"Không đọc được cấu hình nguồn: {exc}") from exc
+
+        if province is None:
+            matching_targets = targets
+        else:
+            normalized_province = normalize_admin_name(province)
+            matching_targets = [
+                target for target in targets
+                if normalize_admin_name(target["original_province"]) == normalized_province
+            ]
+        readiness = configured_source_readiness(registry)
+        return {
+            "province": province,
+            "selection_mode": "ALL_TOP50" if province is None else "PROVINCE",
+            "status": "READY_TO_CHECK" if matching_targets else "NO_TOP50_TARGETS",
+            "target_count": len(matching_targets),
+            "targets": [
+                {
+                    "target_rank": target["target_rank"],
+                    "ward": target["original_ward"],
+                    "district": target["original_district"],
+                    "province": target["original_province"],
+                }
+                for target in matching_targets
+            ],
+            "global_live_enabled": readiness["global_live_enabled"],
+            "configured_source_count": readiness["ready_count"],
+            "sources": [
+                *[
+                    {**source, "status": "CONFIGURED"}
+                    for source in readiness["ready_sources"]
+                ],
+                *[
+                    {**source, "status": "BLOCKED"}
+                    for source in readiness["blocked_sources"]
+                ],
+            ],
+            "network_attempted": False,
+        }
+
+    @app.get("/api/v1/collection/province-search/readiness", tags=["collection"])
+    def province_search_readiness(
+        province: str = Query(min_length=1, max_length=120),
+    ) -> dict[str, Any]:
+        if app.state.demo_mode:
+            return {
+                "status": "DISABLED_DEMO_MODE",
+                "province": province,
+                "target_count": 0,
+                "sources": [],
+                "network_attempted": False,
+            }
+        return province_search_context(province)
+
+    @app.get("/api/v1/collection/top50-search/readiness", tags=["collection"])
+    def top50_search_readiness() -> dict[str, Any]:
+        if app.state.demo_mode:
+            return {
+                "status": "DISABLED_DEMO_MODE",
+                "selection_mode": "ALL_TOP50",
+                "target_count": 0,
+                "sources": [],
+                "network_attempted": False,
+            }
+        return province_search_context(None)
+
+    @app.post("/api/v1/collection/top50-search", tags=["collection"])
+    @app.post("/api/v1/collection/province-search", tags=["collection"])
+    def province_search(request: ProvinceSearchRequest) -> dict[str, Any]:
+        if app.state.demo_mode:
+            return {
+                "status": "DISABLED_DEMO_MODE",
+                "message": "Chế độ demo không được phép tìm kiếm hoặc thu thập web.",
+                "network_attempted": False,
+                "database_written": False,
+            }
+
+        context = province_search_context(request.province)
+        if not context["target_count"]:
+            return {
+                **context,
+                "status": "NO_TOP50_TARGETS",
+                "message": "Không có địa bàn phù hợp trong danh sách Top 50.",
+                "network_attempted": False,
+                "database_written": False,
+            }
+
+        from .collectors.source_registry import (
+            load_source_registry,
+            source_readiness,
+        )
+        from .collectors.storage import collection_settings, collection_targets, source_rows
+
+        registry = load_source_registry(app.state.collector_source_registry_path)
+        configured_by_id = {
+            item["source_id"]: item for item in registry.get("sources", [])
+        }
+        config_ready_ids = {
+            item["source_id"]
+            for item in context["sources"]
+            if item["status"] in {"CONFIGURED", "READY"}
+        }
+        if not config_ready_ids:
+            return {
+                **context,
+                "status": "BLOCKED_NO_AUTHORIZED_SOURCE",
+                "message": "Chưa có nguồn nào được duyệt và bật; không gửi request ra website.",
+                "network_attempted": False,
+                "database_written": False,
+            }
+
+        if not app.state.db_path.is_file():
+            return {
+                **context,
+                "status": "COLLECTION_NOT_INITIALIZED",
+                "message": "Chưa có database collection. Chạy collection-init để tạo schema có backup trước khi thu thập.",
+                "network_attempted": False,
+                "database_written": False,
+            }
+
+        ranks = {int(target["target_rank"]) for target in context["targets"]}
+        with database() as db:
+            initialized = db.execute(
+                "SELECT 1 FROM sqlite_master WHERE type='table' AND name='collection_runs'"
+            ).fetchone()
+            if not initialized:
+                return {
+                    **context,
+                    "status": "COLLECTION_NOT_INITIALIZED",
+                    "message": "Các bảng collection chưa được khởi tạo; chưa gửi request ra website.",
+                    "network_attempted": False,
+                    "database_written": False,
+                }
+
+            runtime_readiness = source_readiness(db)
+            database_ready_ids = {
+                item["source_id"] for item in runtime_readiness["ready_sources"]
+            }
+            eligible_source_ids = config_ready_ids & database_ready_ids
+            combined_sources = []
+            runtime_by_id = {
+                item["source_id"]: item for item in runtime_readiness["blocked_sources"]
+            }
+            runtime_by_id.update({
+                item["source_id"]: {**item, "reasons": []}
+                for item in runtime_readiness["ready_sources"]
+            })
+            database_by_id = {
+                item["source_id"]: item for item in source_rows(db)
+            }
+            persisted_settings = collection_settings(db)
+            global_config_synced = (
+                bool(persisted_settings.get("global_live_enabled"))
+                == bool(registry.get("global_live_enabled"))
+                and str(persisted_settings.get("user_agent") or "")
+                == str(registry.get("user_agent") or "")
+                and int(persisted_settings.get("global_daily_request_budget") or 0)
+                == int(registry.get("global_daily_request_budget") or 0)
+            )
+            for source in context["sources"]:
+                runtime = runtime_by_id.get(source["source_id"])
+                configured = configured_by_id.get(source["source_id"])
+                persisted = database_by_id.get(source["source_id"])
+                reasons = list(source.get("reasons", []))
+                if runtime is None or configured is None or persisted is None:
+                    reasons.append("DATABASE_REGISTRY_NOT_SYNCED")
+                else:
+                    reasons.extend(
+                        reason for reason in runtime.get("reasons", []) if reason not in reasons
+                    )
+                    if not global_config_synced:
+                        reasons.append("DATABASE_REGISTRY_NOT_SYNCED")
+                    for field in (
+                        "base_url", "robots_url", "terms_url", "policy_status",
+                        "permission_reference", "search_url_template", "detail_path_regex",
+                    ):
+                        if str(configured.get(field) or "") != str(persisted.get(field) or ""):
+                            reasons.append("DATABASE_REGISTRY_NOT_SYNCED")
+                            break
+                    if bool(configured.get("enabled")) != bool(persisted.get("enabled")):
+                        reasons.append("DATABASE_REGISTRY_NOT_SYNCED")
+                    for field in ("crawl_delay_seconds", "daily_request_budget"):
+                        if float(configured.get(field) or 0) != float(persisted.get(field) or 0):
+                            reasons.append("DATABASE_REGISTRY_NOT_SYNCED")
+                            break
+                eligible = source["source_id"] in eligible_source_ids and not reasons
+                combined_sources.append({
+                    **source,
+                    "status": "READY" if eligible else "BLOCKED",
+                    "reasons": reasons,
+                })
+            eligible_source_ids = {
+                item["source_id"] for item in combined_sources if item["status"] == "READY"
+            }
+            if not eligible_source_ids:
+                return {
+                    **context,
+                    "sources": combined_sources,
+                    "status": "BLOCKED_NO_AUTHORIZED_SOURCE",
+                    "message": "Source registry trong SQLite chưa đồng bộ hoặc chưa có nguồn đủ điều kiện; không gửi request.",
+                    "network_attempted": False,
+                    "database_written": False,
+                }
+
+            available_ranks = {
+                target.rank for target in collection_targets(db, ranks)
+            }
+            if available_ranks != ranks:
+                return {
+                    **context,
+                    "sources": combined_sources,
+                    "status": "TOP50_TARGETS_NOT_SYNCED",
+                    "message": "Danh sách địa bàn Top 50 chưa đồng bộ với collector; chưa gửi request.",
+                    "network_attempted": False,
+                    "database_written": False,
+                }
+
+            from .collectors.orchestrator import local_now, run_live_collection
+
+            search_started_at = local_now().isoformat(timespec="seconds")
+            result = run_live_collection(
+                db,
+                ranks=ranks,
+                limit=10,
+                max_requests=20,
+                source_ids=eligible_source_ids,
+                allow_auto_ingest=False,
+            )
+            run_id = result.get("run_id")
+            attempt_rows = db.execute(
+                """SELECT source_id,COUNT(DISTINCT target_rank) AS targets_tried,
+                          SUM(request_count) AS requests_made,
+                          SUM(discovered_count) AS links_found,
+                          SUM(candidate_count) AS candidates_found,
+                          SUM(verified_count) AS verified_candidates,
+                          GROUP_CONCAT(DISTINCT status) AS statuses
+                   FROM collection_target_attempts WHERE run_id=? GROUP BY source_id
+                   ORDER BY source_id""",
+                (run_id,),
+            ).fetchall() if run_id else []
+            source_names = {row["source_id"]: row["display_name"] for row in source_rows(db)}
+            source_results = [
+                {
+                    **dict(row),
+                    "display_name": source_names.get(row["source_id"], row["source_id"]),
+                }
+                for row in attempt_rows
+            ]
+            placeholders = ",".join("?" for _ in ranks)
+            candidate_rows = db.execute(
+                f"""SELECT DISTINCT c.target_rank,c.original_ward,c.original_district,
+                           c.original_province,c.property_type,c.price_vnd,c.area_m2,
+                           c.price_per_m2,c.validity_status,c.evidence_status,c.last_seen_at,
+                           s.display_name AS source_name
+                    FROM collection_candidates c
+                    JOIN collection_sources s ON s.source_id=c.source_id
+                    WHERE c.target_rank IN ({placeholders}) AND c.source_id IN (
+                        {','.join('?' for _ in eligible_source_ids)}
+                    ) AND julianday(c.last_seen_at)>=julianday(?)
+                    ORDER BY c.last_seen_at DESC LIMIT 100""",
+                [*sorted(ranks), *sorted(eligible_source_ids), search_started_at],
+            ).fetchall()
+
+        return {
+            **context,
+            "sources": combined_sources,
+            "status": result["status"],
+            "run_id": run_id,
+            "request_count": result.get("requests_made", 0),
+            "link_count": result.get("listing_urls_discovered", 0),
+            "candidate_count": result.get("candidates_discovered", 0),
+            "verified_count": result.get("source_verified", 0),
+            "source_results": source_results,
+            "candidates": [dict(row) for row in candidate_rows],
+            "network_attempted": bool(result.get("network_attempted")),
+            "database_written": True,
+            "production_database_written": False,
+            "message": "Kết quả được lưu ở kho candidate; không tự nhập vào thống kê hiện hành.",
+        }
 
     @app.get("/api/v1/collection-priorities", tags=["priority"])
     def collection_priorities(

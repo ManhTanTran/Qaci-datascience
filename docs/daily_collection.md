@@ -51,8 +51,33 @@ batch 5 target. Xem nguồn, readiness, trạng thái và báo cáo JSON:
 & .\.venv\Scripts\python.exe -m wardprice collection-report
 ```
 
-API giám sát read-only: `GET /api/v1/collection/monitoring`. Tab **Thu thập web**
-trong giao diện quản trị dùng cùng summary và không có nút chạy live.
+API giám sát read-only: `GET /api/v1/collection/monitoring`. Tab **Thu thập dữ liệu**
+hiển thị summary và form chọn tỉnh để chạy lượt có cổng kiểm soát.
+
+## Tìm kiếm và thu thập trên hai tab riêng
+
+Tab **Tìm kiếm dữ liệu** giữ phần tra cứu mẫu TiniX AI. Tab **Thu thập dữ liệu**
+có hai nút: **Thu thập toàn bộ Top 50** và **Thu thập tỉnh này trên 4 nguồn**.
+Nút theo tỉnh chọn toàn bộ địa bàn Top 50 thuộc tỉnh đang chọn; nút còn lại chọn cả
+50 địa bàn. Cả hai chỉ chạy qua các source đã đủ quyền, được bật và đồng bộ trong
+database collection. Mỗi lượt UI giới hạn tối đa 20 request; lượt toàn Top 50 có
+thể cần nhiều lượt để rà hết địa bàn,
+không gọi Gemini/Gmail, không tạo lịch chạy, và luôn đặt `allow_auto_ingest=false`;
+candidate nằm trong kho collection riêng, không được nhập vào thống kê giá hiện
+hành. Kết quả UI chỉ hiện trường địa bàn, loại BĐS, giá, diện tích, giá/m², nguồn
+và trạng thái bằng chứng; không hiện URL tin.
+
+`GET /api/v1/collection/province-search/readiness?province=<tên tỉnh>` chỉ đọc
+Top 50 và source registry cục bộ, không gọi mạng. `POST
+/api/v1/collection/province-search` kiểm tra lại cả config lẫn source registry
+SQLite trước khi gọi collector. `GET /api/v1/collection/top50-search/readiness`
+và `POST /api/v1/collection/top50-search` áp dụng cùng cổng cho cả 50 địa bàn.
+Nếu thiếu phê duyệt, cấu hình, đồng bộ hoặc schema, request bị dừng trước website
+và phản hồi có `network_attempted=false`.
+
+Hiện bốn nguồn đang `REVIEW_REQUIRED`/tắt và
+`global_live_enabled=false`, vì vậy nút Search sẽ báo bị khóa, không thu thập tin
+live. Việc có kết quả theo địa bàn không tự mở cổng quyền nguồn.
 
 ## Candidate, bằng chứng và thống kê
 

@@ -1,4 +1,6 @@
 const API = "/api/v1/ingestion";
+const COLLECTION_API = "/api/v1/collection/province-search";
+const TOP50_COLLECTION_API = "/api/v1/collection/top50-search";
 const labels = {
   SOURCE_PAGE_CONFIRMED: "Đã đối chiếu trang nguồn",
   SOURCE_PARTIAL: "Nguồn chưa đủ bằng chứng",
@@ -20,6 +22,17 @@ const labels = {
   APPLIED: "Đã nhập",
   APPLIED_WITH_QUARANTINE: "Đã nhập · có cách ly",
   PREVIEW_ONLY: "Chỉ xem trước",
+};
+
+const collectionReasons = {
+  GLOBAL_LIVE_DISABLED: "Cổng thu thập live đang tắt",
+  SOURCE_DISABLED: "Nguồn đang tắt",
+  PERMISSION_NOT_APPROVED: "Chưa duyệt quyền thu thập",
+  PERMISSION_REFERENCE_MISSING: "Chưa ghi căn cứ cho phép",
+  SEARCH_TEMPLATE_MISSING: "Chưa cấu hình trang tìm kiếm",
+  DIRECT_LISTING_PATTERN_MISSING: "Chưa cấu hình nhận diện tin riêng",
+  SOURCE_COOLDOWN_RECORDED: "Nguồn đang tạm nghỉ theo giới hạn",
+  DATABASE_REGISTRY_NOT_SYNCED: "Cấu hình nguồn và SQLite chưa khớp",
 };
 
 function esc(value) {
@@ -47,6 +60,189 @@ async function getJson(path) {
   const response = await fetch(path, { headers: { Accept: "application/json" } });
   if (!response.ok) throw new Error(`Không đọc được pipeline (${response.status}).`);
   return response.json();
+}
+
+function renderCollectionSources(sources = []) {
+  const container = document.getElementById("collectionSourceCards");
+  container.innerHTML = sources.map((source) => {
+    const isReady = source.status === "READY";
+    const isConfigured = source.status === "CONFIGURED";
+    const state = isReady ? "SẴN SÀNG" : isConfigured ? "ĐÃ CẤU HÌNH" : "ĐANG KHÓA";
+    const stateClass = isReady ? "is-ready" : isConfigured ? "is-configured" : "is-blocked";
+    const detail = isReady
+      ? "Qua cổng quyền và registry SQLite"
+      : isConfigured
+        ? "Qua cổng cấu hình; chờ kiểm tra SQLite"
+        : (source.reasons || []).map((reason) => collectionReasons[reason] || statusLabel(reason)).join(" · ") || "Chưa sẵn sàng";
+    return `<article class="collection-source-card ${stateClass}">
+      <header><strong>${esc(source.display_name || source.source_id)}</strong><span>${state}</span></header>
+      <p>${esc(detail)}</p>
+    </article>`;
+  }).join("");
+}
+
+function renderCollectionResponse(result, { readiness = false } = {}) {
+  const status = document.getElementById("collectionRunStatus");
+  const sourceCards = document.getElementById("collectionSourceCards");
+  const panel = document.getElementById("collectionRunResults");
+  renderCollectionSources(result.sources || []);
+  if (readiness) {
+    const targetCount = count(result.target_count);
+    status.textContent = result.target_count
+      ? result.configured_source_count
+        ? `Có ${targetCount} địa bàn Top 50 và ${count(result.configured_source_count)} nguồn qua cổng cấu hình. Chưa gửi request; registry SQLite sẽ được kiểm tra khi bạn bấm thu thập.`
+        : `Có ${targetCount} địa bàn Top 50, nhưng chưa có nguồn nào qua cổng cấu hình. Nút thu thập sẽ chỉ hiện lý do bị khóa; chưa gửi request.`
+      : "Tỉnh/thành này chưa có địa bàn trong Top 50.";
+    panel.hidden = true;
+    panel.replaceChildren();
+    return;
+  }
+
+  const message = result.message || (result.status === "COMPLETED"
+    ? "Đã hoàn tất lượt thu thập."
+    : result.status === "PARTIAL"
+      ? "Lượt thu thập kết thúc một phần; xem kết quả theo nguồn."
+      : result.status || "Đã nhận phản hồi.");
+  status.textContent = result.selection_mode === "ALL_TOP50"
+    ? `Phạm vi toàn bộ Top 50 (${count(result.target_count)} địa bàn). ${message}`
+    : message;
+  const sourceRows = (result.source_results || []).map((source) => `<tr>
+    <td>${esc(source.display_name || source.source_id)}</td><td>${count(source.targets_tried)}</td>
+    <td>${count(source.requests_made)}</td><td>${count(source.links_found)}</td>
+    <td>${count(source.candidates_found)}</td><td>${esc(source.statuses || "—")}</td></tr>`).join("");
+  const listingRows = (result.candidates || []).map((item) => `<tr>
+    <td>${esc(item.source_name)}</td><td>${esc(item.original_ward)} · ${esc(item.original_district)}</td>
+    <td>${esc(item.property_type || "Chưa phân loại")}</td>
+    <td>${item.price_vnd == null ? "—" : `${Math.round(item.price_vnd).toLocaleString("vi-VN")} ₫`}</td>
+    <td>${item.area_m2 == null ? "—" : `${Number(item.area_m2).toLocaleString("vi-VN")} m²`}</td>
+    <td>${esc(statusLabel(item.evidence_status))} · ${esc(statusLabel(item.validity_status))}</td></tr>`).join("");
+  if (!result.run_id && !sourceRows && !listingRows) {
+    panel.hidden = true;
+    panel.replaceChildren();
+    return;
+  }
+  panel.innerHTML = `<section class="metrics" aria-label="Kết quả lượt thu thập">
+      <article class="metric"><span>Request đã gửi</span><strong>${count(result.request_count)}</strong><small>Tối đa 20 trong một lượt</small></article>
+      <article class="metric"><span>Liên kết tin</span><strong>${count(result.link_count)}</strong><small>Phát hiện từ nguồn</small></article>
+      <article class="metric"><span>Candidate</span><strong>${count(result.candidate_count)}</strong><small>Lưu trong kho riêng</small></article>
+      <article class="metric"><span>Đã xác minh</span><strong>${count(result.verified_count)}</strong><small>Không tự nhập hiện hành</small></article>
+    </section>
+    ${sourceRows ? `<h3>Kết quả theo nguồn</h3><div class="table-wrap"><table><thead><tr><th>Nguồn</th><th>Địa bàn</th><th>Request</th><th>Liên kết</th><th>Candidate</th><th>Trạng thái</th></tr></thead><tbody>${sourceRows}</tbody></table></div>` : ""}
+    ${listingRows ? `<h3>Thông tin candidate thu được</h3><div class="table-wrap"><table><thead><tr><th>Nguồn</th><th>Địa bàn</th><th>Loại</th><th>Giá rao</th><th>Diện tích</th><th>Bằng chứng</th></tr></thead><tbody>${listingRows}</tbody></table></div>` : ""}
+    <p class="collection-run-footnote">Mã lượt: ${esc(result.run_id || "—")} · network_attempted=${Boolean(result.network_attempted)} · production_database_written=${Boolean(result.production_database_written)}</p>`;
+  panel.hidden = false;
+  sourceCards.scrollIntoView({ block: "nearest", behavior: "smooth" });
+}
+
+async function refreshCollectionReadiness(province) {
+  const button = document.getElementById("collectionRunButton");
+  const scope = document.getElementById("collectionProvinceScope");
+  const status = document.getElementById("collectionRunStatus");
+  const panel = document.getElementById("collectionRunResults");
+  button.disabled = !province;
+  panel.hidden = true;
+  panel.replaceChildren();
+  if (!province) {
+    scope.textContent = "Chọn tỉnh/thành để xem phạm vi địa bàn Top 50.";
+    status.textContent = "Có thể chạy toàn bộ Top 50 hoặc chọn riêng một tỉnh.";
+    return;
+  }
+  scope.textContent = `Đang đọc phạm vi Top 50 tại ${province}…`;
+  status.textContent = "Đang đọc cấu hình cục bộ; chưa gửi request ra website.";
+  try {
+    const query = new URLSearchParams({ province });
+    const result = await getJson(`${COLLECTION_API}/readiness?${query}`);
+    scope.textContent = `Phạm vi lượt này: ${count(result.target_count)} địa bàn Top 50 tại ${province}.`;
+    renderCollectionResponse(result, { readiness: true });
+  } catch (error) {
+    status.textContent = error.message;
+  }
+}
+
+async function refreshTop50Readiness() {
+  const scope = document.getElementById("collectionAllTop50Scope");
+  try {
+    const result = await getJson(`${TOP50_COLLECTION_API}/readiness`);
+    const provinceCount = new Set((result.targets || []).map((target) => target.province).filter(Boolean)).size;
+    scope.textContent = `Phạm vi gồm ${count(result.target_count)} địa bàn Top 50 thuộc ${count(provinceCount)} tỉnh/thành. Mỗi lượt tối đa 20 request nên có thể cần nhiều lượt để rà đủ địa bàn.`;
+    renderCollectionSources(result.sources || []);
+    if (!document.getElementById("collectionProvinceSelect").value) {
+      document.getElementById("collectionRunStatus").textContent = result.configured_source_count
+        ? `Có ${count(result.configured_source_count)} nguồn qua cổng cấu hình. Chưa gửi request.`
+        : "Chưa có nguồn nào qua cổng cấu hình; nút thu thập sẽ dừng trước khi gửi request ra website.";
+    }
+  } catch (error) {
+    scope.textContent = error.message;
+  }
+}
+
+async function submitCollectionRun(endpoint, { province = null, button, mode }) {
+  const provinceButton = document.getElementById("collectionRunButton");
+  const allButton = document.getElementById("collectionAllTop50Button");
+  const select = document.getElementById("collectionProvinceSelect");
+  if (mode === "PROVINCE" && !province) return;
+  provinceButton.disabled = true;
+  allButton.disabled = true;
+  button.textContent = "Đang kiểm tra và thu thập…";
+  document.getElementById("collectionRunStatus").textContent =
+    "Đang kiểm tra cổng nguồn. Nếu cấu hình chưa đủ, lượt sẽ dừng trước khi gửi request.";
+  try {
+    const response = await fetch(endpoint, {
+      method: "POST",
+      headers: { "Content-Type": "application/json", Accept: "application/json" },
+      body: JSON.stringify({ province }),
+    });
+    const result = await response.json().catch(() => ({}));
+    if (!response.ok) throw new Error(result.detail || `Không chạy được lượt thu thập (${response.status}).`);
+    renderCollectionResponse(result);
+  } catch (error) {
+    document.getElementById("collectionRunStatus").textContent = error.message;
+  } finally {
+    provinceButton.disabled = !select.value;
+    allButton.disabled = false;
+    provinceButton.textContent = "Thu thập tỉnh này trên 4 nguồn";
+    allButton.textContent = "Thu thập toàn bộ Top 50";
+  }
+}
+
+async function runProvinceCollection() {
+  const province = document.getElementById("collectionProvinceSelect").value;
+  return submitCollectionRun(COLLECTION_API, {
+    province,
+    button: document.getElementById("collectionRunButton"),
+    mode: "PROVINCE",
+  });
+}
+
+async function runAllTop50Collection() {
+  return submitCollectionRun(TOP50_COLLECTION_API, {
+    button: document.getElementById("collectionAllTop50Button"),
+    mode: "ALL_TOP50",
+  });
+}
+
+async function loadCollectionProvinces() {
+  const select = document.getElementById("collectionProvinceSelect");
+  try {
+    const response = await getJson("/api/v1/research/historical/targets");
+    const provinces = [...new Set((response.targets || []).map((target) => target.original_province).filter(Boolean))]
+      .sort((left, right) => left.localeCompare(right, "vi"));
+    select.replaceChildren(new Option("Chọn tỉnh / thành", ""));
+    for (const province of provinces) select.add(new Option(province, province));
+    const params = new URLSearchParams(window.location.search);
+    if (provinces.includes(params.get("province"))) select.value = params.get("province");
+    select.addEventListener("change", () => {
+      window.history.replaceState({}, "", select.value ? `?province=${encodeURIComponent(select.value)}` : window.location.pathname);
+      refreshCollectionReadiness(select.value);
+    });
+    document.getElementById("collectionRunButton").addEventListener("click", runProvinceCollection);
+    document.getElementById("collectionAllTop50Button").addEventListener("click", runAllTop50Collection);
+    await refreshTop50Readiness();
+    await refreshCollectionReadiness(select.value);
+  } catch (error) {
+    select.replaceChildren(new Option("Không tải được danh sách", ""));
+    document.getElementById("collectionRunStatus").textContent = error.message;
+  }
 }
 
 function renderRuns(runs = []) {
@@ -168,6 +364,7 @@ async function start() {
     document.getElementById("statusDetail").textContent = error.message;
     document.getElementById("statusStrip").classList.add("error");
   }
+  await loadCollectionProvinces();
 }
 
 start();

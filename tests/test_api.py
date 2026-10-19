@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import sqlite3
 from pathlib import Path
 
 from fastapi.testclient import TestClient
@@ -84,3 +85,60 @@ def test_collection_monitoring_api_is_read_only_and_reports_initialization(tmp_p
     assert summary["status"] == "OK"
     assert summary["network_attempted"] is False
     assert summary["scheduler_activation_by_pipeline"] == "NOT_ACTIVATED"
+
+
+def test_province_search_shows_four_sources_and_stops_before_network_when_unapproved(tmp_path):
+    pilot_database = tmp_path / "historical-pilot.sqlite3"
+    with sqlite3.connect(pilot_database) as pilot:
+        pilot.executescript(
+            """
+            CREATE TABLE historical_dataset_registry(
+                dataset_id TEXT, revision TEXT, retrieved_at TEXT
+            );
+            CREATE TABLE historical_target_registry(
+                target_rank INTEGER, original_ward TEXT, original_district TEXT,
+                original_province TEXT, source_reference TEXT
+            );
+            CREATE TABLE historical_candidates(
+                candidate_id TEXT, target_rank INTEGER, dataset_id TEXT,
+                dataset_revision TEXT, candidate_status TEXT, deal_type TEXT,
+                dedupe_classification TEXT, deal_classification TEXT
+            );
+            INSERT INTO historical_dataset_registry VALUES(
+                'tinixai/vietnam-real-estates','rev-test','2026-10-19'
+            );
+            INSERT INTO historical_target_registry VALUES(
+                1,'Phường Demo','Quận Demo','Tỉnh Demo','fixture'
+            );
+            """
+        )
+
+    collection_database = tmp_path / "collection.sqlite3"
+    client = TestClient(create_app(
+        collection_database,
+        historical_pilot_db_path=pilot_database,
+    ))
+
+    readiness = client.get(
+        "/api/v1/collection/province-search/readiness",
+        params={"province": "tinh demo"},
+    )
+    assert readiness.status_code == 200
+    readiness_body = readiness.json()
+    assert readiness_body["target_count"] == 1
+    assert len(readiness_body["sources"]) == 4
+    assert all(source["status"] == "BLOCKED" for source in readiness_body["sources"])
+    assert readiness_body["network_attempted"] is False
+
+    search = client.post(
+        "/api/v1/collection/province-search",
+        json={"province": "Tỉnh Demo"},
+    )
+    assert search.status_code == 200
+    search_body = search.json()
+    assert search_body["status"] == "BLOCKED_NO_AUTHORIZED_SOURCE"
+    assert search_body["target_count"] == 1
+    assert len(search_body["sources"]) == 4
+    assert search_body["network_attempted"] is False
+    assert search_body["database_written"] is False
+    assert not collection_database.exists()

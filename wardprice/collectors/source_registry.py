@@ -62,6 +62,41 @@ def sync_registry(db, path: Path = DEFAULT_SOURCE_REGISTRY) -> dict[str, Any]:
     return sync_source_registry(db, path)
 
 
+def configured_source_readiness(registry: dict[str, Any]) -> dict[str, Any]:
+    """Evaluate the committed configuration without opening a database or network."""
+    ready = []
+    blocked = []
+    global_live_enabled = bool(registry.get("global_live_enabled"))
+    for source in registry.get("sources", []):
+        reasons = []
+        if not global_live_enabled:
+            reasons.append("GLOBAL_LIVE_DISABLED")
+        if not source.get("enabled"):
+            reasons.append("SOURCE_DISABLED")
+        if source.get("policy_status") != "APPROVED":
+            reasons.append("PERMISSION_NOT_APPROVED")
+        if not str(source.get("permission_reference", "")).strip():
+            reasons.append("PERMISSION_REFERENCE_MISSING")
+        if not str(source.get("search_url_template", "")).strip():
+            reasons.append("SEARCH_TEMPLATE_MISSING")
+        if not str(source.get("detail_path_regex", "")).strip():
+            reasons.append("DIRECT_LISTING_PATTERN_MISSING")
+        item = {
+            "source_id": source["source_id"],
+            "display_name": source["display_name"],
+            "policy_status": source.get("policy_status", "REVIEW_REQUIRED"),
+            "enabled": bool(source.get("enabled")),
+            "reasons": reasons,
+        }
+        (blocked if reasons else ready).append(item)
+    return {
+        "global_live_enabled": global_live_enabled,
+        "ready_sources": ready,
+        "blocked_sources": blocked,
+        "ready_count": len(ready),
+    }
+
+
 def cooldown_is_active(value: str | None, *, now: datetime | None = None) -> bool:
     if not value:
         return False
