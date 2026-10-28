@@ -106,3 +106,23 @@ class Settings:
             max_new_listings_per_ward=bounded_int("MAX_NEW_LISTINGS_PER_WARD", 10, 1, 50),
             demo_mode=flag("WARDPRICE_DEMO_MODE", flag("DEMO_MODE", False)),
         )
+
+
+@dataclass(frozen=True)
+class ResearchAPISettings:
+    """Configuration for sourced Q&A via Tavily and an OpenAI-compatible model."""
+
+    model: str
+    model_api_key: str
+    model_base_url: str
+    search_api_key: str
+
+    @classmethod
+    def from_env(cls) -> "ResearchAPISettings":
+        load_env_file()
+        return cls(
+            model=os.getenv("OPENAI_MODEL", "gemma-4-31B-it").strip(),
+            model_api_key=os.getenv("OPENAI_API_KEY", "").strip(),
+            model_base_url=os.getenv("OPENAI_BASE_URL", "").strip().rstrip("/"),
+            search_api_key=os.getenv("TAVILY_API_KEY", "").strip(),
+        )

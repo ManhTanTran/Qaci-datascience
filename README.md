@@ -588,3 +588,50 @@ sang population và không tính trọng số khi chưa có thiết kế lấy m
 loại BĐS của con người cũng không xác minh nguồn web hoặc pháp lý. Xem [báo cáo
 chuẩn bị Phase E5](docs/historical_pilot_phase_e5.md), [hướng dẫn review E5](docs/historical_review_guide.md), [quyết định evaluation E5](docs/decisions/0002-e5-human-review-evaluation-protocol.md)
 và audit được tạo trong `outputs\historical_quality\tinix-e5-historical-sensitivity.json`.
+
+## Tìm kiếm web và Gemma Q&A theo địa bàn
+
+Trang `/research-answers` tạo câu trả lời tổng hợp riêng cho từng xã, phường hoặc
+đặc khu trong snapshot NSO hiện hành. Mỗi prompt mang mã hành chính, phiên bản
+danh mục và tháng nghiên cứu; phạm vi gồm đất ở, nhà riêng và chung cư. Đây là
+luồng Q&A riêng, không ghi câu trả lời thành listing và không tham gia thống kê
+listing hiện hành.
+
+Mở FastAPI UI cục bộ:
+
+```powershell
+Set-Location 'D:\Work\Credit scoring\WardPriceDaily'
+& .\.venv\Scripts\python.exe -m wardprice api --api-host 127.0.0.1 --api-port 8768
+```
+
+Mở `http://127.0.0.1:8768/research-answers`. Cấu hình cục bộ `TAVILY_API_KEY`,
+`OPENAI_API_KEY`, `OPENAI_MODEL` và `OPENAI_BASE_URL`; UI chỉ hiện trạng thái cấu
+hình, không hiển thị giá trị. Mặc định model là `gemma-4-31B-it`. Chọn tháng,
+toàn quốc hoặc tỉnh/thành, rồi **Chuẩn bị job · offline**. Bước này không gọi mạng.
+Chọn số địa bàn (tối đa 20 mỗi lượt), đánh dấu xác nhận live và bấm **Chạy lượt
+tìm kiếm**. Mỗi địa bàn tạo một truy vấn Tavily basic trên web rộng, lấy tối đa 12
+kết quả HTTPS; nếu có kết quả, gửi tối đa một request tóm tắt tới endpoint chat
+tương thích OpenAI. Có thể chọn một mã hành chính để chạy thử một địa bàn. Các job
+hoàn tất được giữ lại; lỗi có thể được chạy lại bằng tùy chọn riêng. Chạy toàn
+quốc có thể cần tối đa 3.321 lượt tìm kiếm và 3.321 request tóm tắt cho một kỳ;
+nút xác nhận giới hạn mỗi batch, không đặt giới hạn tổng cho cả kỳ.
+
+Tiến độ và checkpoint được lưu ở
+`state\ward_price_answers.sqlite3`; file partner được cập nhật tại
+`outputs\research_answers\gemma_answers_YYYY-MM.jsonl`. Mỗi dòng giữ đúng năm
+trường `crawled_at`, `chatbot`, `model_name`, `query_text`, `answer_text`. Mã NSO
+và phiên bản danh mục nằm trong `query_text`; citation dạng `[1]` và URL nguồn nằm
+trong `answer_text`. Đoạn trích Tavily chỉ được gửi tạm cho model và không được lưu
+vào SQLite hay JSONL. Trạng thái không có kết quả và lỗi được theo dõi riêng trong
+SQLite. Mỗi batch xử lý tối đa 20 địa bàn tuần tự; chưa có lịch tháng, Task
+Scheduler, Gmail hoặc tự chạy nền khi mở ứng dụng.
+
+Gemma chỉ tổng hợp nội dung mà Tavily tìm thấy; đây không phải toàn bộ dữ liệu thị
+trường và không bảo đảm nguồn có đủ dữ liệu theo từng tháng/địa bàn. Các báo cáo
+bên thứ ba được giữ riêng theo nguồn, ngày và phương pháp; không gộp trung vị hay
+khoảng giá khác phương pháp. Kết quả không được biến giá rao thành giá giao dịch.
+Cấu hình `OPENAI_BASE_URL` là URL gốc của
+API tương thích OpenAI, có thể gồm prefix phiên bản như `/v1`; ứng dụng nối
+`/chat/completions` nếu chưa có. Bản xuất tương thích schema năm trường mẫu; mã
+địa bàn được nhúng trong `query_text` để partner ghép đúng địa bàn mà không thêm
+trường ngoài schema.

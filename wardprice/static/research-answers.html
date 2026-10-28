@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#f0f3ed" />
+    <title>WardPriceDaily · Tìm kiếm và tổng hợp</title>
+    <link rel="stylesheet" href="/assets/research-answers.css?v=20261028-tavily-gemma-2" />
+    <script src="/assets/research-answers.js?v=20261028-tavily-gemma-2" defer></script>
+  </head>
+  <body>
+    <header class="topbar">
+      <a class="brand" href="/" aria-label="Về trang tra cứu giá">
+        <span class="brand-mark">W</span>
+        <span><strong>Sổ tay giá</strong><small>BẤT ĐỘNG SẢN · VIỆT NAM</small></span>
+      </a>
+      <nav aria-label="Điều hướng">
+        <a href="/historical-pilot">Tìm kiếm dữ liệu</a>
+        <a href="/ingestion-pilot">Thu thập dữ liệu</a>
+        <span class="active" aria-current="page">Tìm kiếm &amp; tổng hợp</span>
+      </nav>
+      <span class="local-pill"><i></i> Kết quả cục bộ · JSONL</span>
+    </header>
+
+    <main class="shell">
+      <section class="intro">
+        <div>
+          <p class="kicker">NGHIÊN CỨU HỎI–ĐÁP · 3.321 ĐỊA BÀN</p>
+          <h1>Tổng hợp thông tin<br />theo địa bàn và kỳ.</h1>
+          <p class="lede">Mỗi xã, phường hoặc đặc khu là một job riêng, ghép bằng mã hành chính NSO. Kết quả Q&amp;A và citation được giữ tách khỏi từng tin listing.</p>
+        </div>
+        <aside class="model-note">
+          <span>Model tổng hợp</span>
+          <strong id="modelName">Đang đọc…</strong>
+          <small id="keyStatus">Chưa gửi request.</small>
+        </aside>
+      </section>
+
+      <section class="notice" role="note">
+        <strong>Giá rao không đồng nghĩa giá giao dịch.</strong>
+        <span>Tavily tìm web rộng, tối đa 12 kết quả mỗi địa bàn; có thể gồm cổng tin và báo cáo tổng hợp của bên thứ ba. Gemma giữ số liệu, ngày cập nhật và phương pháp riêng theo từng nguồn, không gộp các báo cáo khác nhau. Mỗi địa bàn dùng một lượt tìm kiếm cơ bản và tối đa một lần gọi model.</span>
+      </section>
+
+      <section class="panel controls" aria-labelledby="prepareHeading">
+        <div class="panel-head">
+          <div><p class="kicker">CHUẨN BỊ VÀ CHẠY THEO LƯỢT</p><h2 id="prepareHeading">Chọn kỳ và phạm vi</h2></div>
+          <span class="quiet-tag">TỐI ĐA 20 REQUEST / LƯỢT</span>
+        </div>
+        <div class="form-grid">
+          <label><span>KỲ THU THẬP</span><input id="period" type="month" /></label>
+          <label><span>TỈNH / THÀNH</span><select id="province"><option value="">Toàn quốc · 3.321 địa bàn</option></select></label>
+          <label><span>ĐỊA BÀN CỤ THỂ · KHÔNG BẮT BUỘC</span><select id="target"><option value="">Toàn bộ phạm vi đã chọn</option></select></label>
+          <label><span>SỐ ĐỊA BÀN TRONG LƯỢT</span><input id="batchSize" type="number" min="1" max="20" value="5" /></label>
+        </div>
+        <p class="helper" id="targetScope">Đang đọc snapshot hành chính cục bộ.</p>
+        <div class="action-row">
+          <button id="prepareButton" class="button secondary" type="button">Chuẩn bị job · offline</button>
+          <label class="confirm-live"><input id="confirmLive" type="checkbox" /> Tôi xác nhận tìm web và gọi Gemma cho tối đa <b id="confirmCount">5</b> địa bàn trong lượt này.</label>
+          <button id="runButton" class="button primary" type="button" disabled>Chạy lượt tìm kiếm</button>
+        </div>
+        <label class="retry-option"><input id="retryFailed" type="checkbox" /> Thử lại các địa bàn đang lỗi</label>
+        <div id="runStatus" class="run-status" role="status" aria-live="polite">Đang tải cấu hình và danh mục.</div>
+      </section>
+
+      <section class="metrics" aria-label="Tiến độ nghiên cứu">
+        <article class="metric metric-focus"><span>Tổng job</span><strong id="totalCount">0</strong><small id="periodLabel">Chưa chọn kỳ</small></article>
+        <article class="metric"><span>Đang chờ</span><strong id="pendingCount">0</strong><small>Chưa tìm web</small></article>
+        <article class="metric"><span>Hoàn tất có nguồn</span><strong id="completedCount">0</strong><small>Đã ghi vào JSONL</small></article>
+        <article class="metric"><span>Chưa có kết quả / lỗi</span><strong id="otherCount">0</strong><small id="otherDetail">0 chưa có · 0 lỗi</small></article>
+      </section>
+
+      <section class="panel progress-panel">
+        <div class="panel-head"><div><p class="kicker">TRẠNG THÁI THEO MÃ ĐỊA BÀN</p><h2>Tiến độ xử lý</h2></div><span id="pageLabel" class="quiet-tag">0 địa bàn</span></div>
+        <div class="progress-track"><span id="progressBar"></span></div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Mã NSO</th><th>Xã / phường / đặc khu</th><th>Tỉnh / thành</th><th>Trạng thái</th><th>Lượt thử</th><th>Ghi chú lỗi</th></tr></thead>
+            <tbody id="jobRows"></tbody>
+          </table>
+        </div>
+        <div class="page-actions"><button id="prevPage" class="button secondary" type="button" disabled>Trang trước</button><button id="nextPage" class="button secondary" type="button" disabled>Trang sau</button></div>
+        <p id="emptyJobs" class="empty">Chưa chuẩn bị job cho kỳ này. Chuẩn bị job chỉ đọc danh mục; không gửi request.</p>
+      </section>
+
+      <section class="panel export-panel">
+        <div><p class="kicker">ĐẦU RA CHO PARTNER</p><h2>JSONL · đúng năm trường</h2>
+          <p class="helper">Mỗi dòng gồm <code>crawled_at</code>, <code>chatbot</code>, <code>model_name</code>, <code>query_text</code> và <code>answer_text</code>. Mã NSO nằm trong query để giữ tương thích; citation URL được thêm vào answer_text. Nội dung trích đoạn từ Tavily chỉ dùng trong lúc xử lý và không được lưu.</p>
+        </div>
+        <a id="downloadLink" class="button secondary disabled" href="#" aria-disabled="true">Tải JSONL của kỳ này</a>
+        <p id="outputPath" class="output-path">File sẽ được lưu cục bộ trong outputs/research_answers/ sau lượt chạy đầu tiên.</p>
+      </section>
+      <p class="footer-note">Chạy theo batch thủ công. Chưa đăng ký lịch tháng, không gửi Gmail và không đưa câu trả lời tổng hợp vào bảng listing.</p>
+    </main>
+  </body>
+</html>
