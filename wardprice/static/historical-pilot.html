@@ -4,9 +4,9 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#f2f4ef" />
-    <title>Sổ tay giá · Tìm kiếm dữ liệu</title>
+    <title>WardPriceDaily · Tìm kiếm dữ liệu</title>
     <link rel="stylesheet" href="/assets/dashboard.css?v=20261015-e3" />
-    <link rel="stylesheet" href="/assets/historical-pilot.css?v=20261019-split-tabs" />
+    <link rel="stylesheet" href="/assets/historical-pilot.css?v=20261028-unified-ui-1" />
     <script src="/assets/historical-pilot.js?v=20261019-split-tabs" defer></script>
   </head>
   <body>
@@ -15,16 +15,16 @@
       <strong>NGHIÊN CỨU · PHI THƯƠNG MẠI</strong>
       <span>Dữ liệu lịch sử từ TiniX AI; không trộn vào giá hiện hành hoặc ngữ cảnh AI.</span>
     </div>
-    <header class="site-header page-shell">
+    <header class="topbar">
       <a class="brand" href="/" aria-label="Quay lại Sổ tay giá bất động sản">
         <span class="brand-mark" aria-hidden="true">W</span>
-        <span class="brand-copy"><strong>Sổ tay giá</strong><small>BẤT ĐỘNG SẢN · VIỆT NAM</small></span>
+        <span><strong>Sổ tay giá</strong><small>BẤT ĐỘNG SẢN · VIỆT NAM</small></span>
       </a>
-      <nav class="historical-nav" aria-label="Điều hướng">
-        <span class="nav-link is-active" aria-current="page">Tìm kiếm dữ liệu</span>
-        <a class="nav-link" href="/research-answers">Gemma Q&amp;A</a>
+      <nav aria-label="Điều hướng">
+        <span class="active" aria-current="page">Tìm kiếm dữ liệu</span>
+        <a href="/research-answers">Thu thập dữ liệu tự động</a>
       </nav>
-      <span class="local-status"><span class="status-dot" aria-hidden="true"></span> SQLite pilot riêng</span>
+      <span class="local-pill"><i></i> SQLite pilot riêng</span>
     </header>
 
     <main class="page-shell historical-main">
