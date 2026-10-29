@@ -1,0 +1,72 @@
+{
+ "claims": [
+  {
+   "province": "Hà Nội",
+   "district": "Hoàn Kiếm",
+   "ward": "Cửa Nam",
+   "street": null,
+   "property_type": "NHA_RIENG",
+   "sub_segment": "mặt phố kinh doanh",
+   "price_basis": "MARKET",
+   "metric": "typical_range",
+   "value_low": 500000000,
+   "value_high": 900000000,
+   "open_ended": true,
+   "unit_original": "triệu/m²",
+   "qualifier": "giá giao dịch",
+   "period_text": "cuối năm 2025",
+   "quote": "| **Nhà mặt phố kinh doanh** | **500 – 900+ triệu/m²** | Mặt tiền các phố chính (Cửa Nam, Đình Ngang, Nguyễn Thái Học, Quán Sứ, Lý Thường Kiệt...). Các lô góc hoặc mặt tiền rộng trên 8m có giá từ **800 triệu đến >1 tỷ/m²**. |"
+  },
+  {
+   "province": "Hà Nội",
+   "district": "Hoàn Kiếm",
+   "ward": "Cửa Nam",
+   "street": null,
+   "property_type": "NHA_RIENG",
+   "sub_segment": "mặt phố, lô góc hoặc mặt tiền rộng trên 8m",
+   "price_basis": "MARKET",
+   "metric": "typical_range",
+   "value_low": 800000000,
+   "value_high": 1000000000,
+   "open_ended": true,
+   "unit_original": "triệu đến >1 tỷ/m²",
+   "qualifier": "giá giao dịch",
+   "period_text": "cuối năm 2025",
+   "quote": "| **Nhà mặt phố kinh doanh** | **500 – 900+ triệu/m²** | Mặt tiền các phố chính (Cửa Nam, Đình Ngang, Nguyễn Thái Học, Quán Sứ, Lý Thường Kiệt...). Các lô góc hoặc mặt tiền rộng trên 8m có giá từ **800 triệu đến >1 tỷ/m²**. |"
+  },
+  {
+   "province": "Hà Nội",
+   "district": "Hoàn Kiếm",
+   "ward": "Cửa Nam",
+   "street": null,
+   "property_type": "NHA_RIENG",
+   "sub_segment": "ngõ ô tô vào/tránh",
+   "price_basis": "MARKET",
+   "metric": "typical_range",
+   "value_low": 350000000,
+   "value_high": 500000000,
+   "open_ended": false,
+   "unit_original": "triệu/m²",
+   "qualifier": "giá giao dịch",
+   "period_text": "cuối năm 2025",
+   "quote": "| **Nhà trong ngõ ô tô vào/tránh** | **350 – 500 triệu/m²** | Ngõ thông, ô tô đỗ cửa hoặc kinh doanh nhỏ/làm văn phòng (Trần Quốc Toản, xóm Hạ Hồi, Tôn Thất Thiệp). |"
+  },
+  {
+   "province": "Hà Nội",
+   "district": "Hoàn Kiếm",
+   "ward": "Cửa Nam",
+   "street": null,
+   "property_type": "NHA_RIENG",
+   "sub_segment": "ngõ nhỏ, ngách",
+   "price_basis": "MARKET",
+   "metric": "typical_range",
+   "value_low": 200000000,
+   "value_high": 300000000,
+   "open_ended": false,
+   "unit_original": "triệu/m²",
+   "qualifier": "giá giao dịch",
+   "period_text": "cuối năm 2025",
+   "quote": "| **Nhà trong ngõ nhỏ, ngách** | **200 – 300 triệu/m²** | Ngõ xe máy, diện tích nhỏ (20 – 40m²), phù hợp ở thực hoặc làm căn hộ dịch vụ/Airbnb. |"
+  }
+ ]
+}

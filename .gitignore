@@ -1,0 +1,15 @@
+.env
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+*.egg-info/
+
+# dữ liệu chạy sinh ra (giữ lại danh mục hành chính của module 1)
+data/*
+!data/.gitkeep
+!data/module1/
+data/module1/*
+!data/module1/administrative/
+logs/*
+!logs/.gitkeep

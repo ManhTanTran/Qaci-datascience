@@ -1,0 +1,58 @@
+# Cấu hình pipeline. KHÔNG đặt API key ở đây — dùng file .env (xem .env.example).
+
+# manual: module 2 chỉ chạy khi bạn bấm nút trên UI hoặc gõ lệnh (khuyến nghị lúc đầu).
+# auto  : `python -m pipeline watch` (hoặc công tắc trên UI) tự xử lý khi module 1 ghi thêm dữ liệu.
+mode: manual
+
+input_file: data/llm_answers.jsonl     # module 1 ghi vào đây (append-only)
+database_file: data/claims.db          # SQLite: answers / claims / rejected / trạng thái
+export_dir: data/exports               # nơi UI/CLI lưu CSV/JSONL xuất ra
+domain: real_estate
+
+processing:
+  batch_size: 20                # số answer lấy mỗi lô
+  poll_interval_seconds: 2      # chu kỳ kiểm tra file (chỉ dùng ở mode auto)
+  stable_file_checks: 2         # file phải không đổi (size+mtime) bấy nhiêu lần liên tiếp mới đọc
+  retry_failed: true            # tự thử lại answer lỗi
+  max_retries: 3                # tổng số lần thử tối đa cho mỗi answer
+  retry_backoff_seconds: 60     # chờ bao lâu mới thử lại answer lỗi (mode auto)
+  single_worker: true           # bắt buộc true: SQLite chỉ có 1 tiến trình ghi
+
+llm:
+  provider: openai              # mọi endpoint tương thích OpenAI
+  model: gpt-4o-mini            # đổi sang model bạn dùng cho bước trích xuất
+  api_key_env: EXTRACTOR_API_KEY  # TÊN biến môi trường chứa key (key nằm trong .env)
+  base_url_env: EXTRACTOR_BASE_URL # TÊN biến môi trường chứa base URL (bỏ trống = OpenAI)
+  temperature: 0.0
+  timeout_seconds: 120
+
+# Ngưỡng cảnh báo trên màn hình Chất lượng (giá trị khởi đầu để chỉnh, chưa benchmark).
+quality:
+  failed_rate: 0.10
+  rejected_rate: 0.25
+  flagged_rate: 0.30
+  empty_rate: 0.60
+  min_sample: 20
+
+# Giá để quy đổi token/lượt gọi ra tiền trên UI. Để trống = chỉ hiển thị token, KHÔNG đoán giá.
+# Điền theo bảng giá nhà cung cấp bạn đang dùng (đơn vị tiền ở `currency`).
+cost:
+  currency: "USD"
+  module1:
+    model_input_per_1m: 0.15      # Giá 0.15 USD / 1 triệu token đầu vào (GPT-4o-mini)
+    model_output_per_1m: 0.60     # Giá 0.60 USD / 1 triệu token đầu ra (GPT-4o-mini)
+    search_per_call: 0.008        # Giá 0.008 USD / 1 lượt gọi Tavily Basic Search (Pay-As-You-Go)
+    
+  module2:
+    input_per_1m: 0.15            # Giá 0.15 USD / 1 triệu token đầu vào (GPT-4o-mini)
+    output_per_1m: 0.60           # Giá 0.60 USD / 1 triệu token đầu ra (GPT-4o-mini)
+
+
+ui:
+  host: 127.0.0.1               # chỉ máy này truy cập được
+  port: 8768                    # cổng chung của UI (Module 1 + Module 2)
+  allow_mode_switch: true       # cho phép bật/tắt auto ngay trên UI (không ghi lại vào file)
+
+logging:
+  level: INFO
+  file: logs/pipeline.log

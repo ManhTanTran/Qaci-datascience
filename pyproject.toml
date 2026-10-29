@@ -1,0 +1,31 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "real-estate-price-pipeline"
+version = "0.3.0"
+description = "Module 1 (sourced Q&A crawl) + module 2 (claim extraction) + runner and ops UI"
+requires-python = ">=3.11"
+dependencies = [
+  "pydantic>=2.5",
+  "PyYAML>=6",
+  "fastapi>=0.115,<1",
+  "uvicorn>=0.30,<1",
+  "openai>=1.40",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8,<10", "httpx>=0.27,<1"]
+
+[project.scripts]
+claims-extractor = "claims_extractor.cli:main"
+
+[tool.setuptools.packages.find]
+where = [".", "module1_crawler", "module2_extractor/src"]
+include = ["wardprice*", "claims_extractor*", "pipeline*", "common*"]
+
+[tool.setuptools.package-data]
+"claims_extractor.domains.real_estate" = ["prompt.md"]
+wardprice = ["static/*"]
+pipeline = ["web/static/*"]

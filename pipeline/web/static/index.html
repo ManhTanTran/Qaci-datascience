@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Module 2 · Vận hành & giám sát</title>
+  <link rel="stylesheet" href="/extract-assets/app.css">
+</head>
+<body>
+<header class="top">
+  <div>
+    <p class="kicker">REAL-ESTATE PRICE PIPELINE</p>
+    <h1>Module 2 · Trích xuất claim</h1>
+  </div>
+  <div class="top-right">
+    <span id="modeBadge" class="badge">…</span>
+    <nav class="mainnav" aria-label="Điều hướng chính">
+      <a href="/research-answers">Module 1 · Thu thập</a>
+      <span class="active" aria-current="page">Module 2 · Trích xuất claim</span>
+    </nav>
+  </div>
+</header>
+
+<nav class="tabs" role="tablist">
+  <button class="tab is-active" data-tab="overview">Tổng quan</button>
+  <button class="tab" data-tab="quality">Chất lượng</button>
+  <button class="tab" data-tab="answers">Answers</button>
+  <button class="tab" data-tab="claims">Claims</button>
+  <button class="tab" data-tab="usage">Token &amp; chi phí</button>
+  <button class="tab" data-tab="errors">Lỗi đầu vào</button>
+  <button class="tab" data-tab="runs">Lịch sử chạy</button>
+</nav>
+
+<div id="toast" class="toast" hidden></div>
+<div id="alerts"></div>
+
+<main>
+<!-- ============ Tổng quan ============ -->
+<section id="tab-overview" class="pane is-active">
+  <div class="cards" id="queueCards"></div>
+
+  <div class="grid2">
+    <div class="panel">
+      <h2>Vận hành</h2>
+      <div id="workerBox" class="worker"></div>
+      <div class="actions">
+        <label class="inline">Số answer tối đa
+          <input id="runLimit" type="number" min="1" placeholder="tất cả"></label>
+        <button id="btnRun" class="btn primary">Quét file &amp; xử lý</button>
+        <button id="btnTrial" class="btn">Chạy thử 5 answer</button>
+        <button id="btnStop" class="btn danger" disabled>Dừng sau answer hiện tại</button>
+      </div>
+      <div class="actions">
+        <button id="btnRetry" class="btn">Thử lại answer lỗi</button>
+        <label class="inline check"><input id="rescan" type="checkbox"> Quét lại file từ đầu (an toàn, không nhân đôi)</label>
+      </div>
+      <div class="actions" id="autoBox">
+        <label class="switch"><input id="autoToggle" type="checkbox"><span></span></label>
+        <span id="autoText">Tự động xử lý khi Module 1 ghi thêm dữ liệu</span>
+      </div>
+      <p class="hint">Gợi ý quy trình: <b>1)</b> Chạy thử 5 answer → <b>2)</b> xem tab <i>Chất lượng</i> và <i>Answers</i> (claim bị loại, lỗi) → <b>3)</b> chạy toàn bộ. Dữ liệu thô không bị sửa; chạy lại luôn an toàn.</p>
+    </div>
+
+    <div class="panel">
+      <h2>Đầu vào &amp; trích xuất</h2>
+      <dl id="inputBox" class="kv"></dl>
+      <h3>Lượt chạy gần nhất</h3>
+      <div id="lastRun" class="muted">—</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ Chất lượng ============ -->
+<section id="tab-quality" class="pane">
+  <div class="cards" id="rateCards"></div>
+  <div class="grid3">
+    <div class="panel"><h3>Cờ tin cậy</h3><div id="dConf"></div></div>
+    <div class="panel"><h3>Loại hình</h3><div id="dType"></div></div>
+    <div class="panel"><h3>Cơ sở giá</h3><div id="dBasis"></div></div>
+  </div>
+  <div class="grid3">
+    <div class="panel"><h3>Lý do code loại claim</h3><div id="dRej"></div></div>
+    <div class="panel"><h3>Lý do gắn cờ</h3><div id="dFlag"></div></div>
+    <div class="panel"><h3>Lỗi phổ biến (answer failed)</h3><div id="dErr"></div></div>
+  </div>
+  <div class="panel"><h3>Theo tháng khảo sát (target_month)</h3><div class="scroll"><table id="tMonth"></table></div></div>
+  <div class="grid2">
+    <div class="panel"><h3>Theo chatbot</h3><div class="scroll"><table id="tBot"></table></div></div>
+    <div class="panel">
+      <h3>Phiên bản trích xuất</h3>
+      <div class="scroll"><table id="tVer"></table></div>
+      <div class="actions"><button id="btnStale" class="btn">Xử lý lại answer dùng bản cũ</button></div>
+      <p class="hint">Phiên bản đổi khi sửa prompt hoặc logic kiểm tra. Claim cũ được lưu vào <code>claims_history</code>, không bị xóa.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ Answers ============ -->
+<section id="tab-answers" class="pane">
+  <div class="filters">
+    <select id="aStatus"><option value="">Mọi trạng thái</option><option>pending</option><option>processing</option><option>ok</option><option>empty</option><option>failed</option></select>
+    <input id="aMonth" placeholder="Tháng (2026-10)" maxlength="7">
+    <input id="aBot" placeholder="Chatbot">
+    <input id="aSearch" placeholder="Tìm trong câu hỏi / answer_id">
+    <button id="aGo" class="btn">Lọc</button>
+  </div>
+  <div class="panel"><div class="scroll"><table id="tAnswers"></table></div><div class="pager" id="aPager"></div></div>
+</section>
+
+<!-- ============ Claims ============ -->
+<section id="tab-claims" class="pane">
+  <div class="filters">
+    <input id="cMonth" placeholder="Tháng (2026-10)" maxlength="7">
+    <select id="cFlag"><option value="">Mọi cờ</option><option>ok</option><option>ambiguous</option><option>implausible</option></select>
+    <select id="cType"><option value="">Mọi loại hình</option><option>DAT_O</option><option>NHA_RIENG</option><option>CHUNG_CU</option><option>TONG_HOP</option><option>KHAC</option></select>
+    <input id="cSearch" placeholder="Phường / quận / phố">
+    <button id="cGo" class="btn">Lọc</button>
+    <span class="spacer"></span>
+    <a class="btn" id="expCsv" href="#">Xuất CSV</a>
+    <a class="btn" id="expJsonl" href="#">Xuất JSONL</a>
+  </div>
+  <div class="panel"><div class="scroll"><table id="tClaims"></table></div><div class="pager" id="cPager"></div></div>
+</section>
+
+<!-- ============ Token & chi phí ============ -->
+<section id="tab-usage" class="pane">
+  <div id="usageNote" class="hint"></div>
+  <div class="cards" id="usageCards"></div>
+  <div class="grid2">
+    <div class="panel"><h3>Theo tháng khảo sát</h3><div class="scroll"><table id="tUsageMonth"></table></div></div>
+    <div class="panel"><h3>Theo lượt chạy</h3><div class="scroll"><table id="tUsageRun"></table></div></div>
+  </div>
+  <p class="hint">Token do endpoint trả về ở mỗi lần gọi; một lần sửa JSON (repair) tính là một lần gọi nữa. Số liệu cộng dồn qua các lần thử và xử lý lại. Answer "chưa tìm thấy" không gọi LLM nên không tốn token.</p>
+</section>
+
+<section id="tab-errors" class="pane">
+  <div class="panel"><h3>Dòng đầu vào không đọc được</h3>
+    <p class="hint">Module 2 bỏ qua các dòng này và ghi lại ở đây; hãy báo thành viên Module 1 nếu số lượng tăng. Dòng đang ghi dở không bị tính là lỗi.</p>
+    <div class="scroll"><table id="tErrors"></table></div></div>
+</section>
+
+<section id="tab-runs" class="pane">
+  <div class="panel"><h3>Xu hướng theo lượt chạy</h3><div id="runChart" class="runchart"></div></div>
+  <div class="panel"><div class="scroll"><table id="tRuns"></table></div></div>
+</section>
+</main>
+
+<aside id="drawer" class="drawer" hidden>
+  <div class="drawer-head"><h2 id="dwTitle">Chi tiết answer</h2><button id="dwClose" class="btn">Đóng</button></div>
+  <div id="dwBody"></div>
+</aside>
+<script src="/extract-assets/app.js"></script>
+</body>
+</html>
